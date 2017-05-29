@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/nschloe/code_extract.svg?branch=master)](https://travis-ci.org/nschloe/code_extract)
 [![codecov](https://codecov.io/gh/nschloe/code_extract/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/code_extract)
-[![Code Health](https://landscape.io/github/nschloe/code_extract/master/landscape.png)](https://landscape.io/github/nschloe/code_extract/master)
 [![PyPi Version](https://img.shields.io/pypi/v/code_extract.svg)](https://pypi.python.org/pypi/code_extract)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/code_extract.svg?style=social&label=Star&maxAge=2592000)](https://github.com/nschloe/code_extract)
 

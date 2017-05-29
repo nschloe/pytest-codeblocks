@@ -2,6 +2,7 @@
 build/
 doc/_build/
 doc/build/
+README.rst
 *.egg-info/
 dist/
 *.png

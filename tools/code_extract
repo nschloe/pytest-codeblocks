@@ -7,8 +7,10 @@ import code_extract
 
 def _main():
     args = _parse_cmd_arguments()
-    code_blocks = code_extract.extract(args.infile, filter=args.filter)
-    code_extract.write(code_blocks, args.outfile)
+    with open(args.infile, 'r') as f:
+        code_blocks = code_extract.extract(f, filter=args.filter)
+    with open(args.outfile, 'w') as f:
+        code_extract.write(f, code_blocks)
     return
 
 

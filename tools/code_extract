@@ -1,0 +1,66 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+import argparse
+# import code_extract
+from itertools import islice
+import re
+try:
+    import textwrap
+    textwrap.indent
+except AttributeError:  # undefined function (wasn't added until Python 3.3)
+    def indent(text, amount, ch=' '):
+        padding = amount * ch
+        return ''.join(padding+line for line in text.splitlines(True))
+else:
+    def indent(text, amount, ch=' '):
+        return textwrap.indent(text, amount * ch)
+
+
+def _main():
+    args = _parse_cmd_arguments()
+
+    code_blocks = []
+    with open(args.infile, 'rb') as f:
+        while True:
+            try:
+                line = next(islice(f, 1)).decode('utf-8')
+            except StopIteration:  # EOF
+                break
+
+            out = re.search('```', line)
+            if out:
+                code_block = [next(islice(f, 1)).decode('utf-8')]
+                while re.search('```', code_block[-1]) is None:
+                    code_block.append(next(islice(f, 1)).decode('utf-8'))
+                code_blocks.append(''.join(code_block[:-1]))
+
+    # write to file
+    with open(args.outfile, 'w') as f:
+        for k, code_block in enumerate(code_blocks):
+            f.write('def test%d():\n' % k)
+            f.write(indent(code_block, 4))
+            f.write('\n\n')
+
+    return
+
+
+def _parse_cmd_arguments():
+    parser = argparse.ArgumentParser(
+        description='Extract code blocks from markdown files.'
+        )
+    parser.add_argument(
+            'infile',
+            type=str,
+            help='input markdown file'
+            )
+    parser.add_argument(
+            'outfile',
+            type=str,
+            help='output code file'
+            )
+    return parser.parse_args()
+
+
+if __name__ == '__main__':
+    _main()

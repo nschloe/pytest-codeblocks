@@ -2,17 +2,6 @@
 #
 from itertools import islice
 import re
-# https://stackoverflow.com/a/8348914/353337
-try:
-    import textwrap
-    textwrap.indent
-except AttributeError:  # undefined function (wasn't added until Python 3.3)
-    def indent(text, amount, ch=' '):
-        padding = amount * ch
-        return ''.join(padding+line for line in text.splitlines(True))
-else:
-    def indent(text, amount, ch=' '):
-        return textwrap.indent(text, amount * ch)
 
 
 def extract(f, filter=None):
@@ -34,9 +23,14 @@ def extract(f, filter=None):
     return code_blocks
 
 
-def write(f, code_blocks, prefix='test'):
+def write(code_blocks, file_prefix):
+    # Write one file per code block. In contrast to the variant with one
+    # function per code block, this allows for starred imports
+    # ```
+    # from x import *
+    # ```
     for k, code_block in enumerate(code_blocks):
-        f.write('def %s%d():\n' % (prefix, k))
-        f.write(indent(code_block, 4))
-        f.write('    return\n\n')
+        filename = file_prefix + str(k) + '.py'
+        with open(filename, 'w') as f:
+            f.write(code_block)
     return

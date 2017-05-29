@@ -38,5 +38,5 @@ def write(f, code_blocks, prefix='test'):
     for k, code_block in enumerate(code_blocks):
         f.write('def %s%d():\n' % (prefix, k))
         f.write(indent(code_block, 4))
-        f.write('\n\n')
+        f.write('    return\n\n')
     return

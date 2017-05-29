@@ -25,7 +25,7 @@ dolor sit amet
     print(out.getvalue())
     assert out.getvalue() == '''def test0():
     1 + 2 + 3
-
+    return
 
 '''
     return

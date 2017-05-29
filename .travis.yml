@@ -1,0 +1,22 @@
+dist: trusty
+
+language: python
+
+python:
+    - '2.7'
+    - '3.6'
+
+before_install:
+  - pip install pytest pytest-cov
+
+install:
+  - pip install .
+
+cache: pip
+
+# run tests
+script:
+  - cd test && pytest --cov code_extract
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

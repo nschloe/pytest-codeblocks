@@ -24,6 +24,11 @@ def extract(f, filter=None):
 
 
 def write(code_blocks, file_prefix):
+    # Write one file per code block. In contrast to the variant with one
+    # function per code block, this allows for starred imports
+    # ```
+    # from x import *
+    # ```
     for k, code_block in enumerate(code_blocks):
         filename = file_prefix + str(k) + '.py'
         with open(filename, 'w') as f:

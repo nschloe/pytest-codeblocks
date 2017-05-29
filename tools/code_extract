@@ -7,10 +7,8 @@ import code_extract
 
 def _main():
     args = _parse_cmd_arguments()
-
-    code_blocks = code_extract.extract(args.infile)
+    code_blocks = code_extract.extract(args.infile, filter=args.filter)
     code_extract.write(code_blocks, args.outfile)
-
     return
 
 
@@ -27,6 +25,12 @@ def _parse_cmd_arguments():
             'outfile',
             type=str,
             help='output code file'
+            )
+    parser.add_argument(
+            '-f', '--filter',
+            type=str,
+            help='filter string',
+            default=None,
             )
     return parser.parse_args()
 

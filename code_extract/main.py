@@ -52,9 +52,7 @@ def write(f, code_blocks, prefix='test'):
     # make list unique
     asterisk_imports = list(set(asterisk_imports))
 
-    for line in asterisk_imports:
-        f.write(line)
-
+    f.write('\n'.join(asterisk_imports))
     for k, code_block in enumerate(clean_code_blocks):
         f.write('\n\n\ndef %s%d():\n' % (prefix, k))
         f.write(indent(code_block, 4))

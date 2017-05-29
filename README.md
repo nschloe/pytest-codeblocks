@@ -24,6 +24,13 @@ and places it in `test0.py`.
 This can be used, for example, for automatically turning snippets from
 a `README.md` into unit tests.
 
+### Testing
+
+To run the unit tests, check out this repository and type
+```
+pytest
+```
+
 ### Distribution
 
 To create a new release

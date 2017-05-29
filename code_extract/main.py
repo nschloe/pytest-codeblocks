@@ -2,6 +2,17 @@
 #
 from itertools import islice
 import re
+# https://stackoverflow.com/a/8348914/353337
+try:
+    import textwrap
+    textwrap.indent
+except AttributeError:  # undefined function (wasn't added until Python 3.3)
+    def indent(text, amount, ch=' '):
+        padding = amount * ch
+        return ''.join(padding+line for line in text.splitlines(True))
+else:
+    def indent(text, amount, ch=' '):
+        return textwrap.indent(text, amount * ch)
 
 
 def extract(f, filter=None):
@@ -23,14 +34,29 @@ def extract(f, filter=None):
     return code_blocks
 
 
-def write(code_blocks, file_prefix):
-    # Write one file per code block. In contrast to the variant with one
-    # function per code block, this allows for starred imports
-    # ```
-    # from x import *
-    # ```
-    for k, code_block in enumerate(code_blocks):
-        filename = file_prefix + str(k) + '.py'
-        with open(filename, 'w') as f:
-            f.write(code_block)
+def write(f, code_blocks, prefix='test'):
+    # We'd like to put all code blocks in one file, each in separate test*()
+    # functions (for them to be picked up by pytest, for example), but
+    # asterisk imports are forbidden in subfunctions. Hence, parse for those
+    # imports and put them at the beginning of the output file.
+    asterisk_imports = []
+    clean_code_blocks = []
+    for code_block in code_blocks:
+        clean_code_block = []
+        for line in code_block.split('\n'):
+            if re.match('\s*from\s+[^\s]+\s+import\s+\*', line):
+                asterisk_imports.append(line)
+            else:
+                clean_code_block.append(line)
+        clean_code_blocks.append('\n'.join(clean_code_block))
+    # make list unique
+    asterisk_imports = list(set(asterisk_imports))
+
+    for line in asterisk_imports:
+        f.write(line)
+
+    for k, code_block in enumerate(clean_code_blocks):
+        f.write('\n\n\ndef %s%d():\n' % (prefix, k))
+        f.write(indent(code_block, 4))
+        f.write('    return')
     return

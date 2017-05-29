@@ -35,10 +35,10 @@ def extract(filename, filter=None):
     return code_blocks
 
 
-def write(code_blocks, filename):
+def write(code_blocks, filename, prefix='test'):
     with open(filename, 'w') as f:
         for k, code_block in enumerate(code_blocks):
-            f.write('def test%d():\n' % k)
+            f.write('def %s%d():\n' % (prefix, k))
             f.write(indent(code_block, 4))
             f.write('\n\n')
     return

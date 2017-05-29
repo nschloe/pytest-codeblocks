@@ -7,7 +7,25 @@
 
 This is code_extract, a Python tool for extracting code blocks markdown files.
 
-code_extract can be used, for example, for automatically turning snippets from
+For example, the command
+```
+code_extract input.md output.py
+```
+turns
+````
+Lorem ipsum
+```python
+some_code = 1
+```
+````
+into
+```python
+def test0():
+    some_code = 1
+    return
+```
+
+This can be used, for example, for automatically turning snippets from
 a `README.md` into unit tests.
 
 ### Distribution

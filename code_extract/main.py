@@ -9,10 +9,12 @@ try:
 except AttributeError:  # undefined function (wasn't added until Python 3.3)
     def indent(text, amount, ch=' '):
         padding = amount * ch
-        return ''.join(padding+line for line in text.splitlines(True))
+        return ''.join(
+            padding+line for line in text.splitlines(True)
+            ).replace('\n    \n', '\n\n')
 else:
     def indent(text, amount, ch=' '):
-        return textwrap.indent(text, amount * ch)
+        return textwrap.indent(text, amount * ch).replace('\n    \n', '\n\n')
 
 
 def extract(f, filter=None):
@@ -54,7 +56,7 @@ def write(f, code_blocks, prefix='test'):
 
     f.write('\n'.join(asterisk_imports))
     for k, code_block in enumerate(clean_code_blocks):
-        f.write('\n\n\ndef %s%d():\n' % (prefix, k))
+        f.write('\n\ndef %s%d():\n' % (prefix, k))
         f.write(indent(code_block, 4))
-        f.write('    return')
+        f.write('    return\n')
     return

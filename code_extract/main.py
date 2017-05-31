@@ -5,6 +5,7 @@ import re
 # https://stackoverflow.com/a/8348914/353337
 try:
     import textwrap
+    # pylint: disable=pointless-statement
     textwrap.indent
 except AttributeError:  # undefined function (wasn't added until Python 3.3)
     def indent(text, amount, ch=' '):
@@ -17,6 +18,7 @@ else:
         return textwrap.indent(text, amount * ch).replace('\n    \n', '\n\n')
 
 
+# pylint: disable=redefined-builtin
 def extract(f, filter=None):
     code_blocks = []
     while True:
@@ -46,7 +48,7 @@ def write(f, code_blocks, prefix='test'):
     for code_block in code_blocks:
         clean_code_block = []
         for line in code_block.split('\n'):
-            if re.match('\s*from\s+[^\s]+\s+import\s+\*', line):
+            if re.match('\\s*from\\s+[^\\s]+\\s+import\\s+\\*', line):
                 asterisk_imports.append(line)
             else:
                 clean_code_block.append(line)

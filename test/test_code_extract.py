@@ -23,10 +23,10 @@ dolor sit amet
     code_extract.write(out, code_blocks)
     assert out.getvalue() == '''
 
-
 def test0():
     1 + 2 + 3
-    return'''
+    return
+'''
     return
 
 

@@ -6,4 +6,5 @@ from .__about__ import (
     __author_email__
     )
 
+# pylint: disable=wildcard-import
 from .main import *

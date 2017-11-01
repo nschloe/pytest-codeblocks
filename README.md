@@ -3,13 +3,13 @@
 [![Build Status](https://travis-ci.org/nschloe/code_extract.svg?branch=master)](https://travis-ci.org/nschloe/code_extract)
 [![codecov](https://codecov.io/gh/nschloe/code_extract/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/code_extract)
 [![PyPi Version](https://img.shields.io/pypi/v/code_extract.svg)](https://pypi.python.org/pypi/code_extract)
-[![GitHub stars](https://img.shields.io/github/stars/nschloe/code_extract.svg?style=social&label=Star&maxAge=2592000)](https://github.com/nschloe/code_extract)
+[![GitHub stars](https://img.shields.io/github/stars/nschloe/code_extract.svg?style=social&label=Stars&maxAge=2592000)](https://github.com/nschloe/code_extract)
 
 This is code_extract, a Python tool for extracting code blocks markdown files.
 
 For example, the command
 ```
-code_extract input.md test
+code-extract input.md test
 ```
 turns
 extracts `some_code = 1` from

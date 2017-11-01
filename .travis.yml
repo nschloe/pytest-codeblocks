@@ -18,6 +18,7 @@ cache: pip
 script:
   - pylint code_extract/
   - pylint test/*py
+  - pylint tools/code-extract
   - cd test && pytest --cov code_extract
 
 after_success:

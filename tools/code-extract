@@ -21,23 +21,23 @@ def _parse_cmd_arguments():
         description='Extract code blocks from markdown files.'
         )
     parser.add_argument(
-            'infile',
-            type=argparse.FileType('r'),
-            default=sys.stdin,
-            help='input markdown file'
-            )
+        'infile',
+        type=argparse.FileType('r'),
+        default=sys.stdin,
+        help='input markdown file'
+        )
     parser.add_argument(
-            'outfile',
-            type=argparse.FileType('w'),
-            default=sys.stdout,
-            help='output file'
-            )
+        'outfile',
+        type=argparse.FileType('w'),
+        default=sys.stdout,
+        help='output file'
+        )
     parser.add_argument(
-            '-f', '--filter',
-            type=str,
-            help='filter string',
-            default=None,
-            )
+        '-f', '--filter',
+        type=str,
+        help='filter string',
+        default=None,
+        )
     return parser.parse_args()
 
 

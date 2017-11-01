@@ -49,6 +49,6 @@ setup(
         'Topic :: Text Processing'
         ],
     scripts=[
-        'tools/code_extract'
+        'tools/code-extract'
         ]
     )

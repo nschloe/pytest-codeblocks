@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 #
 import argparse
+import sys
+
 import code_extract
 
 
@@ -20,12 +22,14 @@ def _parse_cmd_arguments():
         )
     parser.add_argument(
             'infile',
-            type=str,
+            type=argparse.FileType('r'),
+            default=sys.stdin,
             help='input markdown file'
             )
     parser.add_argument(
             'outfile',
-            type=str,
+            type=argparse.FileType('w'),
+            default=sys.stdout,
             help='output file'
             )
     parser.add_argument(

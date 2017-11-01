@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+import argparse
+import sys
+
+import code_extract
+
+
+def _main():
+    args = _parse_cmd_arguments()
+    code_blocks = code_extract.extract(args.infile, filter=args.filter)
+    code_extract.write(args.outfile, code_blocks)
+    return
+
+
+def _parse_cmd_arguments():
+    parser = argparse.ArgumentParser(
+        description='Extract code blocks from markdown files.'
+        )
+    parser.add_argument(
+        'infile',
+        type=argparse.FileType('r'),
+        default=sys.stdin,
+        help='input markdown file'
+        )
+    parser.add_argument(
+        'outfile',
+        type=argparse.FileType('w'),
+        default=sys.stdout,
+        help='output file'
+        )
+    parser.add_argument(
+        '-f', '--filter',
+        type=str,
+        help='filter string',
+        default=None,
+        )
+    return parser.parse_args()
+
+
+if __name__ == '__main__':
+    _main()

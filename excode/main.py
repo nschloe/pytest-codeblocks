@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 #
-from itertools import islice
 import re
 # https://stackoverflow.com/a/8348914/353337
 try:
@@ -22,18 +21,18 @@ else:
 def extract(f, filter=None):
     code_blocks = []
     while True:
-        try:
-            line = next(islice(f, 1))
-        except StopIteration:  # EOF
+        line = f.readline()
+        if not line:
+            # EOF
             break
 
         out = re.match('[^`]*```(.*)$', line)
         if out:
             if filter and filter.strip() != out.group(1).strip():
                 continue
-            code_block = [next(islice(f, 1))]
+            code_block = [f.readline()]
             while re.search('```', code_block[-1]) is None:
-                code_block.append(next(islice(f, 1)))
+                code_block.append(f.readline())
             code_blocks.append(''.join(code_block[:-1]))
     return code_blocks
 

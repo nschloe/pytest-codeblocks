@@ -21,6 +21,9 @@ def _parse_cmd_arguments():
         )
     parser.add_argument(
         'infile',
+        # Force utf-8 encoding on input. Otherwise we're running into trouble
+        # with files containing non-ASCII characters on platforms where ASCII
+        # is the default encoding (e.g., circleci).
         type=argparse.FileType('r', encoding='UTF-8'),
         default=sys.stdin,
         help='input markdown file (default: stdin)'

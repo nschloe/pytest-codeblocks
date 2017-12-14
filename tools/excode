@@ -4,13 +4,14 @@
 import argparse
 import sys
 
-import code_extract
+# pylint: disable=import-self
+import excode
 
 
 def _main():
     args = _parse_cmd_arguments()
-    code_blocks = code_extract.extract(args.infile, filter=args.filter)
-    code_extract.write(args.outfile, code_blocks)
+    code_blocks = excode.extract(args.infile, filter=args.filter)
+    excode.write(args.outfile, code_blocks)
     return
 
 

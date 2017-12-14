@@ -7,7 +7,7 @@ import codecs
 # https://packaging.python.org/single_source_version/
 base_dir = os.path.abspath(os.path.dirname(__file__))
 about = {}
-with open(os.path.join(base_dir, 'code_extract', '__about__.py'), 'rb') as f:
+with open(os.path.join(base_dir, 'excode', '__about__.py'), 'rb') as f:
     exec(f.read(), about)
 
 
@@ -23,7 +23,7 @@ def read(fname):
 
 
 setup(
-    name='code_extract',
+    name='excode',
     version=about['__version__'],
     author=about['__author__'],
     author_email=about['__author_email__'],
@@ -32,8 +32,8 @@ setup(
        'Extract code blocks from text files'
        ),
     long_description=read('README.rst'),
-    url='https://github.com/nschloe/code_extract',
-    download_url='https://github.com/nschloe/code_extract/releases',
+    url='https://github.com/nschloe/excode',
+    download_url='https://github.com/nschloe/excode/releases',
     license=about['__license__'],
     platforms='any',
     install_requires=[
@@ -49,6 +49,6 @@ setup(
         'Topic :: Text Processing'
         ],
     scripts=[
-        'tools/code-extract'
+        'tools/excode'
         ]
     )

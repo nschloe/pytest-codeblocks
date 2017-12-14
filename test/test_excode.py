@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-import code_extract
+import excode
 
 try:
     import StringIO as io
@@ -16,11 +16,11 @@ Lorem ipsum
 ```
 dolor sit amet
 ''')
-    code_blocks = code_extract.extract(inp)
+    code_blocks = excode.extract(inp)
     assert len(code_blocks) == 1
     assert code_blocks[0] == '1 + 2 + 3\n'
     out = io.StringIO()
-    code_extract.write(out, code_blocks)
+    excode.write(out, code_blocks)
     assert out.getvalue() == '''
 
 def test0():
@@ -41,7 +41,7 @@ a = 4 + 5 + 6;
 ```
 dolor sit amet
 ''')
-    code_blocks = code_extract.extract(inp, filter='python')
+    code_blocks = excode.extract(inp, filter='python')
     assert len(code_blocks) == 1
     assert code_blocks[0] == '1 + 2 + 3\n'
     return

@@ -28,6 +28,21 @@ def test0():
 This can be used for automatically turning snippets from
 a `README.md` into unit tests.
 
+#### Filter code blocks
+
+The command
+```
+excode -f "python,test" input.md test.py
+```
+only extracts code blocks with the header
+````
+```python,test
+some_code()
+```
+````
+(Appending anything to `<lang_name>` in the markdown header doesn't influence
+the syntax highlighting.)
+
 ### Installation
 
 excode is [available from the Python Package

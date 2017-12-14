@@ -10,6 +10,10 @@ import excode
 
 def _main():
     args = _parse_cmd_arguments()
+
+    if args.add_code:
+        args.outfile.write(args.add_code)
+
     code_blocks = excode.extract(args.infile, filter=args.filter)
     excode.write(args.outfile, code_blocks)
     return
@@ -35,6 +39,12 @@ def _parse_cmd_arguments():
         '-f', '--filter',
         type=str,
         help='filter string',
+        default=None,
+        )
+    parser.add_argument(
+        '-a', '--add-code',
+        type=str,
+        help='add code to the beginning of the output file',
         default=None,
         )
     return parser.parse_args()

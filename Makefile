@@ -1,4 +1,4 @@
-VERSION=$(shell python -c "import code_extract; print(code_extract.__version__)")
+VERSION=$(shell python -c "import excode; print(excode.__version__)")
 
 # Make sure we're on the master branch
 ifneq "$(shell git rev-parse --abbrev-ref HEAD)" "master"

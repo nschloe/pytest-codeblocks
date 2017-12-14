@@ -16,10 +16,10 @@ cache: pip
 
 # run tests
 script:
-  - pylint code_extract/
+  - pylint excode/
   - pylint test/*py
-  - pylint tools/code-extract
-  - cd test && pytest --cov code_extract
+  - pylint tools/excode
+  - cd test && pytest --cov excode
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

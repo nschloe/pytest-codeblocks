@@ -1,15 +1,15 @@
-# code_extract
+# excode
 
-[![Build Status](https://travis-ci.org/nschloe/code_extract.svg?branch=master)](https://travis-ci.org/nschloe/code_extract)
-[![codecov](https://codecov.io/gh/nschloe/code_extract/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/code_extract)
-[![PyPi Version](https://img.shields.io/pypi/v/code_extract.svg)](https://pypi.python.org/pypi/code_extract)
-[![GitHub stars](https://img.shields.io/github/stars/nschloe/code_extract.svg?style=social&label=Stars)](https://github.com/nschloe/code_extract)
+[![Build Status](https://travis-ci.org/nschloe/excode.svg?branch=master)](https://travis-ci.org/nschloe/excode)
+[![codecov](https://codecov.io/gh/nschloe/excode/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/excode)
+[![PyPi Version](https://img.shields.io/pypi/v/excode.svg)](https://pypi.python.org/pypi/excode)
+[![GitHub stars](https://img.shields.io/github/stars/nschloe/excode.svg?style=social&label=Stars)](https://github.com/nschloe/excode)
 
-This is code_extract, a tool for extracting code blocks from markdown files.
+This is excode, a tool for extracting code blocks from markdown files.
 
 For example, the command
 ```
-code-extract input.md test.py
+excode input.md test.py
 ```
 takes `input.md`,
 ````
@@ -30,10 +30,10 @@ a `README.md` into unit tests.
 
 ### Installation
 
-code_extract is [available from the Python Package
-Index](https://pypi.python.org/pypi/code_extract/), so simply
+excode is [available from the Python Package
+Index](https://pypi.python.org/pypi/excode/), so simply
 ```
-pip install -U code_extract
+pip install -U excode
 ```
 to install or upgrade.
 
@@ -57,4 +57,4 @@ To create a new release
 
 ### License
 
-code_extract is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
+excode is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).

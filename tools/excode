@@ -4,6 +4,7 @@
 import argparse
 import sys
 
+# pylint: disable=import-self
 import excode
 
 

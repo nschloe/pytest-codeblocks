@@ -12,8 +12,8 @@ jobs:
       - checkout
       - run: pip3 install .
       # format and lint
-      - black --check setup.py excode/ test/*.py tools/excode
-      - flake8 setup.py excode/ test/*.py tools/excode
+      - run: LC_ALL=C.UTF-8 black --check setup.py excode/ test/*.py tools/excode
+      - run: flake8 setup.py excode/ test/*.py tools/excode
       # test
       - run: cd test/ && pytest --cov excode
       # submit to codecov

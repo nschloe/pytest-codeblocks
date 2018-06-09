@@ -12,13 +12,7 @@ with open(os.path.join(base_dir, "excode", "__about__.py"), "rb") as f:
 
 
 def read(fname):
-    try:
-        content = codecs.open(
-            os.path.join(os.path.dirname(__file__), fname), encoding="utf-8"
-        ).read()
-    except Exception:
-        content = ""
-    return content
+    return codecs.open(os.path.join(base_dir, fname), encoding="utf-8").read()
 
 
 setup(
@@ -28,9 +22,9 @@ setup(
     author_email=about["__author_email__"],
     packages=find_packages(),
     description=("Extract code blocks from text files"),
-    long_description=read("README.rst"),
+    long_description=read("README.md"),
+    long_description_content_type="text/markdown",
     url="https://github.com/nschloe/excode",
-    download_url="https://github.com/nschloe/excode/releases",
     license=about["__license__"],
     platforms="any",
     install_requires=[],

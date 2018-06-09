@@ -25,9 +25,7 @@ dolor sit amet
     excode.write(out, code_blocks)
     assert (
         out.getvalue()
-        == """
-
-def test0():
+        == """def test0():
     1 + 2 + 3
     return
 """

@@ -59,9 +59,15 @@ def write(f, code_blocks, prefix="test"):
     # make list unique
     asterisk_imports = list(set(asterisk_imports))
 
-    f.write("\n".join(asterisk_imports))
+    if asterisk_imports:
+        f.write("\n".join(asterisk_imports))
+        f.write("\n\n")
+
+    fun_strings = []
     for k, code_block in enumerate(clean_code_blocks):
-        f.write("\n\ndef %s%d():\n" % (prefix, k))
-        f.write(indent(code_block, 4))
-        f.write("    return\n")
+        fun_strings.append("")
+        fun_strings[-1] += "def {}{}():\n".format(prefix, k)
+        fun_strings[-1] += indent(code_block, 4)
+        fun_strings[-1] += "    return\n"
+    f.write("\n\n".join(fun_strings))
     return

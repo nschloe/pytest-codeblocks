@@ -1,25 +1,20 @@
 version: 2
 
 jobs:
-  # python3:
   build:
-    working_directory: ~/excode
+    working_directory: ~/work
     docker:
-      - image: ubuntu:17.10
+      - image: ubuntu:18.04
     steps:
       - run: apt-get update
       - run: apt-get install -y python3-pip git
       - run: pip3 install -U pytest pytest-cov pylint
       - checkout
       - run: pip3 install .
-      # make sure that rst converts correctly
-      - run: apt install -y pandoc
-      - run: pip3 install docutils pygments
-      - run: make README.rst
-      # The actual test
-      - run: pylint excode/
-      - run: pylint test/*.py
-      - run: pylint tools/excode
+      # format and lint
+      - black --check setup.py excode/ test/*.py
+      - flake8 setup.py excode/ test/*.py
+      # test
       - run: cd test/ && pytest --cov excode
       # submit to codecov
       - run: apt-get install -y curl

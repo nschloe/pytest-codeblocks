@@ -6,7 +6,6 @@ import re
 try:
     import textwrap
 
-    # pylint: disable=pointless-statement
     textwrap.indent
 except AttributeError:  # undefined function (wasn't added until Python 3.3)
 
@@ -23,7 +22,6 @@ else:
         return textwrap.indent(text, amount * ch).replace("\n    \n", "\n\n")
 
 
-# pylint: disable=redefined-builtin
 def extract(f, filter=None):
     code_blocks = []
     while True:

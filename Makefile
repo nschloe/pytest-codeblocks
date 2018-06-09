@@ -23,5 +23,5 @@ clean:
 	@rm -rf *.egg-info/ build/ dist/ MANIFEST
 
 lint:
-	black --check setup.py excode/ test/*.py
-	flake8 setup.py excode/ test/*.py
+	black --check setup.py excode/ test/*.py tools/excode
+	flake8 setup.py excode/ test/*.py tools/excode

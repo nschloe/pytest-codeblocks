@@ -6,7 +6,12 @@ def indent(text, amount, ch=" "):
     return textwrap.indent(text, amount * ch).replace("\n    \n", "\n\n")
 
 
-def extract(f, filter=None):
+def from_file(f, filter=None):
+    with open(f, "r") as handle:
+        return from_string(handle, filter)
+
+
+def from_string(f, filter=None):
     code_blocks = []
     while True:
         line = f.readline()
@@ -22,6 +27,7 @@ def extract(f, filter=None):
             while re.search("```", code_block[-1]) is None:
                 code_block.append(f.readline())
             code_blocks.append("".join(code_block[:-1]))
+
     return code_blocks
 
 
@@ -54,4 +60,3 @@ def write(f, code_blocks, prefix="test"):
         fun_strings[-1] += indent(code_block, 4)
         fun_strings[-1] += "    return\n"
     f.write("\n\n".join(fun_strings))
-    return

@@ -8,28 +8,22 @@
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/excode.svg?style=flat-square&logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/excode)
 [![PyPi downloads](https://img.shields.io/pypi/dm/excode.svg?style=flat-square)](https://pypistats.org/packages/excode)
 
-This is excode, a tool for extracting code blocks from markdown files.
+This is excode, a tool for extracting code blocks from markdown files. This can be used
+for testing code in your README files.
 
-For example, the command
+Install with
 ```
-excode input.md test.py
+pip install excode
 ```
-takes `input.md`,
-````
-Lorem ipsum
-```python
-some_code = 1
+and use as
 ```
-dolor sit amet.
-````
-and creates `test.py`,
-```python
-def test0():
-    some_code = 1
-    return
+import excode
+import pytest
+
+@pytest.mark.parametrize("string", excode.extract("README.md"))
+def test_readme(string):
+    exec(string)
 ```
-This can be used for automatically turning snippets from
-a `README.md` into unit tests.
 
 #### Filter code blocks
 
@@ -51,9 +45,9 @@ the syntax highlighting.)
 excode is [available from the Python Package
 Index](https://pypi.python.org/pypi/excode/), so simply
 ```
-pip install -U excode
+pip install excode
 ```
-to install or upgrade.
+to install.
 
 ### Testing
 

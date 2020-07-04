@@ -26,7 +26,6 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/nschloe/excode",
     license=about["__license__"],
-    platforms="any",
     install_requires=[],
     classifiers=[
         about["__status__"],

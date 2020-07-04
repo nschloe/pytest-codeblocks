@@ -1,9 +1,9 @@
 import re
 
 
-def from_file(f, filter=None):
+def from_file(f, *args, **kwargs):
     with open(f, "r") as handle:
-        return from_string(handle, filter)
+        return from_string(handle, *args, **kwargs)
 
 
 def from_string(f, filter=None):

@@ -7,7 +7,6 @@
 [![PyPi Version](https://img.shields.io/pypi/v/excode.svg?style=flat-square)](https://pypi.org/project/excode)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/excode.svg?style=flat-square&logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/excode)
 [![PyPi downloads](https://img.shields.io/pypi/dm/excode.svg?style=flat-square)](https://pypistats.org/packages/excode)
-)
 
 This is excode, a tool for extracting code blocks from markdown files.
 

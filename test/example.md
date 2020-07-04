@@ -7,9 +7,13 @@ dolor sit amet.
 ```python
 import excode
 
-excode.from_string
+excode.from_buffer
 ```
 Something that intentionally does not work:
 ```bash
+foobar
+```
+Again
+```python
 foobar
 ```

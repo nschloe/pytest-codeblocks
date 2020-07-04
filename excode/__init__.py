@@ -1,4 +1,4 @@
 from .__about__ import __version__
-from .main import from_file, from_string
+from .main import extract, from_buffer
 
-__all__ = ["from_file", "from_string", "__version__"]
+__all__ = ["extract", "from_buffer", "__version__"]

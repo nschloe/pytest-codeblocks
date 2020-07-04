@@ -1,37 +1,37 @@
-# excode
+# exdown
 
-[![gh-actions](https://img.shields.io/github/workflow/status/nschloe/excode/ci?style=flat-square)](https://github.com/nschloe/excode/actions?query=workflow%3Aci)
-[![codecov](https://img.shields.io/codecov/c/github/nschloe/excode.svg?style=flat-square)](https://codecov.io/gh/nschloe/excode)
+[![gh-actions](https://img.shields.io/github/workflow/status/nschloe/exdown/ci?style=flat-square)](https://github.com/nschloe/exdown/actions?query=workflow%3Aci)
+[![codecov](https://img.shields.io/codecov/c/github/nschloe/exdown.svg?style=flat-square)](https://codecov.io/gh/nschloe/exdown)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
-[![PyPI pyversions](https://img.shields.io/pypi/pyversions/excode.svg?style=flat-square)](https://pypi.org/pypi/excode/)
-[![PyPi Version](https://img.shields.io/pypi/v/excode.svg?style=flat-square)](https://pypi.org/project/excode)
-[![GitHub stars](https://img.shields.io/github/stars/nschloe/excode.svg?style=flat-square&logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/excode)
-[![PyPi downloads](https://img.shields.io/pypi/dm/excode.svg?style=flat-square)](https://pypistats.org/packages/excode)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/exdown.svg?style=flat-square)](https://pypi.org/pypi/exdown/)
+[![PyPi Version](https://img.shields.io/pypi/v/exdown.svg?style=flat-square)](https://pypi.org/project/exdown)
+[![GitHub stars](https://img.shields.io/github/stars/nschloe/exdown.svg?style=flat-square&logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/exdown)
+[![PyPi downloads](https://img.shields.io/pypi/dm/exdown.svg?style=flat-square)](https://pypistats.org/packages/exdown)
 
-This is excode, a tool for extracting code blocks from markdown files. This can be used
+This is exdown, a tool for extracting code blocks from markdown files. This can be used
 for testing code in your README files.
 
 Install with
 ```
-pip install excode
+pip install exdown
 ```
 and use as
 ```
-import excode
+import exdown
 import pytest
 
-@pytest.mark.parametrize("string", excode.extract("README.md"))
+@pytest.mark.parametrize("string", exdown.extract("README.md"))
 def test_readme(string):
     exec(string)
 ```
 
 If you don't want all code blocks to be extracted, you can filter by syntax
 ```python
-excode.extract("README.md", syntax_filter="python")
+exdown.extract("README.md", syntax_filter="python")
 ```
 or
 ```python
-excode.extract("README.md", skip=[2, 3, 5])
+exdown.extract("README.md", skip=[2, 3, 5])
 ```
 (or both).
 
@@ -44,4 +44,4 @@ pytest
 
 ### License
 
-excode is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
+exdown is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).

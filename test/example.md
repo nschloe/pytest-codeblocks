@@ -5,9 +5,9 @@ Lorem ipsum
 ```
 dolor sit amet.
 ```python
-import excode
+import exdown
 
-excode.from_buffer
+exdown.from_buffer
 ```
 Something that intentionally does not work:
 ```bash

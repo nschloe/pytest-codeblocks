@@ -5,6 +5,6 @@ except ImportError:
     import importlib_metadata as metadata
 
 try:
-    __version__ = metadata.version("excode")
+    __version__ = metadata.version("exdown")
 except Exception:
     __version__ = "unknown"

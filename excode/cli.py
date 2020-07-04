@@ -1,14 +1,13 @@
 import argparse
 import sys
 
-import excode
+from .main import extract, write
 
 
 def _main():
     args = _parse_cmd_arguments()
-    code_blocks = excode.extract(args.infile, filter=args.filter)
-    excode.write(args.outfile, code_blocks)
-    return
+    code_blocks = extract(args.infile, filter=args.filter)
+    write(args.outfile, code_blocks)
 
 
 def _parse_cmd_arguments():
@@ -32,7 +31,3 @@ def _parse_cmd_arguments():
     )
     parser.add_argument("-f", "--filter", type=str, help="filter string", default=None)
     return parser.parse_args()
-
-
-if __name__ == "__main__":
-    _main()

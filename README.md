@@ -1,4 +1,7 @@
-# exdown
+<p align="center">
+  <a href="https://github.com/nschloe/exdown"><img alt="exdown" src="https://nschloe.github.io/exdown/logo.svg" width="25%"></a>
+  <p align="center">Extract code blocks from markdown.</p>
+</p>
 
 [![gh-actions](https://img.shields.io/github/workflow/status/nschloe/exdown/ci?style=flat-square)](https://github.com/nschloe/exdown/actions?query=workflow%3Aci)
 [![codecov](https://img.shields.io/codecov/c/github/nschloe/exdown.svg?style=flat-square)](https://codecov.io/gh/nschloe/exdown)

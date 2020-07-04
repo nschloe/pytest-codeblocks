@@ -1,8 +1,9 @@
 import io
 import pathlib
 
-import excode
 import pytest
+
+import excode
 
 this_dir = pathlib.Path(__file__).resolve().parent
 inp = io.StringIO(
@@ -21,7 +22,9 @@ def test_string(string):
     exec(string)
 
 
-@pytest.mark.parametrize("string", excode.from_file(this_dir / "example.md"))
+@pytest.mark.parametrize(
+    "string", excode.from_file(this_dir / "example.md", filter="python")
+)
 def test_file(string):
     exec(string)
 

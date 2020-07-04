@@ -9,3 +9,7 @@ import excode
 
 excode.from_string
 ```
+Something that intentionally does not work:
+```bash
+foobar
+```

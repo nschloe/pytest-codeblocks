@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 import re
 
 # https://stackoverflow.com/a/8348914/353337
@@ -66,7 +64,7 @@ def write(f, code_blocks, prefix="test"):
     fun_strings = []
     for k, code_block in enumerate(clean_code_blocks):
         fun_strings.append("")
-        fun_strings[-1] += "def {}{}():\n".format(prefix, k)
+        fun_strings[-1] += f"def {prefix}{k}():\n"
         fun_strings[-1] += indent(code_block, 4)
         fun_strings[-1] += "    return\n"
     f.write("\n\n".join(fun_strings))

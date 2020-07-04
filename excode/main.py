@@ -1,25 +1,9 @@
-# -*- coding: utf-8 -*-
-#
 import re
-
-# https://stackoverflow.com/a/8348914/353337
-try:
-    import textwrap
-
-    textwrap.indent
-except AttributeError:  # undefined function (wasn't added until Python 3.3)
-
-    def indent(text, amount, ch=" "):
-        padding = amount * ch
-        return "".join(padding + line for line in text.splitlines(True)).replace(
-            "\n    \n", "\n\n"
-        )
+import textwrap
 
 
-else:
-
-    def indent(text, amount, ch=" "):
-        return textwrap.indent(text, amount * ch).replace("\n    \n", "\n\n")
+def indent(text, amount, ch=" "):
+    return textwrap.indent(text, amount * ch).replace("\n    \n", "\n\n")
 
 
 def extract(f, filter=None):
@@ -66,7 +50,7 @@ def write(f, code_blocks, prefix="test"):
     fun_strings = []
     for k, code_block in enumerate(clean_code_blocks):
         fun_strings.append("")
-        fun_strings[-1] += "def {}{}():\n".format(prefix, k)
+        fun_strings[-1] += f"def {prefix}{k}():\n"
         fun_strings[-1] += indent(code_block, 4)
         fun_strings[-1] += "    return\n"
     f.write("\n\n".join(fun_strings))

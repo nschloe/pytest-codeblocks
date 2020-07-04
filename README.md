@@ -25,29 +25,15 @@ def test_readme(string):
     exec(string)
 ```
 
-#### Filter code blocks
-
-The command
+If you don't want all code blocks to be extracted, you can filter by syntax
+```python
+excode.extract("README.md", syntax_filter="python")
 ```
-excode -f "python,test" input.md test.py
+or
+```python
+excode.extract("README.md", skip=[2, 3, 5])
 ```
-only extracts code blocks with the header
-````
-```python,test
-some_code()
-```
-````
-(Appending anything to `<lang_name>` in the markdown header doesn't influence
-the syntax highlighting.)
-
-### Installation
-
-excode is [available from the Python Package
-Index](https://pypi.python.org/pypi/excode/), so simply
-```
-pip install excode
-```
-to install.
+(or both).
 
 ### Testing
 

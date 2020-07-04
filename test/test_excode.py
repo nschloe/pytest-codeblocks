@@ -1,10 +1,6 @@
-#
-import excode
+import io
 
-try:
-    import StringIO as io
-except ImportError:
-    import io
+import excode
 
 
 def test_plain():

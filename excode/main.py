@@ -1,23 +1,9 @@
 import re
-
-# https://stackoverflow.com/a/8348914/353337
-try:
-    import textwrap
-
-    textwrap.indent
-except AttributeError:  # undefined function (wasn't added until Python 3.3)
-
-    def indent(text, amount, ch=" "):
-        padding = amount * ch
-        return "".join(padding + line for line in text.splitlines(True)).replace(
-            "\n    \n", "\n\n"
-        )
+import textwrap
 
 
-else:
-
-    def indent(text, amount, ch=" "):
-        return textwrap.indent(text, amount * ch).replace("\n    \n", "\n\n")
+def indent(text, amount, ch=" "):
+    return textwrap.indent(text, amount * ch).replace("\n    \n", "\n\n")
 
 
 def extract(f, filter=None):

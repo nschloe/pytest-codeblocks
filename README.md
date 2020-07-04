@@ -16,7 +16,7 @@ Install with
 pip install exdown
 ```
 and use as
-```
+```python
 import exdown
 import pytest
 
@@ -43,5 +43,4 @@ pytest
 ```
 
 ### License
-
 exdown is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).

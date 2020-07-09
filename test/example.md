@@ -13,7 +13,8 @@ Something that intentionally does not work:
 ```bash
 foobar
 ```
-Again
+Again with syntax
+<!--exdown-skip-->
 ```python
-foobar
+bar
 ```

@@ -23,7 +23,7 @@ def test_string(string):
 
 
 @pytest.mark.parametrize(
-    "string", exdown.extract(this_dir / "example.md", syntax_filter="python", skip=[2]),
+    "string", exdown.extract(this_dir / "example.md", syntax_filter="python"),
 )
 def test_file(string):
     exec(string)

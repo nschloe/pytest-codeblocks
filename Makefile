@@ -27,12 +27,10 @@ clean:
 	@rm -rf *.egg-info/ build/ dist/
 
 format:
-	isort -rc .
-	black .
-
-black:
+	isort .
 	black .
 
 lint:
+	isort -c .
 	black --check .
 	flake8 .

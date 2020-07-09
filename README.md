@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/nschloe/exdown"><img alt="exdown" src="https://nschloe.github.io/exdown/logo.svg" width="25%"></a>
-  <p align="center">Extract code blocks from markdown.</p>
+  <p align="center">Extract code blocks from Markdown.</p>
 </p>
 
 [![gh-actions](https://img.shields.io/github/workflow/status/nschloe/exdown/ci?style=flat-square)](https://github.com/nschloe/exdown/actions?query=workflow%3Aci)
@@ -11,7 +11,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/exdown.svg?style=flat-square&logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/exdown)
 [![PyPi downloads](https://img.shields.io/pypi/dm/exdown.svg?style=flat-square)](https://pypistats.org/packages/exdown)
 
-This is exdown, a tool for extracting code blocks from markdown files. This can be used
+This is exdown, a tool for extracting code blocks from Markdown files. This can be used
 for testing code in your README files.
 
 Install with
@@ -32,11 +32,14 @@ If you don't want all code blocks to be extracted, you can filter by syntax
 ```python
 exdown.extract("README.md", syntax_filter="python")
 ```
-or
+or prefix your code block in the Markdown file with an `exdown-skip` comment
+````python Dorem lipsum
+<!--exdown-skip-->
 ```python
-exdown.extract("README.md", skip=[2, 3, 5])
+foo + bar   # not working
 ```
-(or both).
+dolor sit amet.
+````
 
 ### Testing
 

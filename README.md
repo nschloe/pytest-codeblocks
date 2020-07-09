@@ -33,7 +33,7 @@ If you don't want all code blocks to be extracted, you can filter by syntax
 exdown.extract("README.md", syntax_filter="python")
 ```
 or prefix your code block in the Markdown file with an `exdown-skip` comment
-````python
+````markdown
 Lorem ipsum
 <!--exdown-skip-->
 ```python

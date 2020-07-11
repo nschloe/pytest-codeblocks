@@ -23,10 +23,25 @@ and use as
 import exdown
 import pytest
 
-@pytest.mark.parametrize("string", exdown.extract("README.md"))
-def test_readme(string):
+@pytest.mark.parametrize("string, lineno", exdown.extract("README.md"))
+def test_readme(string, lineno):
     exec(string)
 ```
+or more fancy as
+```python
+import exdown
+import pytest
+
+@pytest.mark.parametrize("string, lineno", exdown.extract("README.md"))
+def test_readme(string, lineno):
+    try:
+        # https://stackoverflow.com/a/62851176/353337
+        exec(string, {"__MODULE__": "__main__"})
+    except Exception:
+        print(f"README.md (line {lineno}):\n```\n{string}```")
+        raise
+```
+to get better error messages.
 
 If you don't want all code blocks to be extracted, you can filter by syntax
 ```python

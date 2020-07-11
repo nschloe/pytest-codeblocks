@@ -18,3 +18,8 @@ Again with syntax
 ```python
 bar
 ```
+
+Something that contains triple fences
+```python
+# ```import math```
+```

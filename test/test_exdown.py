@@ -17,13 +17,13 @@ dolor sit amet
 )
 
 
-@pytest.mark.parametrize("string", exdown.from_buffer(inp))
-def test_string(string):
+@pytest.mark.parametrize("string,lineno", exdown.from_buffer(inp))
+def test_string(string, lineno):
     exec(string)
 
 
 @pytest.mark.parametrize(
-    "string", exdown.extract(this_dir / "example.md", syntax_filter="python"),
+    "string, lineno", exdown.extract(this_dir / "example.md", syntax_filter="python"),
 )
-def test_file(string):
+def test_file(string, lineno):
     exec(string)

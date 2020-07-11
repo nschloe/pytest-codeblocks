@@ -44,6 +44,7 @@ def test_readme(string, lineno):
 to get better error messages.
 
 If you don't want all code blocks to be extracted, you can filter by syntax
+<!--exdown-skip-->
 ```python
 exdown.extract("README.md", syntax_filter="python")
 ```

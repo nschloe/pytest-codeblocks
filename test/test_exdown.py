@@ -23,7 +23,8 @@ def test_string(string, lineno):
 
 
 @pytest.mark.parametrize(
-    "string, lineno", exdown.extract(this_dir / "example.md", syntax_filter="python"),
+    "string, lineno",
+    exdown.extract(this_dir / "example.md", syntax_filter="python"),
 )
 def test_file(string, lineno):
     exec(string)

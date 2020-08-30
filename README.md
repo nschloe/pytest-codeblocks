@@ -25,6 +25,7 @@ and use as
 import exdown
 import pytest
 
+
 @pytest.mark.parametrize("string, lineno", exdown.extract("README.md"))
 def test_readme(string, lineno):
     exec(string)
@@ -33,6 +34,7 @@ or more fancy as
 ```python
 import exdown
 import pytest
+
 
 @pytest.mark.parametrize("string, lineno", exdown.extract("README.md"))
 def test_readme(string, lineno):
@@ -55,7 +57,7 @@ or prefix your code block in the Markdown file with an `exdown-skip` comment
 Lorem ipsum
 <!--exdown-skip-->
 ```python
-foo + bar   # not working
+foo + bar  # not working
 ```
 dolor sit amet.
 ````

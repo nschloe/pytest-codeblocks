@@ -28,3 +28,8 @@ Indented code blocks:
   ```python
   1 + 1 == 2
   ```
+
+"Wrong" indentation:
+```python
+1 + 1 == 2
+  ```

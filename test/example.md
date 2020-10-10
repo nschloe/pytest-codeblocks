@@ -9,11 +9,11 @@ import exdown
 
 exdown.from_buffer
 ```
-Something that intentionally does not work:
+Something that should be skipped because of the language:
 ```bash
 foobar
 ```
-Again with syntax
+Again with an explicit skip:
 <!--exdown-skip-->
 ```python
 bar
@@ -23,3 +23,8 @@ Something that contains triple fences
 ```python
 # ```import math```
 ```
+
+Indented code blocks:
+  ```python
+  1 + 1 == 2
+  ```

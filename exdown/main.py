@@ -15,21 +15,23 @@ def from_buffer(f, max_num_lines=10000, syntax_filter=None):
             # EOF
             break
 
-        if line[:3] == "```":
-            syntax = line[3:]
+        if line.strip()[:3] == "```":
+            syntax = line.strip()[3:]
             lineno = k - 1
             # read the block
-            line = f.readline()
-            code_block = [line]
-            k += 1
-            while code_block[-1][:3] != "```":
+            code_block = []
+            while True:
                 line = f.readline()
-                code_block.append(line)
                 k += 1
+                if not line:
+                    raise RuntimeError("Hit end-of-file prematurely. Syntax error?")
                 if k > max_num_lines:
                     raise RuntimeError(
                         f"File too large (> {max_num_lines} lines). Set max_num_lines."
                     )
+                if line.strip()[:3] == "```":
+                    break
+                code_block.append(line)
 
             if syntax_filter and syntax_filter.strip() != syntax.strip():
                 continue

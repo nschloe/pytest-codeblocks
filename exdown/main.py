@@ -15,8 +15,9 @@ def from_buffer(f, max_num_lines=10000, syntax_filter=None):
             # EOF
             break
 
-        if line.strip()[:3] == "```":
-            syntax = line.strip()[3:]
+        if line.lstrip()[:3] == "```":
+            syntax = line.lstrip()[3:]
+            num_leading_spaces = len(line) - len(line.lstrip())
             lineno = k - 1
             # read the block
             code_block = []
@@ -29,8 +30,12 @@ def from_buffer(f, max_num_lines=10000, syntax_filter=None):
                     raise RuntimeError(
                         f"File too large (> {max_num_lines} lines). Set max_num_lines."
                     )
-                if line.strip()[:3] == "```":
+                # check if end of block
+                if line.lstrip()[:3] == "```":
                     break
+                # Cut (at most) num_leading_spaces leading spaces
+                nls = min(num_leading_spaces, len(line) - len(line.lstrip()))
+                line = line[nls:]
                 code_block.append(line)
 
             if syntax_filter and syntax_filter.strip() != syntax.strip():

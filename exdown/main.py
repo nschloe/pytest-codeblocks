@@ -38,7 +38,7 @@ def from_buffer(f, max_num_lines=10000, syntax_filter=None):
             if previous_line.strip() == "<!--exdown-skip-->":
                 continue
 
-            out.append(("".join(code_block[:-1]), lineno))
+            out.append(("".join(code_block), lineno))
 
         previous_line = line
 

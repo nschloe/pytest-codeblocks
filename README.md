@@ -13,8 +13,8 @@
 [![LGTM](https://img.shields.io/lgtm/grade/python/github/nschloe/exdown.svg?style=flat-square)](https://lgtm.com/projects/g/nschloe/exdown)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
 
-This is exdown, a tool for extracting code blocks from Markdown files. This can be used
-for testing code in your README files.
+This is exdown, a tool for extracting code blocks from Markdown files and to create
+tests from them.
 
 Install with
 ```
@@ -23,34 +23,20 @@ pip install exdown
 and use as
 ```python
 import exdown
-import pytest
 
-
-@pytest.mark.parametrize("string, lineno", exdown.extract("README.md"))
-def test_readme(string, lineno):
-    exec(string)
+blocks = exdown.extract("README.md")
 ```
-or more fancy as
+or, to create tests for [pytest](https://docs.pytest.org/en/stable/)
 ```python
 import exdown
-import pytest
 
-
-@pytest.mark.parametrize("string, lineno", exdown.extract("README.md"))
-def test_readme(string, lineno):
-    try:
-        # https://stackoverflow.com/a/62851176/353337
-        exec(string, {"__MODULE__": "__main__"})
-    except Exception:
-        print(f"README.md (line {lineno}):\n```\n{string}```")
-        raise
+test_readme = exdown.pytests("README.md")
 ```
-to get better error messages.
 
 If you don't want all code blocks to be extracted, you can filter by syntax
 <!--exdown-skip-->
 ```python
-exdown.extract("README.md", syntax_filter="python")
+exdown.pytests("README.md", syntax_filter="python")
 ```
 or prefix your code block in the Markdown file with an `exdown-skip` comment
 ````markdown
@@ -61,13 +47,6 @@ foo + bar  # not working
 ```
 dolor sit amet.
 ````
-
-### Testing
-
-To run the unit tests, check out this repository and type
-```
-pytest
-```
 
 ### License
 exdown is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).

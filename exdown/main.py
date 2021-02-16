@@ -48,3 +48,20 @@ def from_buffer(f, max_num_lines=10000, syntax_filter=None):
         previous_line = line
 
     return out
+
+
+def pytests(filename, syntax_filter=None):
+    import pytest
+
+    @pytest.mark.parametrize(
+        "string, lineno", extract(filename, syntax_filter=syntax_filter)
+    )
+    def exec_raise(string, lineno):
+        try:
+            # https://stackoverflow.com/a/62851176/353337
+            exec(string, {"__MODULE__": "__main__"})
+        except Exception:
+            print(f"{filename} (line {lineno}):\n```\n{string}```")
+            raise
+
+    return exec_raise

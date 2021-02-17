@@ -1,3 +1,7 @@
+import pathlib
+
 import exdown
 
-test_readme = exdown.pytests("README.md", syntax_filter="python")
+this_dir = pathlib.Path(__file__).resolve().parent
+
+test_readme = exdown.pytests(this_dir / ".." / "README.md", syntax_filter="python")

@@ -2,12 +2,16 @@ from pathlib import Path
 from typing import Optional, Union
 
 
-def extract(f, *args, **kwargs):
+def extract(f: Union[str, bytes, Path], *args, **kwargs):
     with open(f, "r") as handle:
         return from_buffer(handle, *args, **kwargs)
 
 
-def from_buffer(f, max_num_lines: int = 10000, syntax_filter: Optional[str] = None):
+def from_buffer(
+    f,
+    max_num_lines: int = 10000,
+    syntax_filter: Optional[str] = None,
+):
     out = []
     previous_line = None
     k = 1

@@ -1,4 +1,5 @@
-from typing import Optional
+from pathlib import Path
+from typing import Optional, Union
 
 
 def extract(f, *args, **kwargs):
@@ -57,7 +58,9 @@ def from_buffer(f, max_num_lines: int = 10000, syntax_filter: Optional[str] = No
 
 
 def pytests(
-    filename: str, syntax_filter: Optional[str] = None, syntax_highlight: bool = False
+    filename: Union[str, bytes, Path],
+    syntax_filter: Optional[str] = None,
+    syntax_highlight: bool = False,
 ):
     import pytest
 

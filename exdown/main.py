@@ -1,9 +1,12 @@
+from typing import Optional
+
+
 def extract(f, *args, **kwargs):
     with open(f, "r") as handle:
         return from_buffer(handle, *args, **kwargs)
 
 
-def from_buffer(f, max_num_lines=10000, syntax_filter=None):
+def from_buffer(f, max_num_lines: int = 10000, syntax_filter: Optional[str] = None):
     out = []
     previous_line = None
     k = 1
@@ -53,7 +56,9 @@ def from_buffer(f, max_num_lines=10000, syntax_filter=None):
     return out
 
 
-def pytests(filename, syntax_filter=None):
+def pytests(
+    filename: str, syntax_filter: Optional[str] = None, syntax_highlight: bool = False
+):
     import pytest
 
     @pytest.mark.parametrize(
@@ -64,7 +69,9 @@ def pytests(filename, syntax_filter=None):
             # https://stackoverflow.com/a/62851176/353337
             exec(string, {"__MODULE__": "__main__"})
         except Exception:
-            print(f"{filename} (line {lineno}):\n```\n{string}```")
+            print(f"{filename} (line {lineno}):\n```")
+            print(string, end="")
+            print("```")
             raise
 
     return exec_raise

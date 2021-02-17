@@ -48,5 +48,20 @@ foo + bar  # not working
 dolor sit amet.
 ````
 
+Broken-up code blocks can be merged into one with the `exdown-cont` prefix
+````markdown
+Lorem ipsum
+```
+a = 1
+```
+dolor sit amet
+<!--exdown-cont-->
+```
+# this would otherwise fail since `a` is not defined
+a + 1
+```
+````
+
+
 ### License
 exdown is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).

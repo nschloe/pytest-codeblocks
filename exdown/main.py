@@ -54,7 +54,17 @@ def from_buffer(
             ):
                 continue
 
-            out.append(("".join(code_block), lineno))
+            if (
+                previous_line is not None
+                and previous_line.strip() == "<!--exdown-cont-->"
+            ):
+                if len(out) == 0:
+                    raise RuntimeError(
+                        "Found <!--exdown-cont--> but no previous code block."
+                    )
+                out[-1] = (out[-1][0] + "".join(code_block), out[-1][1])
+            else:
+                out.append(("".join(code_block), lineno))
 
         previous_line = line
 

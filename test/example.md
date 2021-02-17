@@ -1,3 +1,6 @@
+```python
+1 + 1
+```
 Lorem ipsum
 ```python
 1 + 2 + 3

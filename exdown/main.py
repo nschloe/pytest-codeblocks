@@ -40,7 +40,10 @@ def from_buffer(f, max_num_lines=10000, syntax_filter=None):
 
             if syntax_filter and syntax_filter.strip() != syntax.strip():
                 continue
-            if previous_line.strip() == "<!--exdown-skip-->":
+            if (
+                previous_line is not None
+                and previous_line.strip() == "<!--exdown-skip-->"
+            ):
                 continue
 
             out.append(("".join(code_block), lineno))

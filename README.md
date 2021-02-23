@@ -34,7 +34,6 @@ test_readme = exdown.pytests("README.md")
 ```
 
 If you don't want all code blocks to be extracted, you can filter by syntax
-<!--exdown-skip-->
 ```python
 exdown.pytests("README.md", syntax_filter="python")
 ```
@@ -61,7 +60,6 @@ dolor sit amet
 a + 1
 ```
 ````
-
 
 ### License
 exdown is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).

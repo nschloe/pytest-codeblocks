@@ -1,8 +1,6 @@
 import io
 import pathlib
 
-import pytest
-
 import exdown
 
 this_dir = pathlib.Path(__file__).resolve().parent

@@ -1,6 +1,6 @@
-from pathlib import Path
 import io
 import tempfile
+from pathlib import Path
 
 import exdown
 
@@ -76,10 +76,3 @@ Indented code blocks:
         lst = exdown.extract(filename, syntax_filter="python")
         for r, obj in zip(ref, lst):
             assert r == obj
-
-
-if __name__ == "__main__":
-    blocks = exdown.extract(this_dir / "example.md", syntax_filter="python")
-    for block in blocks:
-        print(block)
-        print()

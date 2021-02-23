@@ -6,20 +6,20 @@ import pytest
 import exdown
 
 this_dir = pathlib.Path(__file__).resolve().parent
-inp = io.StringIO(
+
+
+def test_from_buffer():
+    inp = io.StringIO(
+        """
+    Lorem ipsum
+    ```python
+    1 + 2 + 3
+    ```
+    dolor sit amet
     """
-Lorem ipsum
-```python
-1 + 2 + 3
-```
-dolor sit amet
-"""
-)
-
-
-@pytest.mark.parametrize("string,lineno", exdown.from_buffer(inp))
-def test_string(string, lineno):
-    exec(string)
+    )
+    out = exdown.from_buffer(inp)
+    assert out == [("1 + 2 + 3\n", 3)]
 
 
 # example.md against reference strings test against
@@ -35,14 +35,6 @@ def test_reference():
     lst = exdown.extract(this_dir / "example.md", syntax_filter="python")
     for r, obj in zip(ref, lst):
         assert r == obj
-
-
-@pytest.mark.parametrize(
-    "string, lineno",
-    exdown.extract(this_dir / "example.md", syntax_filter="python"),
-)
-def test_file(string, lineno):
-    exec(string)
 
 
 if __name__ == "__main__":

@@ -4,6 +4,7 @@
 </p>
 
 [![PyPi Version](https://img.shields.io/pypi/v/exdown.svg?style=flat-square)](https://pypi.org/project/exdown)
+[![Anaconda Cloud](https://anaconda.org/conda-forge/exdown/badges/version.svg?=style=flat-square)](https://anaconda.org/conda-forge/exdown/)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/exdown.svg?style=flat-square)](https://pypi.org/pypi/exdown/)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/exdown.svg?style=flat-square&logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/exdown)
 [![PyPi downloads](https://img.shields.io/pypi/dm/exdown.svg?style=flat-square)](https://pypistats.org/packages/exdown)

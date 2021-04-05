@@ -47,6 +47,7 @@ foo + bar  # not working
 ```
 dolor sit amet.
 ````
+All functions accept the `encoding` argument, too.
 
 Broken-up code blocks can be merged into one with the `exdown-cont` prefix
 ````markdown

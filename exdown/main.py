@@ -73,11 +73,16 @@ def from_buffer(
     return out
 
 
-def pytests(filename: Union[str, bytes, Path], syntax_filter: Optional[str] = None):
+def pytests(
+    filename: Union[str, bytes, Path],
+    encoding: Optional[str] = None,
+    syntax_filter: Optional[str] = None,
+):
     import pytest
 
     @pytest.mark.parametrize(
-        "string, lineno", extract(filename, syntax_filter=syntax_filter)
+        "string, lineno",
+        extract(filename, encoding=encoding, syntax_filter=syntax_filter),
     )
     def exec_raise(string, lineno):
         try:

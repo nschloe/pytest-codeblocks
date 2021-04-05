@@ -2,8 +2,10 @@ from pathlib import Path
 from typing import Optional, Union
 
 
-def extract(f: Union[str, bytes, Path], *args, **kwargs):
-    with open(f, "r") as handle:
+def extract(
+    f: Union[str, bytes, Path], encoding: Optional[str] = None, *args, **kwargs
+):
+    with open(f, "r", encoding=encoding) as handle:
         return from_buffer(handle, *args, **kwargs)
 
 
@@ -71,11 +73,7 @@ def from_buffer(
     return out
 
 
-def pytests(
-    filename: Union[str, bytes, Path],
-    syntax_filter: Optional[str] = None,
-    syntax_highlight: bool = False,
-):
+def pytests(filename: Union[str, bytes, Path], syntax_filter: Optional[str] = None):
     import pytest
 
     @pytest.mark.parametrize(

@@ -9,11 +9,7 @@ def extract(
         return extract_from_buffer(handle, *args, **kwargs)
 
 
-def extract_from_buffer(
-    f,
-    max_num_lines: int = 10000,
-    syntax_filter: Optional[str] = None,
-):
+def extract_from_buffer(f, max_num_lines: int = 10000):
     out = []
     previous_line = None
     k = 1
@@ -26,7 +22,7 @@ def extract_from_buffer(
             break
 
         if line.lstrip()[:3] == "```":
-            syntax = line.lstrip()[3:]
+            syntax = line.strip()[3:]
             num_leading_spaces = len(line) - len(line.lstrip())
             lineno = k - 1
             # read the block
@@ -48,8 +44,6 @@ def extract_from_buffer(
                 line = line[nls:]
                 code_block.append(line)
 
-            if syntax_filter and syntax_filter.strip() != syntax.strip():
-                continue
             if (
                 previous_line is not None
                 and previous_line.strip() == "<!--exdown-skip-->"
@@ -64,9 +58,9 @@ def extract_from_buffer(
                     raise RuntimeError(
                         "Found <!--exdown-cont--> but no previous code block."
                     )
-                out[-1] = (out[-1][0] + "".join(code_block), out[-1][1])
+                out[-1] = (out[-1][0] + "".join(code_block), *out[-1][1:])
             else:
-                out.append(("".join(code_block), lineno))
+                out.append(("".join(code_block), lineno, syntax))
 
         previous_line = line
 
@@ -83,9 +77,18 @@ def pytests(
 def pytests_from_buffer(buf, syntax_filter: Optional[str] = None):
     import pytest
 
-    @pytest.mark.parametrize(
-        "string, lineno", extract_from_buffer(buf, syntax_filter=syntax_filter)
-    )
+    code_blocks = extract_from_buffer(buf)
+    print(code_blocks)
+    if syntax_filter is None:
+        code_blocks = [(string, lineno) for string, lineno, _ in code_blocks]
+    else:
+        code_blocks = [
+            (string, lineno)
+            for string, lineno, syntax in code_blocks
+            if syntax == syntax_filter
+        ]
+
+    @pytest.mark.parametrize("string, lineno", code_blocks)
     def exec_raise(string, lineno):
         try:
             # https://stackoverflow.com/a/62851176/353337

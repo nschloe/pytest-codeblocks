@@ -10,7 +10,7 @@ dolor sit amet.
 ```python
 import exdown
 
-exdown.from_buffer
+exdown.extract_from_buffer
 ```
 Something that should be skipped because of the language:
 ```bash

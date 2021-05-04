@@ -4,7 +4,7 @@ import pathlib
 import exdown
 
 
-def test_from_buffer():
+def test_extract_from_buffer():
     inp = io.StringIO(
         """
     Lorem ipsum
@@ -14,7 +14,7 @@ def test_from_buffer():
     dolor sit amet
     """
     )
-    out = exdown.from_buffer(inp)
+    out = exdown.extract_from_buffer(inp)
     assert out == [("1 + 2 + 3\n", 3)]
 
 
@@ -23,7 +23,7 @@ def test_reference():
     ref = [
         ("1 + 1\n", 1),
         ("1 + 2 + 3\n2 + 5\n", 5),
-        ("import exdown\n\nexdown.from_buffer\n", 10),
+        ("import exdown\n\nexdown.extract_from_buffer\n", 10),
         ("# ```import math```\n", 26),
         ("1 + 1 == 2\n", 31),
         ("1 + 1 == 2\n", 36),

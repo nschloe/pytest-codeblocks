@@ -6,10 +6,10 @@ def extract(
     f: Union[str, bytes, Path], encoding: Optional[str] = None, *args, **kwargs
 ):
     with open(f, "r", encoding=encoding) as handle:
-        return from_buffer(handle, *args, **kwargs)
+        return extract_from_buffer(handle, *args, **kwargs)
 
 
-def from_buffer(
+def extract_from_buffer(
     f,
     max_num_lines: int = 10000,
     syntax_filter: Optional[str] = None,
@@ -74,10 +74,7 @@ def from_buffer(
 
 
 def pytests(
-    f: Union[str, bytes, Path],
-    encoding: Optional[str] = None,
-    *args,
-    **kwargs
+    f: Union[str, bytes, Path], encoding: Optional[str] = None, *args, **kwargs
 ):
     with open(f, "r", encoding=encoding) as handle:
         return pytests_from_buffer(handle, *args, **kwargs)
@@ -87,7 +84,7 @@ def pytests_from_buffer(buf, syntax_filter: Optional[str] = None):
     import pytest
 
     @pytest.mark.parametrize(
-        "string, lineno", from_buffer(buf, syntax_filter=syntax_filter)
+        "string, lineno", extract_from_buffer(buf, syntax_filter=syntax_filter)
     )
     def exec_raise(string, lineno):
         try:

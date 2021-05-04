@@ -13,7 +13,7 @@ def test_unclosed():
     """
     )
     with pytest.raises(RuntimeError):
-        exdown.from_buffer(unclosed)
+        exdown.extract_from_buffer(unclosed)
 
 
 def test_maxlines():
@@ -25,7 +25,7 @@ def test_maxlines():
     """
     )
     with pytest.raises(RuntimeError):
-        exdown.from_buffer(unclosed, max_num_lines=1)
+        exdown.extract_from_buffer(unclosed, max_num_lines=1)
 
 
 def test_nocont():
@@ -38,4 +38,4 @@ def test_nocont():
     """
     )
     with pytest.raises(RuntimeError):
-        exdown.from_buffer(code)
+        exdown.extract_from_buffer(code)

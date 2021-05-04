@@ -83,7 +83,7 @@ def pytests(
         return pytests_from_buffer(handle, *args, **kwargs)
 
 
-def pytests_from_buffer(buf, syntax_filter):
+def pytests_from_buffer(buf, syntax_filter: Optional[str] = None):
     import pytest
 
     @pytest.mark.parametrize(

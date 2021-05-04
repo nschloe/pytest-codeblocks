@@ -26,16 +26,3 @@ def test_maxlines():
     )
     with pytest.raises(RuntimeError):
         exdown.extract_from_buffer(unclosed, max_num_lines=1)
-
-
-def test_nocont():
-    code = io.StringIO(
-        """
-    <!--exdown-cont-->
-    ```python
-    1 + 2 + 3
-    ```
-    """
-    )
-    with pytest.raises(RuntimeError):
-        exdown.extract_from_buffer(code)

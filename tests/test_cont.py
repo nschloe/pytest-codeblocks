@@ -1,5 +1,7 @@
 import io
 
+import pytest
+
 import exdown
 
 string = """
@@ -21,3 +23,16 @@ test_frombuffer = exdown.pytests_from_buffer(io.StringIO(string))
 def test_cont():
     lst = exdown.extract_from_buffer(io.StringIO(string))
     assert lst == [("a = 1\na + 1\n", 3)]
+
+
+def test_nocont():
+    code = io.StringIO(
+        """
+    <!--exdown-cont-->
+    ```python
+    1 + 2 + 3
+    ```
+    """
+    )
+    with pytest.raises(RuntimeError):
+        exdown.extract_from_buffer(code)

@@ -6,3 +6,4 @@ doc/build/
 dist/
 *.png
 .pytest_cache/
+.tox/

@@ -1,21 +1,38 @@
 import io
 
+import pytest
+
 import exdown
+
+string = """
+Lorem ipsum
+```python
+a = 1
+```
+dolor sit amet
+<!--exdown-cont-->
+```
+a + 1
+```
+"""
+
+
+test_frombuffer = exdown.pytests_from_buffer(io.StringIO(string))
 
 
 def test_cont():
-    inp = io.StringIO(
+    lst = exdown.extract_from_buffer(io.StringIO(string))
+    assert lst == [("a = 1\na + 1\n", 3, "python", None)]
+
+
+def test_nocont():
+    code = io.StringIO(
         """
-    Lorem ipsum
-    ```python
-    a = 1
-    ```
-    dolor sit amet
     <!--exdown-cont-->
-    ```
-    a + 1
+    ```python
+    1 + 2 + 3
     ```
     """
     )
-    lst = exdown.from_buffer(inp)
-    assert lst == [("a = 1\na + 1\n", 3)]
+    with pytest.raises(RuntimeError):
+        exdown.extract_from_buffer(code)

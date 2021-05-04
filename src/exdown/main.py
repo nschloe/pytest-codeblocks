@@ -1,19 +1,21 @@
+import contextlib
+import sys
+from collections import namedtuple
+from io import StringIO
 from pathlib import Path
 from typing import Optional, Union
+
+CodeBlock = namedtuple("CodeBlock", ["code", "lineno", "syntax", "expected_output"])
 
 
 def extract(
     f: Union[str, bytes, Path], encoding: Optional[str] = None, *args, **kwargs
 ):
     with open(f, "r", encoding=encoding) as handle:
-        return from_buffer(handle, *args, **kwargs)
+        return extract_from_buffer(handle, *args, **kwargs)
 
 
-def from_buffer(
-    f,
-    max_num_lines: int = 10000,
-    syntax_filter: Optional[str] = None,
-):
+def extract_from_buffer(f, max_num_lines: int = 10000):
     out = []
     previous_line = None
     k = 1
@@ -26,7 +28,7 @@ def from_buffer(
             break
 
         if line.lstrip()[:3] == "```":
-            syntax = line.lstrip()[3:]
+            syntax = line.strip()[3:]
             num_leading_spaces = len(line) - len(line.lstrip())
             lineno = k - 1
             # read the block
@@ -48,25 +50,41 @@ def from_buffer(
                 line = line[nls:]
                 code_block.append(line)
 
-            if syntax_filter and syntax_filter.strip() != syntax.strip():
-                continue
-            if (
-                previous_line is not None
-                and previous_line.strip() == "<!--exdown-skip-->"
-            ):
+            if previous_line is None:
+                out.append(CodeBlock("".join(code_block), lineno, syntax, None))
                 continue
 
-            if (
-                previous_line is not None
-                and previous_line.strip() == "<!--exdown-cont-->"
-            ):
+            # handle special tags
+            if previous_line.strip() == "<!--exdown-skip-->":
+                continue
+            elif previous_line.strip() == "<!--exdown-expected-output-->":
+                if len(out) == 0:
+                    raise RuntimeError(
+                        "Found <!--exdown-expected-output--> "
+                        + "but no previous code block."
+                    )
+                if out[-1].expected_output is not None:
+                    raise RuntimeError(
+                        "Found <!--exdown-expected-output--> "
+                        + "but block already has expected_output."
+                    )
+                expected_output = "\n".join(code_block)
+                out[-1] = CodeBlock(
+                    out[-1].code, out[-1].lineno, out[-1].syntax, expected_output
+                )
+            elif previous_line.strip() == "<!--exdown-cont-->":
                 if len(out) == 0:
                     raise RuntimeError(
                         "Found <!--exdown-cont--> but no previous code block."
                     )
-                out[-1] = (out[-1][0] + "".join(code_block), out[-1][1])
+                out[-1] = CodeBlock(
+                    out[-1].code + "".join(code_block),
+                    out[-1].lineno,
+                    out[-1].syntax,
+                    out[-1].expected_output,
+                )
             else:
-                out.append(("".join(code_block), lineno))
+                out.append(CodeBlock("".join(code_block), lineno, syntax, None))
 
         previous_line = line
 
@@ -74,24 +92,49 @@ def from_buffer(
 
 
 def pytests(
-    filename: Union[str, bytes, Path],
-    encoding: Optional[str] = None,
-    syntax_filter: Optional[str] = None,
+    f: Union[str, bytes, Path], encoding: Optional[str] = None, *args, **kwargs
 ):
+    with open(f, "r", encoding=encoding) as handle:
+        return pytests_from_buffer(handle, *args, **kwargs)
+
+
+def pytests_from_buffer(buf, syntax_filter: Optional[str] = None):
     import pytest
 
-    @pytest.mark.parametrize(
-        "string, lineno",
-        extract(filename, encoding=encoding, syntax_filter=syntax_filter),
-    )
-    def exec_raise(string, lineno):
-        try:
-            # https://stackoverflow.com/a/62851176/353337
-            exec(string, {"__MODULE__": "__main__"})
-        except Exception:
-            print(f"{filename} (line {lineno}):\n```")
-            print(string, end="")
-            print("```")
-            raise
+    code_blocks = extract_from_buffer(buf)
+    print(code_blocks)
+    if syntax_filter is not None:
+        code_blocks = filter(lambda cb: cb.syntax == syntax_filter, code_blocks)
+
+    @pytest.mark.parametrize("code_block", code_blocks)
+    def exec_raise(code_block):
+        with stdoutIO() as s:
+            try:
+                # https://stackoverflow.com/a/62851176/353337
+                exec(code_block.code, {"__MODULE__": "__main__"})
+            except Exception:
+                print(f"{buf.name} (line {code_block.lineno}):\n```")
+                print(code_block.code, end="")
+                print("```")
+                raise
+
+        output = s.getvalue()
+        if code_block.expected_output is not None:
+            if code_block.expected_output != output:
+                raise RuntimeError(
+                    f"Expected \n```\n{code_block.expected_output}```\n"
+                    + f"but got\n```\n{output}```"
+                )
 
     return exec_raise
+
+
+# https://stackoverflow.com/a/3906390/353337
+@contextlib.contextmanager
+def stdoutIO(stdout=None):
+    old = sys.stdout
+    if stdout is None:
+        stdout = StringIO()
+    sys.stdout = stdout
+    yield stdout
+    sys.stdout = old

@@ -34,7 +34,7 @@ import exdown
 test_readme = exdown.pytests("README.md")
 ```
 
-If you don't want all code blocks to be extracted, you can filter by syntax
+If you don't want all code blocks to be extracted, you can **filter by syntax**
 ```python
 exdown.pytests("README.md", syntax_filter="python")
 ```
@@ -49,7 +49,7 @@ dolor sit amet.
 ````
 All functions accept the `encoding` argument, too.
 
-Broken-up code blocks can be merged into one with the `exdown-cont` prefix
+**Broken-up code blocks** can be merged into one with the `exdown-cont` prefix
 ````markdown
 Lorem ipsum
 ```
@@ -62,6 +62,19 @@ dolor sit amet
 a + 1
 ```
 ````
+
+You can also define the **expected output of a code block**:
+````markdown
+This
+```
+print(1 + 3)
+```
+gives
+<!--exdown-expected-output-->
+```
+5
+```
+`````
 
 ### License
 exdown is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).

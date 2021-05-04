@@ -1,5 +1,8 @@
+from collections import namedtuple
 from pathlib import Path
 from typing import Optional, Union
+
+CodeBlock = namedtuple("CodeBlock", ["code", "lineno", "syntax", "expected_output"])
 
 
 def extract(
@@ -58,9 +61,14 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                     raise RuntimeError(
                         "Found <!--exdown-cont--> but no previous code block."
                     )
-                out[-1] = (out[-1][0] + "".join(code_block), *out[-1][1:])
+                out[-1] = CodeBlock(
+                    out[-1].code + "".join(code_block),
+                    out[-1].lineno,
+                    out[-1].syntax,
+                    out[-1].expected_output,
+                )
             else:
-                out.append(("".join(code_block), lineno, syntax))
+                out.append(CodeBlock("".join(code_block), lineno, syntax, None))
 
         previous_line = line
 
@@ -79,23 +87,17 @@ def pytests_from_buffer(buf, syntax_filter: Optional[str] = None):
 
     code_blocks = extract_from_buffer(buf)
     print(code_blocks)
-    if syntax_filter is None:
-        code_blocks = [(string, lineno) for string, lineno, _ in code_blocks]
-    else:
-        code_blocks = [
-            (string, lineno)
-            for string, lineno, syntax in code_blocks
-            if syntax == syntax_filter
-        ]
+    if syntax_filter is not None:
+        code_blocks = filter(lambda cb: cb.syntax == syntax_filter, code_blocks)
 
-    @pytest.mark.parametrize("string, lineno", code_blocks)
-    def exec_raise(string, lineno):
+    @pytest.mark.parametrize("code_block", code_blocks)
+    def exec_raise(code_block):
         try:
             # https://stackoverflow.com/a/62851176/353337
-            exec(string, {"__MODULE__": "__main__"})
+            exec(code_block.code, {"__MODULE__": "__main__"})
         except Exception:
-            print(f"{buf.name} (line {lineno}):\n```")
-            print(string, end="")
+            print(f"{buf.name} (line {code_block.lineno}):\n```")
+            print(code_block.code, end="")
             print("```")
             raise
 

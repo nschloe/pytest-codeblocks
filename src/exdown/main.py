@@ -1,4 +1,7 @@
+import contextlib
+import sys
 from collections import namedtuple
+from io import StringIO
 from pathlib import Path
 from typing import Optional, Union
 
@@ -105,13 +108,33 @@ def pytests_from_buffer(buf, syntax_filter: Optional[str] = None):
 
     @pytest.mark.parametrize("code_block", code_blocks)
     def exec_raise(code_block):
-        try:
-            # https://stackoverflow.com/a/62851176/353337
-            exec(code_block.code, {"__MODULE__": "__main__"})
-        except Exception:
-            print(f"{buf.name} (line {code_block.lineno}):\n```")
-            print(code_block.code, end="")
-            print("```")
-            raise
+        with stdoutIO() as s:
+            try:
+                # https://stackoverflow.com/a/62851176/353337
+                exec(code_block.code, {"__MODULE__": "__main__"})
+            except Exception:
+                print(f"{buf.name} (line {code_block.lineno}):\n```")
+                print(code_block.code, end="")
+                print("```")
+                raise
+
+        output = s.getvalue()
+        if code_block.expected_output is not None:
+            if code_block.expected_output != output:
+                raise RuntimeError(
+                    f"Expected \n```\n{code_block.expected_output}```\n"
+                    + f"but got\n```\n{output}```"
+                )
 
     return exec_raise
+
+
+# https://stackoverflow.com/a/3906390/353337
+@contextlib.contextmanager
+def stdoutIO(stdout=None):
+    old = sys.stdout
+    if stdout is None:
+        stdout = StringIO()
+    sys.stdout = stdout
+    yield stdout
+    sys.stdout = old

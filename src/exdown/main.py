@@ -47,16 +47,29 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                 line = line[nls:]
                 code_block.append(line)
 
-            if (
-                previous_line is not None
-                and previous_line.strip() == "<!--exdown-skip-->"
-            ):
+            if previous_line is None:
+                out.append(CodeBlock("".join(code_block), lineno, syntax, None))
                 continue
 
-            if (
-                previous_line is not None
-                and previous_line.strip() == "<!--exdown-cont-->"
-            ):
+            # handle special tags
+            if previous_line.strip() == "<!--exdown-skip-->":
+                continue
+            elif previous_line.strip() == "<!--exdown-expected-output-->":
+                if len(out) == 0:
+                    raise RuntimeError(
+                        "Found <!--exdown-expected-output--> "
+                        + "but no previous code block."
+                    )
+                if out[-1].expected_output is not None:
+                    raise RuntimeError(
+                        "Found <!--exdown-expected-output--> "
+                        + "but block already has expected_output."
+                    )
+                expected_output = "\n".join(code_block)
+                out[-1] = CodeBlock(
+                    out[-1].code, out[-1].lineno, out[-1].syntax, expected_output
+                )
+            elif previous_line.strip() == "<!--exdown-cont-->":
                 if len(out) == 0:
                     raise RuntimeError(
                         "Found <!--exdown-cont--> but no previous code block."

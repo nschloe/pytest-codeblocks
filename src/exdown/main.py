@@ -74,22 +74,27 @@ def from_buffer(
 
 
 def pytests(
-    filename: Union[str, bytes, Path],
+    f: Union[str, bytes, Path],
     encoding: Optional[str] = None,
-    syntax_filter: Optional[str] = None,
+    *args,
+    **kwargs
 ):
+    with open(f, "r", encoding=encoding) as handle:
+        return pytests_from_buffer(handle, *args, **kwargs)
+
+
+def pytests_from_buffer(buf, syntax_filter):
     import pytest
 
     @pytest.mark.parametrize(
-        "string, lineno",
-        extract(filename, encoding=encoding, syntax_filter=syntax_filter),
+        "string, lineno", from_buffer(buf, syntax_filter=syntax_filter)
     )
     def exec_raise(string, lineno):
         try:
             # https://stackoverflow.com/a/62851176/353337
             exec(string, {"__MODULE__": "__main__"})
         except Exception:
-            print(f"{filename} (line {lineno}):\n```")
+            print(f"{buf.name} (line {lineno}):\n```")
             print(string, end="")
             print("```")
             raise

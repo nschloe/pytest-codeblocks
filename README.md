@@ -21,22 +21,23 @@ Install with
 ```
 pip install exdown
 ```
-and use as
+and create tests for [pytest](https://docs.pytest.org/en/stable/) with
 ```python
 import exdown
 
-blocks = exdown.extract("README.md")
+test_readme = exdown.pytests_from_file("README.md")
 ```
-or, to create tests for [pytest](https://docs.pytest.org/en/stable/)
-```python
-import exdown
-
-test_readme = exdown.pytests("README.md")
+The `test_readme` variable is really a decorated function that pytest will pick up and
+turn into tests.
+```
+tests/test_readme.py .............                    [100%]
 ```
 
+
+#### Skipping code blocks
 If you don't want all code blocks to be extracted, you can **filter by syntax**
 ```python
-exdown.pytests("README.md", syntax_filter="python")
+exdown.pytests_from_file("README.md", syntax_filter="python")
 ```
 or prefix your code block in the Markdown file with an `exdown-skip` comment
 ````markdown
@@ -47,9 +48,10 @@ foo + bar  # not working
 ```
 dolor sit amet.
 ````
-All functions accept the `encoding` argument, too.
 
-**Broken-up code blocks** can be merged into one with the `exdown-cont` prefix
+
+#### Merging code blocks
+Broken-up code blocks can be merged into one with the `exdown-cont` prefix
 ````markdown
 Lorem ipsum
 ```
@@ -63,7 +65,9 @@ a + 1
 ```
 ````
 
-You can also define the **expected output of a code block**:
+
+#### Expected output
+You can also define the expected output of a code block:
 ````markdown
 This
 ```
@@ -74,7 +78,20 @@ gives
 ```
 5
 ```
-`````
+````
+
+
+#### Expected errors
+Some code blocks are expected to give errors. You can verify this with
+````markdown
+The following gives an error:
+<!--exdown-expect-exception-->
+```python
+1 / 0
+```
+````
+
 
 ### License
-exdown is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
+This software is published under the [MIT
+license](https://en.wikipedia.org/wiki/MIT_License).

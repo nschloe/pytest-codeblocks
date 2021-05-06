@@ -1,5 +1,5 @@
 from .__about__ import __version__
-from .main import extract, extract_from_buffer, pytests, pytests_from_buffer
+from .main import CodeBlock, extract, extract_from_buffer, pytests, pytests_from_buffer
 
 __all__ = [
     "extract",
@@ -7,4 +7,5 @@ __all__ = [
     "extract_from_buffer",
     "__version__",
     "pytests_from_buffer",
+    "CodeBlock",
 ]

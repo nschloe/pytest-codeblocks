@@ -1,11 +1,26 @@
 import contextlib
 import sys
 from collections import namedtuple
+from dataclasses import dataclass
 from io import StringIO
 from pathlib import Path
 from typing import Optional, Union
 
-CodeBlock = namedtuple("CodeBlock", ["code", "lineno", "syntax", "expected_output"])
+import pytest
+
+# CodeBlock = namedtuple(
+#     "CodeBlock", ["code", "lineno", "syntax", "expected_output", "expect_exception"]
+# )
+
+# namedtuple with default arguments
+# <https://stackoverflow.com/a/18348004/353337>
+@dataclass
+class CodeBlock:
+    code: str
+    lineno: int
+    syntax: Optional[str] = None
+    expected_output: Optional[str] = None
+    expect_exception: Optional[bool] = False
 
 
 def extract(
@@ -51,7 +66,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                 code_block.append(line)
 
             if previous_line is None:
-                out.append(CodeBlock("".join(code_block), lineno, syntax, None))
+                out.append(CodeBlock("".join(code_block), lineno, syntax, None, False))
                 continue
 
             # handle special tags
@@ -70,7 +85,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                     )
                 expected_output = "\n".join(code_block)
                 out[-1] = CodeBlock(
-                    out[-1].code, out[-1].lineno, out[-1].syntax, expected_output
+                    out[-1].code, out[-1].lineno, out[-1].syntax, expected_output, False
                 )
             elif previous_line.strip() == "<!--exdown-cont-->":
                 if len(out) == 0:
@@ -82,9 +97,15 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                     out[-1].lineno,
                     out[-1].syntax,
                     out[-1].expected_output,
+                    False,
                 )
+            elif previous_line.strip() in [
+                "<!--exdown-expect-exception-->",
+                "<!--exdown-expect-error-->",
+            ]:
+                out.append(CodeBlock("".join(code_block), lineno, syntax, None, True))
             else:
-                out.append(CodeBlock("".join(code_block), lineno, syntax, None))
+                out.append(CodeBlock("".join(code_block), lineno, syntax, None, False))
 
         previous_line = line
 
@@ -99,32 +120,37 @@ def pytests(
 
 
 def pytests_from_buffer(buf, syntax_filter: Optional[str] = None):
-    import pytest
-
     code_blocks = extract_from_buffer(buf)
-    print(code_blocks)
+
     if syntax_filter is not None:
         code_blocks = filter(lambda cb: cb.syntax == syntax_filter, code_blocks)
 
     @pytest.mark.parametrize("code_block", code_blocks)
     def exec_raise(code_block):
-        with stdoutIO() as s:
-            try:
-                # https://stackoverflow.com/a/62851176/353337
+        if code_block.expect_exception:
+            with pytest.raises(Exception):
                 exec(code_block.code, {"__MODULE__": "__main__"})
-            except Exception:
-                print(f"{buf.name} (line {code_block.lineno}):\n```")
-                print(code_block.code, end="")
-                print("```")
-                raise
+        else:
+            with stdoutIO() as s:
+                try:
+                    # https://stackoverflow.com/a/62851176/353337
+                    exec(code_block.code, {"__MODULE__": "__main__"})
+                except Exception:
+                    if hasattr(buf, "name"):
+                        print(f"{buf.name} (line {code_block.lineno}):\n```")
+                    else:
+                        print(f"line {code_block.lineno}:\n```")
+                    print(code_block.code, end="")
+                    print("```")
+                    raise
 
-        output = s.getvalue()
-        if code_block.expected_output is not None:
-            if code_block.expected_output != output:
-                raise RuntimeError(
-                    f"Expected \n```\n{code_block.expected_output}```\n"
-                    + f"but got\n```\n{output}```"
-                )
+            output = s.getvalue()
+            if code_block.expected_output is not None:
+                if code_block.expected_output != output:
+                    raise RuntimeError(
+                        f"Expected \n```\n{code_block.expected_output}```\n"
+                        + f"but got\n```\n{output}```"
+                    )
 
     return exec_raise
 

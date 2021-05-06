@@ -22,7 +22,7 @@ test_frombuffer = exdown.pytests_from_buffer(io.StringIO(string))
 
 def test_cont():
     lst = exdown.extract_from_buffer(io.StringIO(string))
-    assert lst == [("a = 1\na + 1\n", 3, "python", None)]
+    assert lst == [exdown.CodeBlock("a = 1\na + 1\n", 3, "python")]
 
 
 def test_nocont():

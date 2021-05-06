@@ -2,7 +2,7 @@ import io
 
 import pytest
 
-import exdown
+import pytest_codeblocks
 
 string = """
 Lorem ipsum
@@ -10,29 +10,29 @@ Lorem ipsum
 a = 1
 ```
 dolor sit amet
-<!--exdown-cont-->
+<!--pytest-codeblocks:cont-->
 ```
 a + 1
 ```
 """
 
 
-test_frombuffer = exdown.pytests_from_buffer(io.StringIO(string))
+test_frombuffer = pytest_codeblocks.pytests_from_buffer(io.StringIO(string))
 
 
 def test_cont():
-    lst = exdown.extract_from_buffer(io.StringIO(string))
-    assert lst == [exdown.CodeBlock("a = 1\na + 1\n", 3, "python")]
+    lst = pytest_codeblocks.extract_from_buffer(io.StringIO(string))
+    assert lst == [pytest_codeblocks.CodeBlock("a = 1\na + 1\n", 3, "python")]
 
 
 def test_nocont():
     code = io.StringIO(
         """
-    <!--exdown-cont-->
+    <!--pytest-codeblocks:cont-->
     ```python
     1 + 2 + 3
     ```
     """
     )
     with pytest.raises(RuntimeError):
-        exdown.extract_from_buffer(code)
+        pytest_codeblocks.extract_from_buffer(code)

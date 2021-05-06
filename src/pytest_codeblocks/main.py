@@ -74,7 +74,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                 continue
 
             # check for keywords
-            m = re.match("<!--exdown-(.*)-->", previous_line.strip())
+            m = re.match("<!--pytest-codeblocks:(.*)-->", previous_line.strip())
             if m is None:
                 out.append(CodeBlock("".join(code_block), lineno, syntax))
                 continue
@@ -87,12 +87,12 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
             elif keyword == "expected-output":
                 if len(out) == 0:
                     raise RuntimeError(
-                        "Found <!--exdown-expected-output--> "
+                        "Found <!--pytest-codeblocks-expected-output--> "
                         + "but no previous code block."
                     )
                 if out[-1].expected_output is not None:
                     raise RuntimeError(
-                        "Found <!--exdown-expected-output--> "
+                        "Found <!--pytest-codeblocks-expected-output--> "
                         + "but block already has expected_output."
                     )
                 expected_output = "\n".join(code_block)
@@ -102,7 +102,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
             elif keyword == "cont":
                 if len(out) == 0:
                     raise RuntimeError(
-                        "Found <!--exdown-cont--> but no previous code block."
+                        "Found <!--pytest-codeblocks-cont--> but no previous code block."
                     )
                 out[-1] = CodeBlock(
                     out[-1].code + "".join(code_block),
@@ -118,7 +118,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                     )
                 )
             else:
-                raise RuntimeError('Unknown exdown keyword "{keyword}."')
+                raise RuntimeError('Unknown pytest-codeblocks keyword "{keyword}."')
 
         previous_line = line
 

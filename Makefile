@@ -6,7 +6,7 @@ default:
 tag:
 	@if [ "$(shell git rev-parse --abbrev-ref HEAD)" != "main" ]; then exit 1; fi
 	@echo "Tagging release version v$(VERSION)..."
-	curl -H "Authorization: token `cat $(HOME)/.github-access-token`" -d '{"tag_name": "v$(VERSION)"}' https://api.github.com/repos/nschloe/exdown/releases
+	curl -H "Authorization: token `cat $(HOME)/.github-access-token`" -d '{"tag_name": "v$(VERSION)"}' https://api.github.com/repos/nschloe/pytest-codeblocks/releases
 
 upload: clean
 	# Make sure we're on the main branch
@@ -19,7 +19,7 @@ publish: tag upload
 
 clean:
 	@find . | grep -E "(__pycache__|\.pyc|\.pyo$\)" | xargs rm -rf
-	@rm -rf *.egg-info/ build/ dist/
+	@rm -rf src/*.egg-info/ build/ dist/ .tox/
 
 format:
 	isort .

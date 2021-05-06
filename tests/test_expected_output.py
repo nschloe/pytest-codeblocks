@@ -1,6 +1,6 @@
 import io
 
-import exdown
+import pytest_codeblocks
 
 string = """
 Lorem ipsum
@@ -8,16 +8,16 @@ Lorem ipsum
 print(1 + 3)
 ```
 dolor sit amet
-<!--exdown-expected-output-->
+<!--pytest-codeblocks-expected-output-->
 ```
 4
 ```
 """
 
 
-test_frombuffer = exdown.pytests_from_buffer(io.StringIO(string))
+test_frombuffer = pytest_codeblocks.pytests_from_buffer(io.StringIO(string))
 
 
 def test_cont():
-    lst = exdown.extract_from_buffer(io.StringIO(string))
-    assert lst == [exdown.CodeBlock("print(1 + 3)\n", 3, "python", "4\n")]
+    lst = pytest_codeblocks.extract_from_buffer(io.StringIO(string))
+    assert lst == [pytest_codeblocks.CodeBlock("print(1 + 3)\n", 3, "python", "4\n")]

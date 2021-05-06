@@ -8,16 +8,16 @@ Lorem ipsum
 ```
 dolor sit amet.
 ```python
-import exdown
+import pytest_codeblocks
 
-exdown.extract_from_buffer
+pytest_codeblocks.extract_from_buffer
 ```
 Something that should be skipped because of the language:
 ```bash
 foobar
 ```
 Again with an explicit skip:
-<!--exdown-skip-->
+<!--pytest-codeblocks-skip-->
 ```python
 bar
 ```

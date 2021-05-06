@@ -5,6 +5,6 @@ except ImportError:
     import importlib_metadata as metadata
 
 try:
-    __version__ = metadata.version("exdown")
+    __version__ = metadata.version("pytest-codeblocks")
 except Exception:
     __version__ = "unknown"

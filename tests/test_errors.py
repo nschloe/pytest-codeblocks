@@ -2,7 +2,7 @@ import io
 
 import pytest
 
-import exdown
+import pytest_codeblocks
 
 
 def test_unclosed():
@@ -13,7 +13,7 @@ def test_unclosed():
     """
     )
     with pytest.raises(RuntimeError):
-        exdown.extract_from_buffer(unclosed)
+        pytest_codeblocks.extract_from_buffer(unclosed)
 
 
 def test_maxlines():
@@ -25,4 +25,4 @@ def test_maxlines():
     """
     )
     with pytest.raises(RuntimeError):
-        exdown.extract_from_buffer(unclosed, max_num_lines=1)
+        pytest_codeblocks.extract_from_buffer(unclosed, max_num_lines=1)

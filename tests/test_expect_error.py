@@ -1,22 +1,22 @@
 import io
 
-import exdown
+import pytest_codeblocks
 
 string1 = """
 Lorem ipsum
-<!--exdown-expect-exception-->
+<!--pytest_codeblocks-expect-exception-->
 ```python
 raise RuntimeError()
 ```
 """
-test_frombuffer1 = exdown.pytests_from_buffer(io.StringIO(string1))
+test_frombuffer1 = pytest_codeblocks.pytests_from_buffer(io.StringIO(string1))
 
 
 # string2 = """
 # ```
-# <!--exdown-expect-error-->
+# <!--pytest_codeblocks-expect-error-->
 # ```python
 # raise RuntimeError()
 # ```
 # """
-# test_frombuffer2 = exdown.pytests_from_buffer(io.StringIO(string2))
+# test_frombuffer2 = pytest_codeblocks.pytests_from_buffer(io.StringIO(string2))

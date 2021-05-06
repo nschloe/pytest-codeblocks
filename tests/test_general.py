@@ -23,7 +23,11 @@ def test_reference():
     ref = [
         pytest_codeblocks.CodeBlock("1 + 1\n", 1, "python"),
         pytest_codeblocks.CodeBlock("1 + 2 + 3\n2 + 5\n", 5, "python"),
-        pytest_codeblocks.CodeBlock("import pytest_codeblocks\n\npytest_codeblocks.extract_from_buffer\n", 10, "python"),
+        pytest_codeblocks.CodeBlock(
+            "import pytest_codeblocks\n\npytest_codeblocks.extract_from_buffer\n",
+            10,
+            "python",
+        ),
         pytest_codeblocks.CodeBlock("foobar\n", 16, "bash"),
         pytest_codeblocks.CodeBlock("# ```import math```\n", 26, "python"),
         pytest_codeblocks.CodeBlock("1 + 1 == 2\n", 31, "python"),

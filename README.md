@@ -25,9 +25,9 @@ pip install pytest-codeblocks
 ```
 and create tests for [pytest](https://docs.pytest.org/en/stable/) with
 ```python
-import pytest-codeblocks
+import pytest_codeblocks
 
-test_readme = pytest-codeblocks.pytests_from_file("README.md")
+test_readme = pytest_codeblocks.pytests_from_file("README.md")
 ```
 The `test_readme` variable is really a decorated function that pytest will pick up and
 turn into tests.
@@ -39,7 +39,7 @@ tests/test_readme.py .............                    [100%]
 #### Skipping code blocks
 If you don't want all code blocks to be extracted, you can **filter by syntax**
 ```python
-pytest-codeblocks.pytests_from_file("README.md", syntax_filter="python")
+pytest - codeblocks.pytests_from_file("README.md", syntax_filter="python")
 ```
 or prefix your code block in the Markdown file with a `pytest-codeblocks:skip` comment
 ````markdown

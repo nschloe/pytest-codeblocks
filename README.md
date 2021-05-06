@@ -27,6 +27,12 @@ import exdown
 
 test_readme = exdown.pytests_from_file("README.md")
 ```
+The `test_readme` variable is really a decorated function that pytest will pick up and
+turn into tests.
+```
+tests/test_readme.py .............                    [100%]
+```
+
 
 #### Skipping code blocks
 If you don't want all code blocks to be extracted, you can **filter by syntax**
@@ -43,8 +49,8 @@ foo + bar  # not working
 dolor sit amet.
 ````
 
-#### Merging code blocks
 
+#### Merging code blocks
 Broken-up code blocks can be merged into one with the `exdown-cont` prefix
 ````markdown
 Lorem ipsum
@@ -58,6 +64,7 @@ dolor sit amet
 a + 1
 ```
 ````
+
 
 #### Expected output
 You can also define the expected output of a code block:
@@ -73,8 +80,8 @@ gives
 ```
 ````
 
-#### Expected errors
 
+#### Expected errors
 Some code blocks are expected to give errors. You can verify this with
 ````markdown
 The following gives an error:
@@ -83,6 +90,7 @@ The following gives an error:
 1 / 0
 ```
 ````
+
 
 ### License
 This software is published under the [MIT

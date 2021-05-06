@@ -1,3 +1,8 @@
+> exdown is deprecated. Use
+> [pytest-codeblocks](https://github.com/nschloe/pytest-codeblocks) instead.
+
+---
+
 <p align="center">
   <a href="https://github.com/nschloe/exdown"><img alt="exdown" src="https://nschloe.github.io/exdown/logo.svg" width="25%"></a>
   <p align="center">Extract and test code blocks from Markdown.</p>

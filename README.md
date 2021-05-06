@@ -1,7 +1,9 @@
-<p align="center">
-  <a href="https://github.com/nschloe/exdown"><img alt="exdown" src="https://nschloe.github.io/exdown/logo.svg" width="25%"></a>
-  <p align="center">Extract and test code blocks from Markdown.</p>
-</p>
+**exdown is deprecated. Use
+[pytest-codeblocks](https://pypi.org/project/pytest-codeblocks) instead.**
+
+---
+
+# exdown
 
 [![PyPi Version](https://img.shields.io/pypi/v/exdown.svg?style=flat-square)](https://pypi.org/project/exdown/)
 [![Anaconda Cloud](https://anaconda.org/conda-forge/exdown/badges/version.svg?=style=flat-square)](https://anaconda.org/conda-forge/exdown/)

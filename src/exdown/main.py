@@ -62,7 +62,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                 code_block.append(line)
 
             if previous_line is None:
-                out.append(CodeBlock("".join(code_block), lineno, syntax, None, False))
+                out.append(CodeBlock("".join(code_block), lineno, syntax))
                 continue
 
             # handle special tags
@@ -81,7 +81,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                     )
                 expected_output = "\n".join(code_block)
                 out[-1] = CodeBlock(
-                    out[-1].code, out[-1].lineno, out[-1].syntax, expected_output, False
+                    out[-1].code, out[-1].lineno, out[-1].syntax, expected_output
                 )
             elif previous_line.strip() == "<!--exdown-cont-->":
                 if len(out) == 0:
@@ -93,15 +93,19 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                     out[-1].lineno,
                     out[-1].syntax,
                     out[-1].expected_output,
-                    False,
+                    out[-1].expect_exception,
                 )
             elif previous_line.strip() in [
                 "<!--exdown-expect-exception-->",
                 "<!--exdown-expect-error-->",
             ]:
-                out.append(CodeBlock("".join(code_block), lineno, syntax, None, True))
+                out.append(
+                    CodeBlock(
+                        "".join(code_block), lineno, syntax, expect_exception=True
+                    )
+                )
             else:
-                out.append(CodeBlock("".join(code_block), lineno, syntax, None, False))
+                out.append(CodeBlock("".join(code_block), lineno, syntax))
 
         previous_line = line
 

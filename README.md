@@ -1,8 +1,3 @@
-**pytest-codeblocks is deprecated. Use
-[pytest-codeblocks](https://pypi.org/project/pytest-codeblocks) instead.**
-
----
-
 # pytest-codeblocks
 
 [![PyPi Version](https://img.shields.io/pypi/v/pytest-codeblocks.svg?style=flat-square)](https://pypi.org/project/pytest-codeblocks/)

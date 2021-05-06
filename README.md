@@ -1,5 +1,5 @@
 > exdown is deprecated. Use
-> [pytest-codeblocks](https://github.com/nschloe/pytest-codeblocks) instead.
+> [pytest-codeblocks](https://pypi.org/project/pytest-codeblocks) instead.
 
 ---
 

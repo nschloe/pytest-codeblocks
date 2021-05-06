@@ -2,15 +2,17 @@ import contextlib
 import re
 import sys
 import warnings
+
+# namedtuple with default arguments
+# <https://stackoverflow.com/a/18348004/353337>
+from dataclasses import dataclass
 from io import StringIO
 from pathlib import Path
 from typing import Optional, Union
 
 import pytest
 
-# namedtuple with default arguments
-# <https://stackoverflow.com/a/18348004/353337>
-from dataclasses import dataclass
+
 @dataclass
 class CodeBlock:
     code: str

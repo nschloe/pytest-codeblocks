@@ -1,6 +1,7 @@
 import contextlib
 import re
 import sys
+import warnings
 from dataclasses import dataclass
 from io import StringIO
 from pathlib import Path
@@ -20,7 +21,12 @@ class CodeBlock:
     expect_exception: Optional[bool] = False
 
 
-def extract(
+def extract(*args, **kwargs):
+    warnings.warn("extract() -> extract_from_file()", DeprecationWarning)
+    return extract_from_file(*args, **kwargs)
+
+
+def extract_from_file(
     f: Union[str, bytes, Path], encoding: Optional[str] = None, *args, **kwargs
 ):
     with open(f, "r", encoding=encoding) as handle:
@@ -118,7 +124,12 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
     return out
 
 
-def pytests(
+def pytests(*args, **kwargs):
+    warnings.warn("pytests() -> pytests_from_file()", DeprecationWarning)
+    return pytests_from_file(*args, **kwargs)
+
+
+def pytests_from_file(
     f: Union[str, bytes, Path], encoding: Optional[str] = None, *args, **kwargs
 ):
     with open(f, "r", encoding=encoding) as handle:

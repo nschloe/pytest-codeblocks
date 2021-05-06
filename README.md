@@ -21,22 +21,16 @@ Install with
 ```
 pip install exdown
 ```
-and use as
+and create tests for [pytest](https://docs.pytest.org/en/stable/) with
 ```python
 import exdown
 
-blocks = exdown.extract("README.md")
-```
-or, to create tests for [pytest](https://docs.pytest.org/en/stable/)
-```python
-import exdown
-
-test_readme = exdown.pytests("README.md")
+test_readme = exdown.pytests_from_file("README.md")
 ```
 
 If you don't want all code blocks to be extracted, you can **filter by syntax**
 ```python
-exdown.pytests("README.md", syntax_filter="python")
+exdown.pytests_from_file("README.md", syntax_filter="python")
 ```
 or prefix your code block in the Markdown file with an `exdown-skip` comment
 ````markdown
@@ -77,4 +71,5 @@ gives
 `````
 
 ### License
-exdown is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
+This software is published under the [MIT
+license](https://en.wikipedia.org/wiki/MIT_License).

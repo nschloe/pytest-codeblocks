@@ -30,7 +30,7 @@ def test_reference():
         exdown.CodeBlock("1 + 1 == 2\n", 36, "python"),
     ]
     this_dir = pathlib.Path(__file__).resolve().parent
-    lst = exdown.extract(this_dir / "example.md")
+    lst = exdown.extract_from_file(this_dir / "example.md")
     print(lst)
     for r, obj in zip(ref, lst):
         assert r == obj

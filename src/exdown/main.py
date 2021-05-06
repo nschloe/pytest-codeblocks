@@ -2,23 +2,22 @@ import contextlib
 import re
 import sys
 import warnings
-from dataclasses import dataclass
 from io import StringIO
 from pathlib import Path
 from typing import Optional, Union
 
 import pytest
 
-
 # namedtuple with default arguments
 # <https://stackoverflow.com/a/18348004/353337>
+from dataclasses import dataclass
 @dataclass
 class CodeBlock:
     code: str
     lineno: int
     syntax: Optional[str] = None
     expected_output: Optional[str] = None
-    expect_exception: Optional[bool] = False
+    expect_exception: bool = False
 
 
 def extract(*args, **kwargs):

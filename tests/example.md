@@ -17,7 +17,7 @@ Something that should be skipped because of the language:
 foobar
 ```
 Again with an explicit skip:
-<!--pytest-codeblocks-skip-->
+<!--pytest-codeblocks:skip-->
 ```python
 bar
 ```

@@ -41,10 +41,10 @@ If you don't want all code blocks to be extracted, you can **filter by syntax**
 ```python
 pytest-codeblocks.pytests_from_file("README.md", syntax_filter="python")
 ```
-or prefix your code block in the Markdown file with an `pytest-codeblocks-skip` comment
+or prefix your code block in the Markdown file with a `pytest-codeblocks:skip` comment
 ````markdown
 Lorem ipsum
-<!--pytest-codeblocks-skip-->
+<!--pytest-codeblocks:skip-->
 ```python
 foo + bar  # not working
 ```
@@ -53,14 +53,14 @@ dolor sit amet.
 
 
 #### Merging code blocks
-Broken-up code blocks can be merged into one with the `pytest-codeblocks-cont` prefix
+Broken-up code blocks can be merged into one with the `pytest-codeblocks:cont` prefix
 ````markdown
 Lorem ipsum
 ```
 a = 1
 ```
 dolor sit amet
-<!--pytest-codeblocks-cont-->
+<!--pytest-codeblocks:cont-->
 ```
 # this would otherwise fail since `a` is not defined
 a + 1
@@ -76,7 +76,7 @@ This
 print(1 + 3)
 ```
 gives
-<!--pytest-codeblocks-expected-output-->
+<!--pytest-codeblocks:expected-output-->
 ```
 5
 ```
@@ -87,7 +87,7 @@ gives
 Some code blocks are expected to give errors. You can verify this with
 ````markdown
 The following gives an error:
-<!--pytest-codeblocks-expect-exception-->
+<!--pytest-codeblocks:expect-exception-->
 ```python
 1 / 0
 ```

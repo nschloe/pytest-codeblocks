@@ -10,7 +10,7 @@ Lorem ipsum
 a = 1
 ```
 dolor sit amet
-<!--pytest-codeblocks-cont-->
+<!--pytest-codeblocks:cont-->
 ```
 a + 1
 ```
@@ -28,7 +28,7 @@ def test_cont():
 def test_nocont():
     code = io.StringIO(
         """
-    <!--pytest-codeblocks-cont-->
+    <!--pytest-codeblocks:cont-->
     ```python
     1 + 2 + 3
     ```

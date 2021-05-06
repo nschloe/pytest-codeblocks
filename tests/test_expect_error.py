@@ -4,7 +4,7 @@ import pytest_codeblocks
 
 string1 = """
 Lorem ipsum
-<!--pytest-codeblocks-expect-exception-->
+<!--pytest-codeblocks:expect-exception-->
 ```python
 raise RuntimeError()
 ```

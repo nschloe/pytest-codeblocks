@@ -8,7 +8,7 @@ Lorem ipsum
 print(1 + 3)
 ```
 dolor sit amet
-<!--pytest-codeblocks-expected-output-->
+<!--pytest-codeblocks:expected-output-->
 ```
 4
 ```

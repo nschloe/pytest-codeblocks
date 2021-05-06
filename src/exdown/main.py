@@ -1,4 +1,5 @@
 import contextlib
+import re
 import sys
 from dataclasses import dataclass
 from io import StringIO
@@ -65,10 +66,18 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                 out.append(CodeBlock("".join(code_block), lineno, syntax))
                 continue
 
-            # handle special tags
-            if previous_line.strip() == "<!--exdown-skip-->":
+            # check for keywords
+            m = re.match("<!--exdown-(.*)-->", previous_line.strip())
+            if m is None:
+                out.append(CodeBlock("".join(code_block), lineno, syntax))
                 continue
-            elif previous_line.strip() == "<!--exdown-expected-output-->":
+
+            keyword = m.group(1)
+
+            # handle special tags
+            if keyword == "skip":
+                continue
+            elif keyword == "expected-output":
                 if len(out) == 0:
                     raise RuntimeError(
                         "Found <!--exdown-expected-output--> "
@@ -83,7 +92,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                 out[-1] = CodeBlock(
                     out[-1].code, out[-1].lineno, out[-1].syntax, expected_output
                 )
-            elif previous_line.strip() == "<!--exdown-cont-->":
+            elif keyword == "cont":
                 if len(out) == 0:
                     raise RuntimeError(
                         "Found <!--exdown-cont--> but no previous code block."
@@ -95,17 +104,14 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                     out[-1].expected_output,
                     out[-1].expect_exception,
                 )
-            elif previous_line.strip() in [
-                "<!--exdown-expect-exception-->",
-                "<!--exdown-expect-error-->",
-            ]:
+            elif keyword in ["expect-exception", "expect-error"]:
                 out.append(
                     CodeBlock(
                         "".join(code_block), lineno, syntax, expect_exception=True
                     )
                 )
             else:
-                out.append(CodeBlock("".join(code_block), lineno, syntax))
+                raise RuntimeError('Unknown exdown keyword "{keyword}."')
 
         previous_line = line
 

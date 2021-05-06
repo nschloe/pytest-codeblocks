@@ -1,6 +1,5 @@
 import contextlib
 import sys
-from collections import namedtuple
 from dataclasses import dataclass
 from io import StringIO
 from pathlib import Path
@@ -8,9 +7,6 @@ from typing import Optional, Union
 
 import pytest
 
-# CodeBlock = namedtuple(
-#     "CodeBlock", ["code", "lineno", "syntax", "expected_output", "expect_exception"]
-# )
 
 # namedtuple with default arguments
 # <https://stackoverflow.com/a/18348004/353337>

@@ -19,7 +19,6 @@ class CodeBlock:
     expect_exception: bool = False
 
 
-
 def extract_from_file(
     f: Union[str, bytes, Path], encoding: Optional[str] = None, *args, **kwargs
 ):

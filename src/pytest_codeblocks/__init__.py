@@ -8,6 +8,7 @@ from .main import (
     pytests_from_buffer,
     pytests_from_file,
 )
+from . import plugin
 
 __all__ = [
     "__version__",
@@ -18,4 +19,5 @@ __all__ = [
     "pytests",
     "pytests_from_buffer",
     "pytests_from_file",
+    "plugin",
 ]

@@ -11,30 +11,26 @@
 [![LGTM](https://img.shields.io/lgtm/grade/python/github/nschloe/pytest-codeblocks.svg?style=flat-square)](https://lgtm.com/projects/g/nschloe/pytest-codeblocks)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
 
-This is pytest-codeblocks, a tool for extracting code blocks from Markdown files and to create
-tests from them.
+This is pytest-codeblocks, a [pytest](https://pytest.org/) plugin for testing code
+blocks from README files.
 
 Install with
 ```
 pip install pytest-codeblocks
 ```
-and create tests for [pytest](https://docs.pytest.org/en/stable/) with
-```python
-import pytest_codeblocks
-
-test_readme = pytest_codeblocks.pytests_from_file("README.md")
+and run pytest with
 ```
-The `test_readme` variable is really a decorated function that pytest will pick up and
-turn into tests.
+pytest --codeblocks
 ```
-tests/test_readme.py .............                    [100%]
 ```
+README.md ........................     [100%]
+```
+By default, pytest-codeblocks will only pick up Python-formatted code blocks.
 
 
 #### Skipping code blocks
 
-Simply prefix your code block in the Markdown file with a `pytest-codeblocks:skip`
-comment
+Prefix your code block with a `pytest-codeblocks:skip` comment to skip
 ````markdown
 Lorem ipsum
 <!--pytest-codeblocks:skip-->
@@ -58,7 +54,6 @@ dolor sit amet
 a + 1
 ```
 ````
-
 
 #### Expected output
 You can also define the expected output of a code block:

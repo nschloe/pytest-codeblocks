@@ -1,3 +1,4 @@
+from . import plugin
 from .__about__ import __version__
 from .main import (
     CodeBlock,
@@ -8,7 +9,6 @@ from .main import (
     pytests_from_buffer,
     pytests_from_file,
 )
-from . import plugin
 
 __all__ = [
     "__version__",

@@ -137,7 +137,7 @@ def pytests_from_file(
         return pytests_from_buffer(handle, *args, **kwargs)
 
 
-def pytests_from_buffer(buf, syntax_filter: Optional[str] = None):
+def pytests_from_buffer(buf, syntax_filter: Optional[str] = "python"):
     code_blocks = extract_from_buffer(buf)
 
     if syntax_filter is not None:

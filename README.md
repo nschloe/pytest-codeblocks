@@ -32,11 +32,9 @@ tests/test_readme.py .............                    [100%]
 
 
 #### Skipping code blocks
-If you don't want all code blocks to be extracted, you can **filter by syntax**
-```python
-pytest - codeblocks.pytests_from_file("README.md", syntax_filter="python")
-```
-or prefix your code block in the Markdown file with a `pytest-codeblocks:skip` comment
+
+Simply prefix your code block in the Markdown file with a `pytest-codeblocks:skip`
+comment
 ````markdown
 Lorem ipsum
 <!--pytest-codeblocks:skip-->
@@ -45,7 +43,6 @@ foo + bar  # not working
 ```
 dolor sit amet.
 ````
-
 
 #### Merging code blocks
 Broken-up code blocks can be merged into one with the `pytest-codeblocks:cont` prefix

@@ -1,4 +1,7 @@
-# pytest-codeblocks
+<p align="center">
+  <a href="https://github.com/nschloe/meshio"><img alt="meshio" src="https://nschloe.github.io/pytest-codeblocks/logo.svg" width="60%"></a>
+  <p align="center">Test code blocks in your READMEs.</p>
+</p>
 
 [![PyPi Version](https://img.shields.io/pypi/v/pytest-codeblocks.svg?style=flat-square)](https://pypi.org/project/pytest-codeblocks/)
 [![Anaconda Cloud](https://anaconda.org/conda-forge/pytest-codeblocks/badges/version.svg?=style=flat-square)](https://anaconda.org/conda-forge/pytest-codeblocks/)

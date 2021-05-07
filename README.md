@@ -26,9 +26,19 @@ and run pytest with
 pytest --codeblocks
 ```
 ```
-README.md ........................     [100%]
+================================= test session starts =================================
+platform linux -- Python 3.9.4, pytest-6.2.4, py-1.10.0, pluggy-0.13.1
+rootdir: /path/to/directory
+plugins: codeblocks-0.10.0
+collected 56 items
+
+README.md .......................                                               [ 50%]
+example.md .......................                                              [100%]
+
+================================= 56 passed in 0.08s ==================================
 ```
-By default, pytest-codeblocks will only pick up Python-formatted code blocks.
+By default, pytest-codeblocks will only pick up code blocks with `python` syntax
+highlighting.
 
 
 #### Skipping code blocks

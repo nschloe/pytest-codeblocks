@@ -1,7 +1,6 @@
 import contextlib
 import re
 import sys
-import warnings
 
 # namedtuple with default arguments
 # <https://stackoverflow.com/a/18348004/353337>
@@ -9,8 +8,6 @@ from dataclasses import dataclass
 from io import StringIO
 from pathlib import Path
 from typing import Optional, Union
-
-import pytest
 
 
 @dataclass
@@ -20,11 +17,6 @@ class CodeBlock:
     syntax: Optional[str] = None
     expected_output: Optional[str] = None
     expect_exception: bool = False
-
-
-def extract(*args, **kwargs):
-    warnings.warn("extract() -> extract_from_file()", DeprecationWarning)
-    return extract_from_file(*args, **kwargs)
 
 
 def extract_from_file(
@@ -123,54 +115,6 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
         previous_line = line
 
     return out
-
-
-def pytests(*args, **kwargs):
-    warnings.warn("pytests() -> pytests_from_file()", DeprecationWarning)
-    return pytests_from_file(*args, **kwargs)
-
-
-def pytests_from_file(
-    f: Union[str, bytes, Path], encoding: Optional[str] = None, *args, **kwargs
-):
-    with open(f, "r", encoding=encoding) as handle:
-        return pytests_from_buffer(handle, *args, **kwargs)
-
-
-def pytests_from_buffer(buf, syntax_filter: Optional[str] = "python"):
-    code_blocks = extract_from_buffer(buf)
-
-    if syntax_filter is not None:
-        code_blocks = filter(lambda cb: cb.syntax == syntax_filter, code_blocks)
-
-    @pytest.mark.parametrize("code_block", code_blocks)
-    def exec_raise(code_block):
-        if code_block.expect_exception:
-            with pytest.raises(Exception):
-                exec(code_block.code, {"__MODULE__": "__main__"})
-        else:
-            with stdout_io() as s:
-                try:
-                    # https://stackoverflow.com/a/62851176/353337
-                    exec(code_block.code, {"__MODULE__": "__main__"})
-                except Exception:
-                    if hasattr(buf, "name"):
-                        print(f"{buf.name} (line {code_block.lineno}):\n```")
-                    else:
-                        print(f"line {code_block.lineno}:\n```")
-                    print(code_block.code, end="")
-                    print("```")
-                    raise
-
-            output = s.getvalue()
-            if code_block.expected_output is not None:
-                if code_block.expected_output != output:
-                    raise RuntimeError(
-                        f"Expected \n```\n{code_block.expected_output}```\n"
-                        + f"but got\n```\n{output}```"
-                    )
-
-    return exec_raise
 
 
 # https://stackoverflow.com/a/3906390/353337

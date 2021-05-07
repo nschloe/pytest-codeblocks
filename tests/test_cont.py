@@ -16,8 +16,7 @@ a + 1
 ```
 """
 
-
-test_frombuffer = pytest_codeblocks.pytests_from_buffer(io.StringIO(string))
+# test_frombuffer = pytest_codeblocks.pytests_from_buffer(io.StringIO(string))
 
 
 def test_cont():

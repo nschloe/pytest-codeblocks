@@ -37,4 +37,6 @@ def test_reference():
     lst = pytest_codeblocks.extract_from_file(this_dir / "example.md")
     print(lst)
     for r, obj in zip(ref, lst):
+        print("r  ", r)
+        print("obj", obj)
         assert r == obj

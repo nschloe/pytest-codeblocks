@@ -137,7 +137,7 @@ def pytests_from_file(
         return pytests_from_buffer(handle, *args, **kwargs)
 
 
-def pytests_from_buffer(buf, syntax_filter: Optional[str] = None):
+def pytests_from_buffer(buf, syntax_filter: Optional[str] = "python"):
     code_blocks = extract_from_buffer(buf)
 
     if syntax_filter is not None:
@@ -149,7 +149,7 @@ def pytests_from_buffer(buf, syntax_filter: Optional[str] = None):
             with pytest.raises(Exception):
                 exec(code_block.code, {"__MODULE__": "__main__"})
         else:
-            with stdoutIO() as s:
+            with stdout_io() as s:
                 try:
                     # https://stackoverflow.com/a/62851176/353337
                     exec(code_block.code, {"__MODULE__": "__main__"})
@@ -175,7 +175,7 @@ def pytests_from_buffer(buf, syntax_filter: Optional[str] = None):
 
 # https://stackoverflow.com/a/3906390/353337
 @contextlib.contextmanager
-def stdoutIO(stdout=None):
+def stdout_io(stdout=None):
     old = sys.stdout
     if stdout is None:
         stdout = StringIO()

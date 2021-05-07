@@ -1,3 +1,4 @@
+from . import plugin
 from .__about__ import __version__
 from .main import (
     CodeBlock,
@@ -18,4 +19,5 @@ __all__ = [
     "pytests",
     "pytests_from_buffer",
     "pytests_from_file",
+    "plugin",
 ]

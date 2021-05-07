@@ -1,4 +1,7 @@
-# pytest-codeblocks
+<p align="center">
+  <a href="https://github.com/nschloe/meshio"><img alt="meshio" src="https://nschloe.github.io/pytest-codeblocks/logo.svg" width="60%"></a>
+  <p align="center">Test code blocks in your READMEs.</p>
+</p>
 
 [![PyPi Version](https://img.shields.io/pypi/v/pytest-codeblocks.svg?style=flat-square)](https://pypi.org/project/pytest-codeblocks/)
 [![Anaconda Cloud](https://anaconda.org/conda-forge/pytest-codeblocks/badges/version.svg?=style=flat-square)](https://anaconda.org/conda-forge/pytest-codeblocks/)
@@ -11,32 +14,36 @@
 [![LGTM](https://img.shields.io/lgtm/grade/python/github/nschloe/pytest-codeblocks.svg?style=flat-square)](https://lgtm.com/projects/g/nschloe/pytest-codeblocks)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
 
-This is pytest-codeblocks, a tool for extracting code blocks from Markdown files and to create
-tests from them.
+This is pytest-codeblocks, a [pytest](https://pytest.org/) plugin for testing code
+blocks from README files.
 
 Install with
 ```
 pip install pytest-codeblocks
 ```
-and create tests for [pytest](https://docs.pytest.org/en/stable/) with
-```python
-import pytest_codeblocks
+and run pytest with
+```
+pytest --codeblocks
+```
+```
+================================= test session starts =================================
+platform linux -- Python 3.9.4, pytest-6.2.4, py-1.10.0, pluggy-0.13.1
+rootdir: /path/to/directory
+plugins: codeblocks-0.10.0
+collected 56 items
 
-test_readme = pytest_codeblocks.pytests_from_file("README.md")
+README.md .......................                                               [ 50%]
+example.md .......................                                              [100%]
+
+================================= 56 passed in 0.08s ==================================
 ```
-The `test_readme` variable is really a decorated function that pytest will pick up and
-turn into tests.
-```
-tests/test_readme.py .............                    [100%]
-```
+By default, pytest-codeblocks will only pick up code blocks with `python` syntax
+highlighting.
 
 
 #### Skipping code blocks
-If you don't want all code blocks to be extracted, you can **filter by syntax**
-```python
-pytest - codeblocks.pytests_from_file("README.md", syntax_filter="python")
-```
-or prefix your code block in the Markdown file with a `pytest-codeblocks:skip` comment
+
+Prefix your code block with a `pytest-codeblocks:skip` comment to skip
 ````markdown
 Lorem ipsum
 <!--pytest-codeblocks:skip-->
@@ -45,7 +52,6 @@ foo + bar  # not working
 ```
 dolor sit amet.
 ````
-
 
 #### Merging code blocks
 Broken-up code blocks can be merged into one with the `pytest-codeblocks:cont` prefix
@@ -61,7 +67,6 @@ dolor sit amet
 a + 1
 ```
 ````
-
 
 #### Expected output
 You can also define the expected output of a code block:

@@ -29,11 +29,11 @@ pytest --codeblocks
 ================================= test session starts =================================
 platform linux -- Python 3.9.4, pytest-6.2.4, py-1.10.0, pluggy-0.13.1
 rootdir: /path/to/directory
-plugins: codeblocks-0.10.0
+plugins: codeblocks-0.10.3
 collected 56 items
 
-README.md .......................                                               [ 50%]
-example.md .......................                                              [100%]
+example.md .......................                                              [ 50%]
+README.md .......................                                               [100%]
 
 ================================= 56 passed in 0.08s ==================================
 ```
@@ -87,11 +87,12 @@ gives
 Some code blocks are expected to give errors. You can verify this with
 ````markdown
 The following gives an error:
-<!--pytest-codeblocks:expect-exception-->
+<!--pytest-codeblocks:expect-error-->
 ```python
 1 / 0
 ```
 ````
+The keyword `expect-exception` is also possible.
 
 
 ### License

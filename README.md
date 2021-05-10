@@ -29,7 +29,7 @@ pytest --codeblocks
 ================================= test session starts =================================
 platform linux -- Python 3.9.4, pytest-6.2.4, py-1.10.0, pluggy-0.13.1
 rootdir: /path/to/directory
-plugins: codeblocks-0.10.3
+plugins: codeblocks-0.10.4
 collected 56 items
 
 example.md .......................                                              [ 50%]
@@ -62,7 +62,7 @@ a = 1
 ```
 dolor sit amet
 <!--pytest-codeblocks:cont-->
-```
+```python
 # this would otherwise fail since `a` is not defined
 a + 1
 ```
@@ -78,7 +78,7 @@ print(1 + 3)
 gives
 <!--pytest-codeblocks:expected-output-->
 ```
-5
+4
 ```
 ````
 

@@ -87,7 +87,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                         "Found <!--pytest-codeblocks-expected-output--> "
                         + "but block already has expected_output."
                     )
-                expected_output = "\n".join(code_block)
+                expected_output = "".join(code_block)
                 out[-1] = CodeBlock(
                     out[-1].code, out[-1].lineno, out[-1].syntax, expected_output
                 )

@@ -26,10 +26,11 @@ def test_reference():
             10,
             "python",
         ),
-        pytest_codeblocks.CodeBlock("foobar\n", 16, "bash"),
-        pytest_codeblocks.CodeBlock("# ```import math```\n", 26, "python"),
-        pytest_codeblocks.CodeBlock("1 + 1 == 2\n", 31, "python"),
-        pytest_codeblocks.CodeBlock("1 + 1 == 2\n", 36, "python"),
+        pytest_codeblocks.CodeBlock("foobar\n", 16, "ruby"),
+        pytest_codeblocks.CodeBlock("echo abc\n", 20, "sh"),
+        pytest_codeblocks.CodeBlock("# ```import math```\n", 30, "python"),
+        pytest_codeblocks.CodeBlock("1 + 1 == 2\n", 35, "python"),
+        pytest_codeblocks.CodeBlock("1 + 1 == 2\n", 40, "python"),
     ]
     this_dir = pathlib.Path(__file__).resolve().parent
     lst = pytest_codeblocks.extract_from_file(this_dir / "example.md")

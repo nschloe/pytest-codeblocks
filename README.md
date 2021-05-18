@@ -15,7 +15,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
 
 This is pytest-codeblocks, a [pytest](https://pytest.org/) plugin for testing code
-blocks from README files.
+blocks from README files. It supports Python and shell code.
 
 Install with
 ```
@@ -37,8 +37,8 @@ README.md .......................                                               
 
 ================================= 56 passed in 0.08s ==================================
 ```
-By default, pytest-codeblocks will only pick up code blocks with `python` and
-`sh`/`bash` syntax highlighting.
+pytest-codeblocks will only pick up code blocks with `python` and `sh`/`bash` syntax
+highlighting.
 
 
 #### Skipping code blocks
@@ -57,7 +57,7 @@ dolor sit amet.
 Broken-up code blocks can be merged into one with the `pytest-codeblocks:cont` prefix
 ````markdown
 Lorem ipsum
-```
+```python
 a = 1
 ```
 dolor sit amet
@@ -72,7 +72,7 @@ a + 1
 You can also define the expected output of a code block:
 ````markdown
 This
-```
+```sh
 print(1 + 3)
 ```
 gives

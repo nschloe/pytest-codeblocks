@@ -73,8 +73,10 @@ class Codeblock(pytest.Item):
                 with pytest.raises(Exception):
                     subprocess.run(self.obj.code, shell=True, check=True)
             else:
-                ret = subprocess.run(self.obj.code, shell=True, check=True)
-                output = ret.stdout
+                ret = subprocess.run(
+                    self.obj.code, shell=True, check=True, capture_output=True
+                )
+                output = ret.stdout.decode()
                 if self.obj.expected_output is not None:
                     if self.obj.expected_output != output:
                         raise RuntimeError(

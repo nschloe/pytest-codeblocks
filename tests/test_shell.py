@@ -1,3 +1,8 @@
+import sys
+
+import pytest
+
+
 def test_shell(testdir):
     string = """
     Lorem ipsum
@@ -49,6 +54,7 @@ def test_shell_expect_fail_passed(testdir):
     result.assert_outcomes(failed=1)
 
 
+@pytest.mark.skipif(sys.version_info < (3, 7), reason="requires python 3.7 or higher")
 def test_shell_expect_output(testdir):
     string = """
     ```sh

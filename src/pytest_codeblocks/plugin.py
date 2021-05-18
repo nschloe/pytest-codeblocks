@@ -3,7 +3,6 @@
 # https://docs.pytest.org/en/stable/example/nonpython.html
 #
 import subprocess
-import sys
 
 import pytest
 

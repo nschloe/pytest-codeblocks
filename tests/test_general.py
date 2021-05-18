@@ -1,21 +1,19 @@
-import io
 import pathlib
 
 import pytest_codeblocks
 
 
-def test_extract_from_buffer():
-    inp = io.StringIO(
-        """
+def test_basic(testdir):
+    string1 = """
     Lorem ipsum
     ```python
     1 + 2 + 3
     ```
     dolor sit amet
     """
-    )
-    out = pytest_codeblocks.extract_from_buffer(inp)
-    assert out == [pytest_codeblocks.CodeBlock("1 + 2 + 3\n", 3, "python")]
+    testdir.makefile(".md", string1)
+    result = testdir.runpytest("--codeblocks")
+    result.assert_outcomes(passed=1)
 
 
 # example.md against reference strings test against

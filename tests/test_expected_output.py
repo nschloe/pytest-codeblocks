@@ -1,29 +1,36 @@
-import io
+def test_expected_output(testdir):
+    string = """
+    Lorem ipsum
+    ```python
+    print(1 + 3)
+    print(1 - 3)
+    print(1 * 3)
+    ```
+    dolor sit amet
+    <!--pytest-codeblocks:expected-output-->
+    ```
+    4
+    -2
+    3
+    ```
+    """
+    testdir.makefile(".md", string)
+    result = testdir.runpytest("--codeblocks")
+    result.assert_outcomes(passed=1)
 
-import pytest_codeblocks
 
-string = """
-Lorem ipsum
-```python
-print(1 + 3)
-print(1 - 3)
-print(1 * 3)
-```
-dolor sit amet
-<!--pytest-codeblocks:expected-output-->
-```
-4
--2
-3
-```
-"""
-
-
-def test_cont():
-    lst = pytest_codeblocks.extract_from_buffer(io.StringIO(string))
-    print(lst)
-    assert lst == [
-        pytest_codeblocks.CodeBlock(
-            "print(1 + 3)\nprint(1 - 3)\nprint(1 * 3)\n", 3, "python", "4\n-2\n3\n"
-        )
-    ]
+def test_expected_output_fail(testdir):
+    string = """
+    Lorem ipsum
+    ```python
+    print(1 + 3)
+    ```
+    dolor sit amet
+    <!--pytest-codeblocks:expected-output-->
+    ```
+    5
+    ```
+    """
+    testdir.makefile(".md", string)
+    result = testdir.runpytest("--codeblocks")
+    result.assert_outcomes(failed=1)

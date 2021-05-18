@@ -2,6 +2,8 @@
 # Take a look at the example
 # https://docs.pytest.org/en/stable/example/nonpython.html
 #
+import subprocess
+
 import pytest
 
 from .main import extract_from_file, stdout_io
@@ -26,7 +28,7 @@ class MarkdownFile(pytest.File):
 
     def collect(self):
         for block in extract_from_file(self.fspath):
-            if block.syntax != "python":
+            if block.syntax not in ["python", "sh", "bash"]:
                 continue
             # https://docs.pytest.org/en/stable/deprecations.html#node-construction-changed-to-node-from-parent
             out = Codeblock.from_parent(parent=self, name=self.name)
@@ -40,30 +42,50 @@ class Codeblock(pytest.Item):
         self.obj = obj
 
     def runtest(self):
-        if self.obj.expect_exception:
-            with pytest.raises(Exception):
-                exec(self.obj.code, {"__MODULE__": "__main__"})
-        else:
-            with stdout_io() as s:
-                try:
-                    # https://stackoverflow.com/a/62851176/353337
+        if self.obj.syntax == "python":
+            if self.obj.expect_exception:
+                with pytest.raises(Exception):
                     exec(self.obj.code, {"__MODULE__": "__main__"})
-                except Exception as e:
-                    raise RuntimeError(
-                        f"{self.name}, line {self.obj.lineno}:\n```\n"
-                        + self.obj.code
-                        + "```\n\n"
-                        + f"{e}"
-                    )
+            else:
+                with stdout_io() as s:
+                    try:
+                        # https://stackoverflow.com/a/62851176/353337
+                        exec(self.obj.code, {"__MODULE__": "__main__"})
+                    except Exception as e:
+                        raise RuntimeError(
+                            f"{self.name}, line {self.obj.lineno}:\n```\n"
+                            + self.obj.code
+                            + "```\n\n"
+                            + f"{e}"
+                        )
 
-            output = s.getvalue()
-            if self.obj.expected_output is not None:
-                if self.obj.expected_output != output:
-                    raise RuntimeError(
-                        f"{self.name}, line {self.obj.lineno}:\n```\n"
-                        + f"Expected output\n```\n{self.obj.expected_output}```\n"
-                        + f"but got\n```\n{output}```"
-                    )
+                output = s.getvalue()
+                if self.obj.expected_output is not None:
+                    if self.obj.expected_output != output:
+                        raise RuntimeError(
+                            f"{self.name}, line {self.obj.lineno}:\n```\n"
+                            + f"Expected output\n```\n{self.obj.expected_output}```\n"
+                            + f"but got\n```\n{output}```"
+                        )
+        else:
+            assert self.obj.syntax in ["sh", "bash"]
+            if self.obj.expect_exception:
+                with pytest.raises(Exception):
+                    subprocess.run(self.obj.code, shell=True, check=True)
+            else:
+                # TODO for python 3.7+, stdout=subprocess.PIPE can be replaced by
+                #      capture_output=True
+                ret = subprocess.run(
+                    self.obj.code, shell=True, check=True, stdout=subprocess.PIPE
+                )
+                output = ret.stdout.decode()
+                if self.obj.expected_output is not None:
+                    if self.obj.expected_output != output:
+                        raise RuntimeError(
+                            f"{self.name}, line {self.obj.lineno}:\n```\n"
+                            + f"Expected output\n```\n{self.obj.expected_output}```\n"
+                            + f"but got\n```\n{output}```"
+                        )
 
     def repr_failure(self, excinfo):
         """Called when self.runtest() raises an exception."""

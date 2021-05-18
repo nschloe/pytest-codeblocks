@@ -13,8 +13,12 @@ import pytest_codeblocks
 pytest_codeblocks.extract_from_buffer
 ```
 Something that should be skipped because of the language:
-```bash
+```ruby
 foobar
+```
+A shell script should be exectuted:
+```sh
+echo abc
 ```
 Again with an explicit skip:
 <!--pytest-codeblocks:skip-->

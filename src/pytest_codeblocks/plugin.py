@@ -3,6 +3,7 @@
 # https://docs.pytest.org/en/stable/example/nonpython.html
 #
 import subprocess
+import sys
 
 import pytest
 
@@ -73,8 +74,10 @@ class Codeblock(pytest.Item):
                 with pytest.raises(Exception):
                     subprocess.run(self.obj.code, shell=True, check=True)
             else:
+                # TODO for python 3.7+, stdout=subprocess.PIPE can be replaced by
+                #      capture_output=True
                 ret = subprocess.run(
-                    self.obj.code, shell=True, check=True, capture_output=True
+                    self.obj.code, shell=True, check=True, stdout=subprocess.PIPE
                 )
                 output = ret.stdout.decode()
                 if self.obj.expected_output is not None:

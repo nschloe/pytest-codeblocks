@@ -69,15 +69,19 @@ class Codeblock(pytest.Item):
                         )
         else:
             assert self.obj.syntax in ["sh", "bash"]
-            ret = subprocess.run(self.obj.code, shell=True, check=True)
-            output = ret.stdout
-            if self.obj.expected_output is not None:
-                if self.obj.expected_output != output:
-                    raise RuntimeError(
-                        f"{self.name}, line {self.obj.lineno}:\n```\n"
-                        + f"Expected output\n```\n{self.obj.expected_output}```\n"
-                        + f"but got\n```\n{output}```"
-                    )
+            if self.obj.expect_exception:
+                with pytest.raises(Exception):
+                    subprocess.run(self.obj.code, shell=True, check=True)
+            else:
+                ret = subprocess.run(self.obj.code, shell=True, check=True)
+                output = ret.stdout
+                if self.obj.expected_output is not None:
+                    if self.obj.expected_output != output:
+                        raise RuntimeError(
+                            f"{self.name}, line {self.obj.lineno}:\n```\n"
+                            + f"Expected output\n```\n{self.obj.expected_output}```\n"
+                            + f"but got\n```\n{output}```"
+                        )
 
     def repr_failure(self, excinfo):
         """Called when self.runtest() raises an exception."""

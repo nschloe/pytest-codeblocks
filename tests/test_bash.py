@@ -23,3 +23,27 @@ def test_bash_fail(testdir):
     testdir.makefile(".md", string)
     result = testdir.runpytest("--codeblocks")
     result.assert_outcomes(failed=1)
+
+
+def test_bash_expect_fail(testdir):
+    string = """
+    <!--pytest-codeblocks:expect-error-->
+    ```sh
+    cdc
+    ```
+    """
+    testdir.makefile(".md", string)
+    result = testdir.runpytest("--codeblocks")
+    result.assert_outcomes(passed=1)
+
+
+def test_bash_expect_fail_passed(testdir):
+    string = """
+    <!--pytest-codeblocks:expect-error-->
+    ```sh
+    cd
+    ```
+    """
+    testdir.makefile(".md", string)
+    result = testdir.runpytest("--codeblocks")
+    result.assert_outcomes(failed=1)

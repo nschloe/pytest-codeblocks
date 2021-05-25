@@ -37,8 +37,8 @@ README.md .......................                                               
 
 ================================= 56 passed in 0.08s ==================================
 ```
-pytest-codeblocks will only pick up code blocks with `python` and `sh`/`bash` syntax
-highlighting.
+pytest-codeblocks will only pick up code blocks with `python` and `sh`/`bash`/`zsh`
+syntax highlighting.
 
 
 #### Skipping code blocks

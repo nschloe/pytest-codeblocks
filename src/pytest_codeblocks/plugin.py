@@ -62,21 +62,17 @@ class Codeblock(pytest.Item):
                             + f"{e}"
                         )
                 output = s.getvalue()
-        elif self.obj.syntax == "sh":
-            if self.obj.expect_exception:
-                with pytest.raises(Exception):
-                    subprocess.run(self.obj.code, shell=True, check=True)
-            else:
-                ret = subprocess.run(
-                    self.obj.code, shell=True, check=True, stdout=subprocess.PIPE
-                )
-                output = ret.stdout.decode()
         else:
-            assert self.obj.syntax == "bash"
+            assert self.obj.syntax in ["sh", "bash"]
+            executable = {
+                "sh": None,
+                "bash": "/bin/bash",
+                "zsh": "/bin/zsh",
+            }[self.obj.syntax]
             if self.obj.expect_exception:
                 with pytest.raises(Exception):
                     subprocess.run(
-                        self.obj.code, shell=True, check=True, executable="/bin/bash"
+                        self.obj.code, shell=True, check=True, executable=executable
                     )
             else:
                 ret = subprocess.run(
@@ -84,7 +80,7 @@ class Codeblock(pytest.Item):
                     shell=True,
                     check=True,
                     stdout=subprocess.PIPE,
-                    executable="/bin/bash",
+                    executable=executable,
                 )
                 output = ret.stdout.decode()
 

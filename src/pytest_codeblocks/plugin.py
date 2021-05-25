@@ -41,6 +41,8 @@ class Codeblock(pytest.Item):
         super().__init__(name, parent=parent)
         self.obj = obj
 
+    # TODO for python 3.7+, stdout=subprocess.PIPE can be replaced by
+    #      capture_output=True
     def runtest(self):
         output = None
         if self.obj.syntax == "python":
@@ -60,16 +62,29 @@ class Codeblock(pytest.Item):
                             + f"{e}"
                         )
                 output = s.getvalue()
-        else:
-            assert self.obj.syntax in ["sh", "bash"]
+        elif self.obj.syntax == "sh":
             if self.obj.expect_exception:
                 with pytest.raises(Exception):
                     subprocess.run(self.obj.code, shell=True, check=True)
             else:
-                # TODO for python 3.7+, stdout=subprocess.PIPE can be replaced by
-                #      capture_output=True
                 ret = subprocess.run(
                     self.obj.code, shell=True, check=True, stdout=subprocess.PIPE
+                )
+                output = ret.stdout.decode()
+        else:
+            assert self.obj.syntax == "bash"
+            if self.obj.expect_exception:
+                with pytest.raises(Exception):
+                    subprocess.run(
+                        self.obj.code, shell=True, check=True, executable="/bin/bash"
+                    )
+            else:
+                ret = subprocess.run(
+                    self.obj.code,
+                    shell=True,
+                    check=True,
+                    stdout=subprocess.PIPE,
+                    executable="/bin/bash",
                 )
                 output = ret.stdout.decode()
 

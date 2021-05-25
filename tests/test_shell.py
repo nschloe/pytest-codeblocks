@@ -77,3 +77,21 @@ def test_shell_expect_output_fail(testdir):
     testdir.makefile(".md", string)
     result = testdir.runpytest("--codeblocks")
     result.assert_outcomes(failed=1)
+
+
+# def test_bash(testdir):
+#     string = """
+#     ```bash
+#     foo=1
+#     if [[ $foo == 1 ]]; then
+#         echo abc
+#     fi
+#     ```
+#     <!--pytest-codeblocks:expected-output-->
+#     ```sh
+#     abc
+#     ```
+#     """
+#     testdir.makefile(".md", string)
+#     result = testdir.runpytest("--codeblocks")
+#     result.assert_outcomes(passed=1)

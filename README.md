@@ -67,6 +67,23 @@ dolor sit amet
 a + 1
 ```
 ````
+If you'd like to prepend code that you don't want to show, you can just comment it out;
+pytest-codeblocks will pick it up anyway:
+````markdown
+Lorem ipsum
+<!--
+```python
+a = 1
+```
+-->
+dolor sit amet
+<!--pytest-codeblocks:cont-->
+```python
+# this would otherwise fail since `a` is not defined
+a + 1
+```
+````
+
 
 #### Expected output
 You can also define the expected output of a code block:

@@ -16,6 +16,28 @@ def test_basic(testdir):
     result.assert_outcomes(passed=1)
 
 
+def test_skip(testdir):
+    string1 = """
+    Lorem ipsum
+    <!--pytest-codeblocks:skip-->
+    ```python
+    1 + 2 + 3
+    ```
+    dolor sit amet
+
+    Some newlines:
+
+    <!--pytest-codeblocks:skip-->
+
+    ```python
+    1 + 2 + 3
+    ```
+    """
+    testdir.makefile(".md", string1)
+    result = testdir.runpytest("--codeblocks")
+    result.assert_outcomes(passed=0)
+
+
 # example.md against reference strings test against
 def test_reference():
     ref = [

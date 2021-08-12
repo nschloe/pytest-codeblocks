@@ -22,13 +22,13 @@ class CodeBlock:
 def extract_from_file(
     f: Union[str, bytes, Path], encoding: Optional[str] = None, *args, **kwargs
 ):
-    with open(f, "r", encoding=encoding) as handle:
+    with open(f, encoding=encoding) as handle:
         return extract_from_buffer(handle, *args, **kwargs)
 
 
 def extract_from_buffer(f, max_num_lines: int = 10000):
     out = []
-    previous_line = None
+    previous_nonempty_line = None
     k = 1
 
     while True:
@@ -37,6 +37,9 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
         if not line:
             # EOF
             break
+
+        if line.strip() == "":
+            continue
 
         if line.lstrip()[:3] == "```":
             syntax = line.strip()[3:]
@@ -61,12 +64,14 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                 line = line[nls:]
                 code_block.append(line)
 
-            if previous_line is None:
+            if previous_nonempty_line is None:
                 out.append(CodeBlock("".join(code_block), lineno, syntax))
                 continue
 
             # check for keywords
-            m = re.match("<!--pytest-codeblocks:(.*)-->", previous_line.strip())
+            m = re.match(
+                "<!--pytest-codeblocks:(.*)-->", previous_nonempty_line.strip()
+            )
             if m is None:
                 out.append(CodeBlock("".join(code_block), lineno, syntax))
                 continue
@@ -112,7 +117,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
             else:
                 raise RuntimeError('Unknown pytest-codeblocks keyword "{keyword}."')
 
-        previous_line = line
+        previous_nonempty_line = line
 
     return out
 

@@ -22,7 +22,7 @@ class CodeBlock:
 def extract_from_file(
     f: Union[str, bytes, Path], encoding: Optional[str] = None, *args, **kwargs
 ):
-    with open(f, "r", encoding=encoding) as handle:
+    with open(f, encoding=encoding) as handle:
         return extract_from_buffer(handle, *args, **kwargs)
 
 

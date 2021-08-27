@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/nschloe/meshio"><img alt="meshio" src="https://nschloe.github.io/pytest-codeblocks/logo.svg" width="60%"></a>
+  <a href="https://github.com/nschloe/pytest-codeblocks"><img alt="pytest-codeblocks" src="https://nschloe.github.io/pytest-codeblocks/logo.svg" width="60%"></a>
   <p align="center">Test code blocks in your READMEs.</p>
 </p>
 

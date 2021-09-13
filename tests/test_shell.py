@@ -1,3 +1,11 @@
+import sys
+
+import pytest
+
+if sys.platform.startswith("win"):
+    pytest.skip("skipping shell tests", allow_module_level=True)
+
+
 def test_shell(testdir):
     string = """
     Lorem ipsum

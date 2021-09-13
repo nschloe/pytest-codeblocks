@@ -18,13 +18,17 @@ This is pytest-codeblocks, a [pytest](https://pytest.org/) plugin for testing co
 blocks from README files. It supports Python and shell code.
 
 Install with
+
 ```
 pip install pytest-codeblocks
 ```
+
 and run pytest with
+
 ```
 pytest --codeblocks
 ```
+
 ```
 ================================= test session starts =================================
 platform linux -- Python 3.9.4, pytest-6.2.4, py-1.10.0, pluggy-0.13.1
@@ -37,81 +41,101 @@ README.md .......................                                               
 
 ================================= 56 passed in 0.08s ==================================
 ```
+
 pytest-codeblocks will only pick up code blocks with `python` and `sh`/`bash`/`zsh`
 syntax highlighting.
-
 
 #### Skipping code blocks
 
 Prefix your code block with a `pytest-codeblocks:skip` comment to skip
+
 ````markdown
 Lorem ipsum
+
 <!--pytest-codeblocks:skip-->
+
 ```python
 foo + bar  # not working
 ```
+
 dolor sit amet.
 ````
 
 #### Merging code blocks
+
 Broken-up code blocks can be merged into one with the `pytest-codeblocks:cont` prefix
+
 ````markdown
 Lorem ipsum
+
 ```python
 a = 1
 ```
+
 dolor sit amet
+
 <!--pytest-codeblocks:cont-->
+
 ```python
 # this would otherwise fail since `a` is not defined
 a + 1
 ```
 ````
+
 If you'd like to prepend code that you don't want to show, you can just comment it out;
 pytest-codeblocks will pick it up anyway:
+
 ````markdown
 Lorem ipsum
+
 <!--
 ```python
 a = 1
 ```
 -->
+
 dolor sit amet
+
 <!--pytest-codeblocks:cont-->
+
 ```python
 # this would otherwise fail since `a` is not defined
 a + 1
 ```
 ````
 
-
 #### Expected output
+
 You can also define the expected output of a code block:
+
 ````markdown
 This
+
 ```sh
 print(1 + 3)
 ```
+
 gives
+
 <!--pytest-codeblocks:expected-output-->
+
 ```
 4
 ```
 ````
 
-
 #### Expected errors
+
 Some code blocks are expected to give errors. You can verify this with
+
 ````markdown
 The following gives an error:
+
 <!--pytest-codeblocks:expect-error-->
+
 ```python
 1 / 0
 ```
 ````
+
 The keyword `expect-exception` is also possible.
-
-
-### License
-This software is published under the [MIT
-license](https://en.wikipedia.org/wiki/MIT_License).

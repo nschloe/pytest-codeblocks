@@ -20,10 +20,16 @@ jobs:
         uses: pre-commit/action@v2.0.3
 
   build:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
+        platform: [ubuntu-latest]
         python-version: ["3.6", "3.7", "3.8", "3.9"]
+        include:
+          - platform: macos-latest
+            python-version: "3.9"
+          - platform: windows-latest
+            python-version: "3.9"
+    runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/setup-python@v2
         with:
@@ -35,18 +41,3 @@ jobs:
           tox -- --codeblocks --cov pytest_codeblocks --cov-report xml --cov-report term
       - uses: codecov/codecov-action@v1
         if: ${{ matrix.python-version == '3.9' }}
-
-  other-os:
-    strategy:
-      matrix:
-        platform: [macos-latest, windows-latest]
-    runs-on: ${{ matrix.platform }}
-    steps:
-      - uses: actions/setup-python@v2
-        with:
-          python-version: "3.9"
-      - uses: actions/checkout@v2
-      - name: Test with tox
-        run: |
-          pip install tox
-          tox -- --codeblocks --cov pytest_codeblocks --cov-report xml --cov-report term

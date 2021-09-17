@@ -46,14 +46,15 @@ class Codeblock(pytest.Item):
     def runtest(self):
         output = None
         if self.obj.syntax == "python":
+            bytecode = compile(source=self.obj.code, filename=self.name, mode="exec")
             if self.obj.expect_exception:
                 with pytest.raises(Exception):
-                    exec(self.obj.code, {"__MODULE__": "__main__"})
+                    exec(bytecode, {"__MODULE__": "__main__"})
             else:
                 with stdout_io() as s:
                     try:
                         # https://stackoverflow.com/a/62851176/353337
-                        exec(self.obj.code, {"__MODULE__": "__main__"})
+                        exec(bytecode, {"__MODULE__": "__main__"})
                     except Exception as e:
                         raise RuntimeError(
                             f"{self.name}, line {self.obj.lineno}:\n```\n"

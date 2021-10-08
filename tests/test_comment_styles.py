@@ -1,12 +1,15 @@
 import pytest
 
 
-@pytest.mark.parametrize("comment", [
-    "<!--pytest-codeblocks:cont-->",
-    "<!---pytest-codeblocks:cont--->",
-    "<!-- pytest-codeblocks:cont -->",
-    "<!--- pytest-codeblocks:cont --->"
-    ])
+@pytest.mark.parametrize(
+    "comment",
+    [
+        "<!--pytest-codeblocks:cont-->",
+        "<!---pytest-codeblocks:cont--->",
+        "<!-- pytest-codeblocks:cont -->",
+        "<!--- pytest-codeblocks:cont --->",
+    ],
+)
 def test_cont(testdir, comment):
     string = """
     Lorem ipsum

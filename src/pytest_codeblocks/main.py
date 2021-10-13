@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import contextlib
 import re
 import sys
@@ -7,20 +9,19 @@ import sys
 from dataclasses import dataclass
 from io import StringIO
 from pathlib import Path
-from typing import Optional, Union
 
 
 @dataclass
 class CodeBlock:
     code: str
     lineno: int
-    syntax: Optional[str] = None
-    expected_output: Optional[str] = None
+    syntax: str | None = None
+    expected_output: str | None = None
     expect_exception: bool = False
 
 
 def extract_from_file(
-    f: Union[str, bytes, Path], encoding: Optional[str] = "utf-8", *args, **kwargs
+    f: str | bytes | Path, encoding: str | None = "utf-8", *args, **kwargs
 ):
     with open(f, encoding=encoding) as handle:
         return extract_from_buffer(handle, *args, **kwargs)

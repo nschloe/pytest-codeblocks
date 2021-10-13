@@ -70,13 +70,14 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
 
             # check for keywords
             m = re.match(
-                "<!--pytest-codeblocks:(.*)-->", previous_nonempty_line.strip()
+                r"<!--[-\s]*pytest-codeblocks:(.*)-->",
+                previous_nonempty_line.strip(),
             )
             if m is None:
                 out.append(CodeBlock("".join(code_block), lineno, syntax))
                 continue
 
-            keyword = m.group(1)
+            keyword = m.group(1).strip("- ")
 
             # handle special tags
             if keyword == "skip":

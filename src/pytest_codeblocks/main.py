@@ -70,7 +70,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
 
             # check for keywords
             m = re.match(
-                r"<!\-{2,}\s*pytest-codeblocks:(.*)\-{2,}>",
+                r"<!--[-\s]*pytest-codeblocks:(.*)-->",
                 previous_nonempty_line.strip(),
             )
             if m is None:

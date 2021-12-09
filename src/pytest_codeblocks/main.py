@@ -132,9 +132,6 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
 
         previous_nonempty_line = line
 
-    # from rich import print
-    # print(out)
-    # exit(1)
     return out
 
 

@@ -31,12 +31,12 @@ class MarkdownFile(pytest.File):
             if block.syntax not in ["python", "sh", "bash"]:
                 continue
             # https://docs.pytest.org/en/stable/deprecations.html#node-construction-changed-to-node-from-parent
-            out = Codeblock.from_parent(parent=self, name=self.name)
+            out = TestBlock.from_parent(parent=self, name=self.name)
             out.obj = block
             yield out
 
 
-class Codeblock(pytest.Item):
+class TestBlock(pytest.Item):
     def __init__(self, name, parent, obj=None):
         super().__init__(name, parent=parent)
         self.obj = obj
@@ -44,7 +44,15 @@ class Codeblock(pytest.Item):
     # TODO for python 3.7+, stdout=subprocess.PIPE can be replaced by
     #      capture_output=True
     def runtest(self):
+        assert self.obj is not None
         output = None
+
+        if self.obj.skip:
+            pytest.skip()
+
+        # if eval("sys.version_info <= (3, 9)"):
+        #     pytest.skip("unsupported configuration")
+
         if self.obj.syntax == "python":
             if self.obj.expect_exception:
                 with pytest.raises(Exception):

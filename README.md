@@ -7,7 +7,8 @@
 [![Anaconda Cloud](https://anaconda.org/conda-forge/pytest-codeblocks/badges/version.svg?=style=flat-square)](https://anaconda.org/conda-forge/pytest-codeblocks/)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/pytest-codeblocks.svg?style=flat-square)](https://pypi.org/project/pytest-codeblocks/)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/pytest-codeblocks.svg?style=flat-square&logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/pytest-codeblocks)
-[![PyPi downloads](https://img.shields.io/pypi/dm/pytest-codeblocks.svg?style=flat-square)](https://pypistats.org/packages/pytest-codeblocks)
+[![Downloads](https://pepy.tech/badge/pytest-codeblocks/month?style=flat-square)](https://pepy.tech/project/pytest-codeblocks)
+<!--[![PyPi downloads](https://img.shields.io/pypi/dm/pytest-codeblocks.svg?style=flat-square)](https://pypistats.org/packages/pytest-codeblocks)-->
 
 [![gh-actions](https://img.shields.io/github/workflow/status/nschloe/pytest-codeblocks/ci?style=flat-square)](https://github.com/nschloe/pytest-codeblocks/actions?query=workflow%3Aci)
 [![codecov](https://img.shields.io/codecov/c/github/nschloe/pytest-codeblocks.svg?style=flat-square)](https://app.codecov.io/gh/nschloe/pytest-codeblocks)
@@ -19,17 +20,17 @@ blocks from README files. It supports Python and shell code.
 
 Install with
 
-```
+```sh
 pip install pytest-codeblocks
 ```
 
 and run pytest with
 
-```
+```sh
 pytest --codeblocks
 ```
 
-```
+```sh
 ================================= test session starts =================================
 platform linux -- Python 3.9.4, pytest-6.2.4, py-1.10.0, pluggy-0.13.1
 rootdir: /path/to/directory
@@ -60,6 +61,11 @@ foo + bar  # not working
 
 dolor sit amet.
 ````
+
+Conditionally skipping code blocks works with `skipif`, e.g.,
+```
+<!--pytest-codeblocks:skipif(sys.version_info <= (3, 7))-->
+```
 
 #### Merging code blocks
 

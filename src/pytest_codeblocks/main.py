@@ -18,6 +18,8 @@ class CodeBlock:
     syntax: str | None = None
     expected_output: str | None = None
     expect_exception: bool = False
+    skip: bool = False
+    skipif: str | None = None
 
 
 def extract_from_file(
@@ -27,7 +29,7 @@ def extract_from_file(
         return extract_from_buffer(handle, *args, **kwargs)
 
 
-def extract_from_buffer(f, max_num_lines: int = 10000):
+def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
     out = []
     previous_nonempty_line = None
     k = 1
@@ -81,9 +83,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
             keyword = m.group(1).strip("- ")
 
             # handle special tags
-            if keyword == "skip":
-                continue
-            elif keyword == "expected-output":
+            if keyword == "expected-output":
                 if len(out) == 0:
                     raise RuntimeError(
                         "Found <!--pytest-codeblocks-expected-output--> "
@@ -110,6 +110,17 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                     out[-1].expected_output,
                     out[-1].expect_exception,
                 )
+            elif keyword == "skip":
+                out.append(CodeBlock("".join(code_block), lineno, syntax, skip=True))
+            elif keyword.startswith("skipif"):
+                m = re.match(r"skipif\((.*)\)", keyword)
+                if m is None:
+                    raise RuntimeError(
+                        "pytest-codeblocks: Expected skipif(some-condition)"
+                    )
+                out.append(
+                    CodeBlock("".join(code_block), lineno, syntax, skipif=m.group(1))
+                )
             elif keyword in ["expect-exception", "expect-error"]:
                 out.append(
                     CodeBlock(
@@ -117,7 +128,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000):
                     )
                 )
             else:
-                raise RuntimeError('Unknown pytest-codeblocks keyword "{keyword}."')
+                raise RuntimeError(f'Unknown pytest-codeblocks keyword "{keyword}."')
 
         previous_nonempty_line = line
 

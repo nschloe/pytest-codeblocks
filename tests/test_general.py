@@ -35,7 +35,7 @@ def test_skip(testdir):
     """
     testdir.makefile(".md", string1)
     result = testdir.runpytest("--codeblocks")
-    result.assert_outcomes(passed=0)
+    result.assert_outcomes(skipped=2)
 
 
 # example.md against reference strings test against
@@ -50,6 +50,7 @@ def test_reference():
         ),
         pytest_codeblocks.CodeBlock("foobar\n", 16, "ruby"),
         pytest_codeblocks.CodeBlock("echo abc\n", 20, "sh"),
+        pytest_codeblocks.CodeBlock("bar\n", 25, "python", skip=True),
         pytest_codeblocks.CodeBlock("# ```import math```\n", 30, "python"),
         pytest_codeblocks.CodeBlock("1 + 1 == 2\n", 35, "python"),
         pytest_codeblocks.CodeBlock("1 + 1 == 2\n", 40, "python"),
@@ -58,6 +59,6 @@ def test_reference():
     lst = pytest_codeblocks.extract_from_file(this_dir / "example.md")
     print(lst)
     for r, obj in zip(ref, lst):
-        print("r  ", r)
-        print("obj", obj)
+        print("\n\nr  ", r)
+        print("\nobj", obj)
         assert r == obj

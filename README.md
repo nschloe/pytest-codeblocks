@@ -62,6 +62,11 @@ foo + bar  # not working
 dolor sit amet.
 ````
 
+Conditionally skipping code blocks works with `skipif`, e.g.,
+```
+<!--pytest-codeblocks:skipif(sys.version_info <= (3, 7))-->
+```
+
 #### Merging code blocks
 
 Broken-up code blocks can be merged into one with the `pytest-codeblocks:cont` prefix

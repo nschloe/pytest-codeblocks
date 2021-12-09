@@ -50,8 +50,12 @@ class TestBlock(pytest.Item):
         if self.obj.skip:
             pytest.skip()
 
-        # if eval("sys.version_info <= (3, 9)"):
-        #     pytest.skip("unsupported configuration")
+        if self.obj.skipif is not None:
+            # needed for sys.version_info in skipif eval():
+            import sys
+
+            if eval(self.obj.skipif):
+                pytest.skip()
 
         if self.obj.syntax == "python":
             if self.obj.expect_exception:

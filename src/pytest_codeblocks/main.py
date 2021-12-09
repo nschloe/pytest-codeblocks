@@ -19,6 +19,7 @@ class CodeBlock:
     expected_output: str | None = None
     expect_exception: bool = False
     skip: bool = False
+    skipif: str | None = None
 
 
 def extract_from_file(
@@ -111,6 +112,15 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                 )
             elif keyword == "skip":
                 out.append(CodeBlock("".join(code_block), lineno, syntax, skip=True))
+            elif keyword.startswith("skipif"):
+                m = re.match(r"skipif\((.*)\)", keyword)
+                if m is None:
+                    raise RuntimeError(
+                        "pytest-codeblocks: Expected skipif(some-condition)"
+                    )
+                out.append(
+                    CodeBlock("".join(code_block), lineno, syntax, skipif=m.group(1))
+                )
             elif keyword in ["expect-exception", "expect-error"]:
                 out.append(
                     CodeBlock(

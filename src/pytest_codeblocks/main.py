@@ -36,6 +36,10 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
 
     while True:
         line = f.readline()
+
+        if k == 1 and line.strip() == "<!--pytest-codeblocks:skipfile-->":
+            return []
+
         k += 1
         if not line:
             # EOF

@@ -63,9 +63,15 @@ dolor sit amet.
 ````
 
 Conditionally skipping code blocks works with `skipif`, e.g.,
-```
+```markdown
 <!--pytest-codeblocks:skipif(sys.version_info <= (3, 7))-->
 ```
+
+You can also skip all blocks in the entire file by putting
+```markdown
+<!--pytest-codeblocks:skipfile-->
+```
+in the first line.
 
 #### Merging code blocks
 

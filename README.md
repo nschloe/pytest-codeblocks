@@ -67,7 +67,7 @@ Conditionally skipping code blocks works with `skipif`, e.g.,
 <!--pytest-codeblocks:skipif(sys.version_info <= (3, 7))-->
 ```
 
-You can also skip all blocks in the entire file by putting
+Skip the entire file by putting
 ```markdown
 <!--pytest-codeblocks:skipfile-->
 ```

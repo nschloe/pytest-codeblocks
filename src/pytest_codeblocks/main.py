@@ -98,10 +98,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                         "Found <!--pytest-codeblocks-expected-output--> "
                         + "but block already has expected_output."
                     )
-                expected_output = "".join(code_block)
-                out[-1] = CodeBlock(
-                    out[-1].code, out[-1].lineno, out[-1].syntax, expected_output
-                )
+                out[-1].expected_output = "".join(code_block)
             elif keyword == "cont":
                 if len(out) == 0:
                     raise RuntimeError(

@@ -136,6 +136,9 @@ gives
 ```
 ````
 
+(Conditionally) Skipping the output verfication works by prepending the first
+block with `skip`/`skipif` (see [above](#skipping-code-blocks)).
+
 #### Expected errors
 
 Some code blocks are expected to give errors. You can verify this with

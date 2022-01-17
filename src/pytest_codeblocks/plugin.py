@@ -31,7 +31,11 @@ class MarkdownFile(pytest.File):
             if block.syntax not in ["python", "sh", "bash"]:
                 continue
             # https://docs.pytest.org/en/stable/deprecations.html#node-construction-changed-to-node-from-parent
-            out = TestBlock.from_parent(parent=self, name=self.name)
+            # The name makes sure that tests appear as
+            # ```
+            # README.md::line 56
+            # ```
+            out = TestBlock.from_parent(parent=self, name=f"line {block.lineno}")
             out.obj = block
             yield out
 
@@ -41,8 +45,6 @@ class TestBlock(pytest.Item):
         super().__init__(name, parent=parent)
         self.obj = obj
 
-    # TODO for python 3.7+, stdout=subprocess.PIPE can be replaced by
-    #      capture_output=True
     def runtest(self):
         assert self.obj is not None
         output = None
@@ -87,6 +89,8 @@ class TestBlock(pytest.Item):
                         self.obj.code, shell=True, check=True, executable=executable
                     )
             else:
+                # TODO for python 3.7+, stdout=subprocess.PIPE can be replaced
+                #      by capture_output=True
                 ret = subprocess.run(
                     self.obj.code,
                     shell=True,

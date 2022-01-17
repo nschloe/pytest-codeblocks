@@ -1,6 +1,39 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
 
 [tool.isort]
 profile = "black"
+
+[project]
+name = "pytest-codeblocks"
+authors = [{name = "Nico Schlömer", email = "nico.schloemer@gmail.com"}]
+description = "Test code blocks in your READMEs"
+readme = "README.md"
+license = {file = "LICENSE.txt"}
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Framework :: Pytest",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+]
+dynamic = ["version"]
+requires-python = ">=3.7"
+dependencies = [
+   "pytest >= 6"
+]
+
+[project.urls]
+Code = "https://github.com/nschloe/pytest-codeblocks"
+Issues = "https://github.com/nschloe/pytest-codeblocks/issues"
+Funding = "https://github.com/sponsors/nschloe"
+
+[project.entry-points.pytest11]
+codeblocks = "pytest_codeblocks.plugin"

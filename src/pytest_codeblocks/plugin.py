@@ -3,6 +3,7 @@
 # https://docs.pytest.org/en/stable/example/nonpython.html
 #
 import subprocess
+from pathlib import Path
 
 import pytest
 
@@ -18,16 +19,17 @@ def pytest_addoption(parser):
 
 def pytest_collect_file(path, parent):
     config = parent.config
-    if config.option.codeblocks and path.ext == ".md":
-        return MarkdownFile.from_parent(parent, fspath=path)
+    path = Path(path)
+    if config.option.codeblocks and path.suffix == ".md":
+        return MarkdownFile.from_parent(parent, path=path)
 
 
 class MarkdownFile(pytest.File):
-    def __init__(self, fspath, parent):
-        super().__init__(fspath, parent)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def collect(self):
-        for block in extract_from_file(self.fspath):
+        for block in extract_from_file(self.path):
             if block.syntax not in ["python", "sh", "bash"]:
                 continue
             # https://docs.pytest.org/en/stable/deprecations.html#node-construction-changed-to-node-from-parent
@@ -117,4 +119,4 @@ class TestBlock(pytest.Item):
         # return super().repr_failure(excinfo)
 
     def reportinfo(self):
-        return (self.fspath, -1, "code block check")
+        return (self.path, -1, "code block check")

@@ -27,7 +27,7 @@ classifiers = [
 dynamic = ["version"]
 requires-python = ">=3.7"
 dependencies = [
-   "pytest >= 6"
+   "pytest >= 7.0.0"
 ]
 
 [project.urls]

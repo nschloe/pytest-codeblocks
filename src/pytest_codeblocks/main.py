@@ -11,6 +11,12 @@ from io import StringIO
 from pathlib import Path
 
 
+from doctest import DocTestFinder, DebugRunner
+
+finder = DocTestFinder()
+runner = DebugRunner()
+
+
 @dataclass
 class CodeBlock:
     code: str
@@ -20,6 +26,13 @@ class CodeBlock:
     expect_exception: bool = False
     skip: bool = False
     skipif: str | None = None
+
+    def exec(self, globs: dict) -> None:
+        if self.code.startswith(">>>"):
+            for test in finder.find(self.code, name=f"line {self.lineno}", globs=globs):
+                runner.run(test)
+        else:
+            exec(self.code, globs)
 
 
 def extract_from_file(

@@ -64,12 +64,12 @@ class TestBlock(pytest.Item):
         if self.obj.syntax == "python":
             if self.obj.expect_exception:
                 with pytest.raises(Exception):
-                    exec(self.obj.code, {"__MODULE__": "__main__"})
+                    self.obj.exec({"__MODULE__": "__main__"})
             else:
                 with stdout_io() as s:
                     try:
                         # https://stackoverflow.com/a/62851176/353337
-                        exec(self.obj.code, {"__MODULE__": "__main__"})
+                        self.obj.exec({"__MODULE__": "__main__"})
                     except Exception as e:
                         raise RuntimeError(
                             f"{self.name}, line {self.obj.lineno}:\n```\n"

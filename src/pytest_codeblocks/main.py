@@ -7,11 +7,9 @@ import sys
 # namedtuple with default arguments
 # <https://stackoverflow.com/a/18348004/353337>
 from dataclasses import dataclass
+from doctest import DebugRunner, DocTestFinder
 from io import StringIO
 from pathlib import Path
-
-
-from doctest import DocTestFinder, DebugRunner
 
 finder = DocTestFinder()
 runner = DebugRunner()

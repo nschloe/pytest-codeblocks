@@ -8,6 +8,7 @@
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/pytest-codeblocks.svg?style=flat-square)](https://pypi.org/project/pytest-codeblocks/)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/pytest-codeblocks.svg?style=flat-square&logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/pytest-codeblocks)
 [![Downloads](https://pepy.tech/badge/pytest-codeblocks/month?style=flat-square)](https://pepy.tech/project/pytest-codeblocks)
+
 <!--[![PyPi downloads](https://img.shields.io/pypi/dm/pytest-codeblocks.svg?style=flat-square)](https://pypistats.org/packages/pytest-codeblocks)-->
 
 [![gh-actions](https://img.shields.io/github/workflow/status/nschloe/pytest-codeblocks/ci?style=flat-square)](https://github.com/nschloe/pytest-codeblocks/actions?query=workflow%3Aci)
@@ -63,14 +64,23 @@ dolor sit amet.
 ````
 
 Conditionally skipping code blocks works with `skipif`, e.g.,
+
 ```markdown
 <!--pytest-codeblocks:skipif(sys.version_info <= (3, 7))-->
 ```
 
+You can skip code blocks on import errors with
+
+```markdown
+<!--pytest-codeblocks:importorskip(sympy)-->
+```
+
 Skip the entire file by putting
+
 ```markdown
 <!--pytest-codeblocks:skipfile-->
 ```
+
 in the first line.
 
 #### Merging code blocks

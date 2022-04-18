@@ -103,3 +103,31 @@ def test_skipif_expected_output(testdir):
     testdir.makefile(".md", string)
     result = testdir.runpytest("--codeblocks")
     result.assert_outcomes(passed=1)
+
+
+def test_importorskip(testdir):
+    string = """
+    Lorem ipsum
+
+    <!--pytest-codeblocks:importorskip(some_nonexistent_module)-->
+
+    ```python
+    print(1 + 3)
+    ```
+    """
+    testdir.makefile(".md", string)
+    result = testdir.runpytest("--codeblocks")
+    result.assert_outcomes(skipped=1)
+
+    string = """
+    Lorem ipsum
+
+    <!--pytest-codeblocks:importorskip(sys)-->
+
+    ```python
+    print(1 + 3)
+    ```
+    """
+    testdir.makefile(".md", string)
+    result = testdir.runpytest("--codeblocks")
+    result.assert_outcomes(passed=1)

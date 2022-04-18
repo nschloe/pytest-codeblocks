@@ -20,6 +20,7 @@ class CodeBlock:
     expect_exception: bool = False
     skip: bool = False
     skipif: str | None = None
+    importorskip: str | None = None
 
 
 def extract_from_file(
@@ -99,6 +100,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                         + "but block already has expected_output."
                     )
                 out[-1].expected_output = "".join(code_block)
+
             elif keyword == "cont":
                 if len(out) == 0:
                     raise RuntimeError(
@@ -111,8 +113,10 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                     out[-1].expected_output,
                     out[-1].expect_exception,
                 )
+
             elif keyword == "skip":
                 out.append(CodeBlock("".join(code_block), lineno, syntax, skip=True))
+
             elif keyword.startswith("skipif"):
                 m = re.match(r"skipif\((.*)\)", keyword)
                 if m is None:
@@ -122,12 +126,26 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                 out.append(
                     CodeBlock("".join(code_block), lineno, syntax, skipif=m.group(1))
                 )
+
+            elif keyword.startswith("importorskip"):
+                m = re.match(r"importorskip\((.*)\)", keyword)
+                if m is None:
+                    raise RuntimeError(
+                        "pytest-codeblocks: Expected importorskip(some-module)"
+                    )
+                out.append(
+                    CodeBlock(
+                        "".join(code_block), lineno, syntax, importorskip=m.group(1)
+                    )
+                )
+
             elif keyword in ["expect-exception", "expect-error"]:
                 out.append(
                     CodeBlock(
                         "".join(code_block), lineno, syntax, expect_exception=True
                     )
                 )
+
             else:
                 raise RuntimeError(f'Unknown pytest-codeblocks keyword "{keyword}."')
 

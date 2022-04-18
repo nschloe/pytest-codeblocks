@@ -61,6 +61,12 @@ class TestBlock(pytest.Item):
             if eval(self.obj.skipif):
                 pytest.skip()
 
+        if self.obj.importorskip is not None:
+            try:
+                __import__(self.obj.importorskip)
+            except (ImportError, ModuleNotFoundError):
+                pytest.skip()
+
         if self.obj.syntax == "python":
             if self.obj.expect_exception:
                 with pytest.raises(Exception):

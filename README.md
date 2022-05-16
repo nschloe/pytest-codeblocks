@@ -164,3 +164,35 @@ The following gives an error:
 ````
 
 The keyword `expect-exception` is also possible.
+
+#### Doctest-style code blocks
+
+Code blocks starting with `">>>"` will be treated as interactive Python shell code, and tested by [doctest](https://docs.python.org/3/library/doctest.html).
+
+````markdown
+```python
+>>> print("Hello")
+Hello
+>>> 2+3
+5
+```
+````
+You can concatenate multiple doctest-style code blocks with `<!--pytest-codeblocks:cont-->`, but cannot mix doctest-style ones with normal python code blocks, or vice versa.
+
+There are two ways to indicate expected exceptions in doctest-style code blocks. One is to include the expected exception into you code block, and let doctest handle it. 
+
+````markdown
+```python
+>>> raise Exception("This should fail")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+Exception: This should fail
+```
+````
+The other way is to use the `<!--pytest-codeblocks:expect-exception-->`, and let pytest handle it.
+````markdown
+<!--pytest-codeblocks:expect-exception-->
+```python
+>>> raise Exception("This should fail")
+```
+````

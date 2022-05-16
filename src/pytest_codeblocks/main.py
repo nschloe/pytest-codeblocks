@@ -7,8 +7,12 @@ import sys
 # namedtuple with default arguments
 # <https://stackoverflow.com/a/18348004/353337>
 from dataclasses import dataclass
+from doctest import DebugRunner, DocTestFinder
 from io import StringIO
 from pathlib import Path
+
+finder = DocTestFinder()
+runner = DebugRunner()
 
 
 @dataclass
@@ -21,6 +25,13 @@ class CodeBlock:
     skip: bool = False
     skipif: str | None = None
     importorskip: str | None = None
+
+    def exec(self, globs: dict) -> None:
+        if self.code.startswith(">>>"):
+            for test in finder.find(self.code, name=f"line {self.lineno}", globs=globs):
+                runner.run(test)
+        else:
+            exec(self.code, globs)
 
 
 def extract_from_file(

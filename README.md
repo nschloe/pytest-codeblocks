@@ -164,3 +164,11 @@ The following gives an error:
 ````
 
 The keyword `expect-exception` is also possible.
+
+#### Custom marks
+
+You can use custom marks on tests with 
+
+```markdown
+<!--pytest-codeblocks:custom-mark(pytest.mark.timeout(10))->
+```

@@ -39,6 +39,8 @@ class MarkdownFile(pytest.File):
             # ```
             out = TestBlock.from_parent(parent=self, name=f"line {block.lineno}")
             out.obj = block
+            if block.custom_mark is not None:
+                out.add_marker(eval(block.custom_mark))
             yield out
 
 
@@ -46,9 +48,6 @@ class TestBlock(pytest.Item):
     def __init__(self, name, parent, obj=None):
         super().__init__(name, parent=parent)
         self.obj = obj
-
-        if obj is not None and obj.custom_mark is not None:
-            self.add_marker(eval(obj.custom_mark))
 
     def runtest(self):
         assert self.obj is not None

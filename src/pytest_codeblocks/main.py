@@ -151,7 +151,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                 m = re.match(r"custom-marks\((.*)\)", keyword)
                 if m is None:
                     raise RuntimeError(
-                        "pytest-codeblocks: Expected custom-marks(mark)"
+                        "pytest-codeblocks: Expected custom-marks(mark-one;mark-two;...)"
                     )
                 out.append(
                     CodeBlock(

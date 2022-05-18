@@ -167,8 +167,14 @@ The keyword `expect-exception` is also possible.
 
 #### Custom marks
 
-You can use custom marks on tests with 
+You can add a custom mark to a test with
 
 ```markdown
 <!--pytest-codeblocks:custom-mark(pytest.mark.timeout(10))->
+```
+
+You can also add multiple marks using `;` seperation with
+
+```markdown
+<!--pytest-codeblocks:custom-mark(pytest.mark.timeout(10);pytest.mark.gpu)->
 ```

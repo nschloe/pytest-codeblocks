@@ -13,7 +13,7 @@ def test_custom_mark(testdir):
 def test_multiple_custom_marks(testdir):
     string = """
     Lorem ipsum
-    <!--pytest-codeblocks:custom-mark(pytest.mark.gpu; pytest.mark.fast)-->
+    <!--pytest-codeblocks:custom-marks(pytest.mark.gpu;pytest.mark.fast)-->
     ```python
     a = 1
     ```

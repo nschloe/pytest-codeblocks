@@ -39,8 +39,9 @@ class MarkdownFile(pytest.File):
             # ```
             out = TestBlock.from_parent(parent=self, name=f"line {block.lineno}")
             out.obj = block
-            if block.custom_mark is not None:
-                out.add_marker(eval(block.custom_mark))
+            if block.custom_marks is not None:
+                for custom_mark in block.custom_marks.split(";"):
+                    out.add_marker(eval(custom_mark))
             yield out
 
 

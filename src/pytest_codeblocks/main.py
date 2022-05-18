@@ -21,7 +21,7 @@ class CodeBlock:
     skip: bool = False
     skipif: str | None = None
     importorskip: str | None = None
-    custom_mark: str | None = None
+    custom_marks: str | None = None
 
 
 def extract_from_file(
@@ -147,15 +147,15 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                     )
                 )
 
-            elif keyword.startswith("custom-mark"):
-                m = re.match(r"custom-mark\((.*)\)", keyword)
+            elif keyword.startswith("custom-marks"):
+                m = re.match(r"custom-marks\((.*)\)", keyword)
                 if m is None:
                     raise RuntimeError(
-                        "pytest-codeblocks: Expected custom-mark(mark)"
+                        "pytest-codeblocks: Expected custom-marks(mark)"
                     )
                 out.append(
                     CodeBlock(
-                        "".join(code_block), lineno, syntax, custom_mark=m.group(1)
+                        "".join(code_block), lineno, syntax, custom_marks=m.group(1)
                     )
                 )
 

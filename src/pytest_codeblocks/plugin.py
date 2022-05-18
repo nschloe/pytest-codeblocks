@@ -47,8 +47,8 @@ class TestBlock(pytest.Item):
         super().__init__(name, parent=parent)
         self.obj = obj
 
-        if self.obj.custom_mark is not None:
-            self.add_marker(eval(self.obj.custom_mark))
+        if obj is not None and obj.custom_mark is not None:
+            self.add_marker(eval(obj.custom_mark))
 
     def runtest(self):
         assert self.obj is not None

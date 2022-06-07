@@ -34,6 +34,7 @@ dependencies = [
 version = {attr = "pytest_codeblocks.__about__.__version__"}
 
 [project.urls]
+Homepage = "https://github.com/nschloe/pytest-codeblocks"
 Code = "https://github.com/nschloe/pytest-codeblocks"
 Issues = "https://github.com/nschloe/pytest-codeblocks/issues"
 Funding = "https://github.com/sponsors/nschloe"

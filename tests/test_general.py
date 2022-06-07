@@ -42,18 +42,18 @@ def test_skip(testdir):
 def test_reference():
     ref = [
         pytest_codeblocks.CodeBlock("1 + 1\n", 1, "python"),
-        pytest_codeblocks.CodeBlock("1 + 2 + 3\n2 + 5\n", 5, "python"),
+        pytest_codeblocks.CodeBlock("1 + 2 + 3\n2 + 5\n", 7, "python"),
         pytest_codeblocks.CodeBlock(
             "import pytest_codeblocks\n\npytest_codeblocks.extract_from_buffer\n",
-            10,
+            14,
             "python",
         ),
-        pytest_codeblocks.CodeBlock("foobar\n", 16, "ruby"),
-        pytest_codeblocks.CodeBlock("echo abc\n", 20, "sh"),
-        pytest_codeblocks.CodeBlock("bar\n", 25, "python", marks=["pytest.mark.skip"]),
-        pytest_codeblocks.CodeBlock("# ```import math```\n", 30, "python"),
-        pytest_codeblocks.CodeBlock("1 + 1 == 2\n", 35, "python"),
-        pytest_codeblocks.CodeBlock("1 + 1 == 2\n", 40, "python"),
+        pytest_codeblocks.CodeBlock("foobar\n", 22, "ruby"),
+        pytest_codeblocks.CodeBlock("echo abc\n", 28, "sh"),
+        pytest_codeblocks.CodeBlock("bar\n", 36, "python", marks=["pytest.mark.skip"]),
+        pytest_codeblocks.CodeBlock("# ```import math```\n", 42, "python"),
+        pytest_codeblocks.CodeBlock("1 + 1 == 2\n", 48, "python"),
+        pytest_codeblocks.CodeBlock("1 + 1 == 2\n", 54, "python"),
     ]
     this_dir = pathlib.Path(__file__).resolve().parent
     lst = pytest_codeblocks.extract_from_file(this_dir / "example.md")

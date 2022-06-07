@@ -47,9 +47,10 @@ README.md .......................                                               
 pytest-codeblocks will only pick up code blocks with `python` and `sh`/`bash`/`zsh`
 syntax highlighting.
 
-#### Skipping code blocks
+#### Marking code blocks
 
-Prefix your code block with a `pytest.mark.skip` comment to skip
+It is possible to use `pytest.mark` for marking code blocks. For example,
+to skip a code block use `pytest.mark.skip` or `pytest.mark.skipif`:
 
 ````markdown
 Lorem ipsum
@@ -62,8 +63,6 @@ foo + bar  # not working
 
 dolor sit amet.
 ````
-
-Conditionally skipping code blocks works with `skipif`, e.g.,
 
 ```markdown
 <!--pytest.mark.skipif(sys.version_info <= (3, 7), reason="Need at least Python 3.8")-->
@@ -82,6 +81,18 @@ Skip the entire file by putting
 ```
 
 in the first line.
+
+For expected errors, use `pytest.mark.xfail`:
+
+````markdown
+The following gives an error:
+
+<!--pytest.mark.xfail-->
+
+```python
+1 / 0
+```
+````
 
 #### Merging code blocks
 
@@ -148,17 +159,3 @@ gives
 
 (Conditionally) Skipping the output verfication works by prepending the first
 block with `skip`/`skipif` (see [above](#skipping-code-blocks)).
-
-#### Expected errors
-
-Some code blocks are expected to give errors. You can verify this with
-
-````markdown
-The following gives an error:
-
-<!--pytest.mark.xfail-->
-
-```python
-1 / 0
-```
-````

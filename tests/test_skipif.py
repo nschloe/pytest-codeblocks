@@ -49,6 +49,8 @@ def test_skipif(testdir):
     result = testdir.runpytest("--codeblocks")
     result.assert_outcomes(skipped=1)
 
+
+def test_skipif2(testdir):
     string = """
     Lorem ipsum
 
@@ -84,6 +86,8 @@ def test_skipif_expected_output(testdir):
     result = testdir.runpytest("--codeblocks")
     result.assert_outcomes(skipped=1)
 
+
+def test_skipif_expected_output2(testdir):
     string = """
     Lorem ipsum
 
@@ -119,6 +123,8 @@ def test_importorskip(testdir):
     result = testdir.runpytest("--codeblocks")
     result.assert_outcomes(skipped=1)
 
+
+def test_importorskip2(testdir):
     string = """
     Lorem ipsum
 

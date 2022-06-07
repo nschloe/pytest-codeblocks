@@ -50,7 +50,7 @@ def test_reference():
         ),
         pytest_codeblocks.CodeBlock("foobar\n", 16, "ruby"),
         pytest_codeblocks.CodeBlock("echo abc\n", 20, "sh"),
-        pytest_codeblocks.CodeBlock("bar\n", 25, "python", skip=True),
+        pytest_codeblocks.CodeBlock("bar\n", 25, "python", marks=["pytest.mark.skip"]),
         pytest_codeblocks.CodeBlock("# ```import math```\n", 30, "python"),
         pytest_codeblocks.CodeBlock("1 + 1 == 2\n", 35, "python"),
         pytest_codeblocks.CodeBlock("1 + 1 == 2\n", 40, "python"),

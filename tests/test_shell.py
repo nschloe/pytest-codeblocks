@@ -42,7 +42,7 @@ def test_shell_expect_fail(testdir):
     """
     testdir.makefile(".md", string)
     result = testdir.runpytest("--codeblocks")
-    result.assert_outcomes(passed=1)
+    result.assert_outcomes(xfailed=1)
 
 
 def test_shell_expect_fail_passed(testdir):
@@ -54,7 +54,7 @@ def test_shell_expect_fail_passed(testdir):
     """
     testdir.makefile(".md", string)
     result = testdir.runpytest("--codeblocks")
-    result.assert_outcomes(failed=1)
+    result.assert_outcomes(xpassed=1)
 
 
 def test_shell_expect_output(testdir):

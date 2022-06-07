@@ -39,6 +39,10 @@ class MarkdownFile(pytest.File):
             # ```
             out = TestBlock.from_parent(parent=self, name=f"line {block.lineno}")
             out.obj = block
+
+            for mark in block.marks:
+                out.add_marker(eval(mark))
+
             yield out
 
 
@@ -51,16 +55,6 @@ class TestBlock(pytest.Item):
         assert self.obj is not None
         output = None
 
-        if self.obj.skip:
-            pytest.skip()
-
-        if self.obj.skipif is not None:
-            # needed for sys.version_info in skipif eval():
-            import sys
-
-            if eval(self.obj.skipif):
-                pytest.skip()
-
         if self.obj.importorskip is not None:
             try:
                 __import__(self.obj.importorskip)
@@ -68,22 +62,18 @@ class TestBlock(pytest.Item):
                 pytest.skip()
 
         if self.obj.syntax == "python":
-            if self.obj.expect_exception:
-                with pytest.raises(Exception):
+            with stdout_io() as s:
+                try:
+                    # https://stackoverflow.com/a/62851176/353337
                     exec(self.obj.code, {"__MODULE__": "__main__"})
-            else:
-                with stdout_io() as s:
-                    try:
-                        # https://stackoverflow.com/a/62851176/353337
-                        exec(self.obj.code, {"__MODULE__": "__main__"})
-                    except Exception as e:
-                        raise RuntimeError(
-                            f"{self.name}, line {self.obj.lineno}:\n```\n"
-                            + self.obj.code
-                            + "```\n\n"
-                            + f"{e}"
-                        )
-                output = s.getvalue()
+                except Exception as e:
+                    raise RuntimeError(
+                        f"{self.name}, line {self.obj.lineno}:\n```\n"
+                        + self.obj.code
+                        + "```\n\n"
+                        + f"{e}"
+                    )
+            output = s.getvalue()
         else:
             assert self.obj.syntax in ["sh", "bash"]
             executable = {
@@ -91,22 +81,17 @@ class TestBlock(pytest.Item):
                 "bash": "/bin/bash",
                 "zsh": "/bin/zsh",
             }[self.obj.syntax]
-            if self.obj.expect_exception:
-                with pytest.raises(Exception):
-                    subprocess.run(
-                        self.obj.code, shell=True, check=True, executable=executable
-                    )
-            else:
-                # TODO for python 3.7+, stdout=subprocess.PIPE can be replaced
-                #      by capture_output=True
-                ret = subprocess.run(
-                    self.obj.code,
-                    shell=True,
-                    check=True,
-                    stdout=subprocess.PIPE,
-                    executable=executable,
-                )
-                output = ret.stdout.decode()
+
+            # TODO for python 3.7+, stdout=subprocess.PIPE can be replaced
+            #      by capture_output=True
+            ret = subprocess.run(
+                self.obj.code,
+                shell=True,
+                check=True,
+                stdout=subprocess.PIPE,
+                executable=executable,
+            )
+            output = ret.stdout.decode()
 
         if output is not None and self.obj.expected_output is not None:
             if self.obj.expected_output != output:

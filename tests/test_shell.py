@@ -35,26 +35,26 @@ def test_shell_fail(testdir):
 
 def test_shell_expect_fail(testdir):
     string = """
-    <!--pytest-codeblocks:expect-error-->
+    <!--pytest.mark.xfail-->
     ```sh
     cdc
     ```
     """
     testdir.makefile(".md", string)
     result = testdir.runpytest("--codeblocks")
-    result.assert_outcomes(passed=1)
+    result.assert_outcomes(xfailed=1)
 
 
 def test_shell_expect_fail_passed(testdir):
     string = """
-    <!--pytest-codeblocks:expect-error-->
+    <!--pytest.mark.xfail-->
     ```sh
     cd
     ```
     """
     testdir.makefile(".md", string)
     result = testdir.runpytest("--codeblocks")
-    result.assert_outcomes(failed=1)
+    result.assert_outcomes(xpassed=1)
 
 
 def test_shell_expect_output(testdir):

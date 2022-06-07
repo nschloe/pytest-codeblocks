@@ -3,10 +3,11 @@ from __future__ import annotations
 import contextlib
 import re
 import sys
+import warnings
 
 # namedtuple with default arguments
 # <https://stackoverflow.com/a/18348004/353337>
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from io import StringIO
 from pathlib import Path
 
@@ -17,10 +18,8 @@ class CodeBlock:
     lineno: int
     syntax: str | None = None
     expected_output: str | None = None
-    expect_exception: bool = False
-    skip: bool = False
-    skipif: str | None = None
     importorskip: str | None = None
+    marks: list[str] = field(default_factory=lambda: [])
 
 
 def extract_from_file(
@@ -32,7 +31,10 @@ def extract_from_file(
 
 def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
     out = []
-    previous_nonempty_line = None
+    marks = []
+    continued_block = None
+    expected_output_block = None
+    importorskip = None
     k = 1
 
     while True:
@@ -49,44 +51,12 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
         if line.strip() == "":
             continue
 
-        if line.lstrip()[:3] == "```":
-            syntax = line.strip()[3:]
-            num_leading_spaces = len(line) - len(line.lstrip())
-            lineno = k - 1
-            # read the block
-            code_block = []
-            while True:
-                line = f.readline()
-                k += 1
-                if not line:
-                    raise RuntimeError("Hit end-of-file prematurely. Syntax error?")
-                if k > max_num_lines:
-                    raise RuntimeError(
-                        f"File too large (> {max_num_lines} lines). Set max_num_lines."
-                    )
-                # check if end of block
-                if line.lstrip()[:3] == "```":
-                    break
-                # Cut (at most) num_leading_spaces leading spaces
-                nls = min(num_leading_spaces, len(line) - len(line.lstrip()))
-                line = line[nls:]
-                code_block.append(line)
-
-            if previous_nonempty_line is None:
-                out.append(CodeBlock("".join(code_block), lineno, syntax))
-                continue
-
-            # check for keywords
-            m = re.match(
-                r"<!--[-\s]*pytest-codeblocks:(.*)-->",
-                previous_nonempty_line.strip(),
-            )
-            if m is None:
-                out.append(CodeBlock("".join(code_block), lineno, syntax))
-                continue
-
+        m = re.match(
+            r"<!--[-\s]*pytest-codeblocks:(.*)-->",
+            line.strip(),
+        )
+        if m is not None:
             keyword = m.group(1).strip("- ")
-
             # handle special tags
             if keyword == "expected-output":
                 if len(out) == 0:
@@ -99,33 +69,33 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                         "Found <!--pytest-codeblocks-expected-output--> "
                         + "but block already has expected_output."
                     )
-                out[-1].expected_output = "".join(code_block)
+                expected_output_block = out[-1]
 
             elif keyword == "cont":
                 if len(out) == 0:
                     raise RuntimeError(
                         "Found <!--pytest-codeblocks-cont--> but no previous code block."
                     )
-                out[-1] = CodeBlock(
-                    out[-1].code + "".join(code_block),
-                    out[-1].lineno,
-                    out[-1].syntax,
-                    out[-1].expected_output,
-                    out[-1].expect_exception,
-                )
+                continued_block = out[-1]
 
             elif keyword == "skip":
-                out.append(CodeBlock("".join(code_block), lineno, syntax, skip=True))
+                warnings.warn(
+                    "pytest-codeblocks:skip is deprecated. Use pytest.mark.skip",
+                    DeprecationWarning,
+                )
+                marks.append("pytest.mark.skip")
 
             elif keyword.startswith("skipif"):
+                warnings.warn(
+                    "pytest-codeblocks:skipif is deprecated. Use pytest.mark.skipif",
+                    DeprecationWarning,
+                )
                 m = re.match(r"skipif\((.*)\)", keyword)
                 if m is None:
                     raise RuntimeError(
                         "pytest-codeblocks: Expected skipif(some-condition)"
                     )
-                out.append(
-                    CodeBlock("".join(code_block), lineno, syntax, skipif=m.group(1))
-                )
+                marks.append(f"pytest.mark.skipif({m.group(1)}, reason='')")
 
             elif keyword.startswith("importorskip"):
                 m = re.match(r"importorskip\((.*)\)", keyword)
@@ -133,23 +103,77 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                     raise RuntimeError(
                         "pytest-codeblocks: Expected importorskip(some-module)"
                     )
-                out.append(
-                    CodeBlock(
-                        "".join(code_block), lineno, syntax, importorskip=m.group(1)
-                    )
-                )
+                importorskip = m.group(1)
 
             elif keyword in ["expect-exception", "expect-error"]:
-                out.append(
-                    CodeBlock(
-                        "".join(code_block), lineno, syntax, expect_exception=True
-                    )
+                warnings.warn(
+                    f"pytest-codeblocks:{keyword} is deprecated. Use pytest.mark.xfail",
+                    DeprecationWarning,
                 )
+                marks.append("pytest.mark.xfail")
 
             else:
                 raise RuntimeError(f'Unknown pytest-codeblocks keyword "{keyword}."')
 
-        previous_nonempty_line = line
+            continue
+
+        m = re.match(
+            r"<!--[-\s]*(pytest\.mark\..*)-->",
+            line.strip(),
+        )
+        if m is not None:
+            marks.append(m.group(1))
+            continue
+
+        lsline = line.lstrip()
+        if lsline.startswith("```"):
+            # normally 3, but can be more:
+            num_leading_backticks = len(lsline) - len(lsline.lstrip("`"))
+            syntax = line.strip()[num_leading_backticks:]
+            num_leading_spaces = len(line) - len(lsline)
+            lineno = k - 1
+            # read the block
+            code_block = []
+            while True:
+                line = f.readline()
+                lsline = line.lstrip()
+                k += 1
+                if not line:
+                    raise RuntimeError("Hit end-of-file prematurely. Syntax error?")
+                if k > max_num_lines:
+                    raise RuntimeError(
+                        f"File too large (> {max_num_lines} lines). Set max_num_lines."
+                    )
+                # check if end of block
+                if lsline[:num_leading_backticks] == "`" * num_leading_backticks:
+                    break
+                # Cut (at most) num_leading_spaces leading spaces
+                nls = min(num_leading_spaces, len(line) - len(lsline))
+                line = line[nls:]
+                code_block.append(line)
+
+            code = "".join(code_block)
+
+            if continued_block:
+                continued_block.code += code
+                continued_block = None
+
+            elif expected_output_block:
+                expected_output_block.expected_output = code
+                expected_output_block = None
+
+            else:
+                out.append(
+                    CodeBlock(
+                        code,
+                        lineno,
+                        syntax,
+                        marks=marks,
+                        importorskip=importorskip,
+                    )
+                )
+                marks = []
+                importorskip = None
 
     return out
 

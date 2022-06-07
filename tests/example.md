@@ -21,7 +21,7 @@ A shell script should be exectuted:
 echo abc
 ```
 Again with an explicit skip:
-<!--pytest-codeblocks:skip-->
+<!--pytest.mark.skip-->
 ```python
 bar
 ```

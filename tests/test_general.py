@@ -19,7 +19,7 @@ def test_basic(testdir):
 def test_skip(testdir):
     string1 = """
     Lorem ipsum
-    <!--pytest-codeblocks:skip-->
+    <!--pytest.mark.skip-->
     ```python
     1 + 2 + 3
     ```
@@ -27,7 +27,7 @@ def test_skip(testdir):
 
     Some newlines:
 
-    <!--pytest-codeblocks:skip-->
+    <!--pytest.mark.skip-->
 
     ```python
     1 + 2 + 3

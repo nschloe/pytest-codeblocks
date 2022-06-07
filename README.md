@@ -49,12 +49,12 @@ syntax highlighting.
 
 #### Skipping code blocks
 
-Prefix your code block with a `pytest-codeblocks:skip` comment to skip
+Prefix your code block with a `pytest.mark.skip` comment to skip
 
 ````markdown
 Lorem ipsum
 
-<!--pytest-codeblocks:skip-->
+<!--pytest.mark.skip-->
 
 ```python
 foo + bar  # not working
@@ -66,7 +66,7 @@ dolor sit amet.
 Conditionally skipping code blocks works with `skipif`, e.g.,
 
 ```markdown
-<!--pytest-codeblocks:skipif(sys.version_info <= (3, 7))-->
+<!--pytest.mark.skipif(sys.version_info <= (3, 7), reason="Need at least Python 3.8")-->
 ```
 
 You can skip code blocks on import errors with
@@ -156,11 +156,9 @@ Some code blocks are expected to give errors. You can verify this with
 ````markdown
 The following gives an error:
 
-<!--pytest-codeblocks:expect-error-->
+<!--pytest.mark.xfail-->
 
 ```python
 1 / 0
 ```
 ````
-
-The keyword `expect-exception` is also possible.

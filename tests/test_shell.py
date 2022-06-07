@@ -35,7 +35,7 @@ def test_shell_fail(testdir):
 
 def test_shell_expect_fail(testdir):
     string = """
-    <!--pytest-codeblocks:expect-error-->
+    <!--pytest.mark.xfail-->
     ```sh
     cdc
     ```
@@ -47,7 +47,7 @@ def test_shell_expect_fail(testdir):
 
 def test_shell_expect_fail_passed(testdir):
     string = """
-    <!--pytest-codeblocks:expect-error-->
+    <!--pytest.mark.xfail-->
     ```sh
     cd
     ```

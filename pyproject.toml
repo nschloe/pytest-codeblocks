@@ -1,6 +1,6 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
 
 [tool.isort]
 profile = "black"
@@ -12,7 +12,7 @@ description = "Test code blocks in your READMEs"
 readme = "README.md"
 license = {file = "LICENSE.txt"}
 classifiers = [
-  "Development Status :: 4 - Beta",
+  "Development Status :: 5 - Production/Stable",
   "Framework :: Pytest",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: MIT License",
@@ -29,6 +29,9 @@ requires-python = ">=3.7"
 dependencies = [
    "pytest >= 7.0.0"
 ]
+
+[tool.setuptools.dynamic]
+version = {attr = "pytest_codeblocks.__about__.__version__"}
 
 [project.urls]
 Code = "https://github.com/nschloe/pytest-codeblocks"

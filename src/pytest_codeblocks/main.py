@@ -3,6 +3,7 @@ from __future__ import annotations
 import contextlib
 import re
 import sys
+import warnings
 
 # namedtuple with default arguments
 # <https://stackoverflow.com/a/18348004/353337>
@@ -78,12 +79,17 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                 continued_block = out[-1]
 
             elif keyword == "skip":
-                # TODO deprecate
+                warnings.warn(
+                    "pytest-codeblocks:skip is deprecated. Use pytest.mark.skip",
+                    DeprecationWarning,
+                )
                 marks.append("pytest.mark.skip")
-                # out.append(CodeBlock("".join(code_block), lineno, syntax, skip=True))
 
             elif keyword.startswith("skipif"):
-                # TODO deprecate
+                warnings.warn(
+                    "pytest-codeblocks:skipif is deprecated. Use pytest.mark.skipif",
+                    DeprecationWarning,
+                )
                 m = re.match(r"skipif\((.*)\)", keyword)
                 if m is None:
                     raise RuntimeError(
@@ -100,7 +106,10 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                 importorskip = m.group(1)
 
             elif keyword in ["expect-exception", "expect-error"]:
-                # TODO deprecate
+                warnings.warn(
+                    f"pytest-codeblocks:{keyword} is deprecated. Use pytest.mark.xfail",
+                    DeprecationWarning,
+                )
                 marks.append("pytest.mark.xfail")
 
             else:

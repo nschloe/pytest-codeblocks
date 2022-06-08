@@ -41,6 +41,13 @@ class MarkdownFile(pytest.File):
             out.obj = block
 
             for mark in block.marks:
+                # A common thing is
+                #
+                # pytest.mark.skipif(sys.version_info < (3, 10), reason="...")
+                #
+                # which needs sys. Import it here.
+                import sys
+
                 out.add_marker(eval(mark))
 
             yield out

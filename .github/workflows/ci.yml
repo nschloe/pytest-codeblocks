@@ -12,14 +12,12 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repo
-        uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v3
-      - name: Run pre-commit
-        uses: pre-commit/action@v3.0.0
+      - uses: actions/checkout@v3
+      - uses: pre-commit/action@v3.0.0
 
   build:
+    needs: [lint]
+
     strategy:
       matrix:
         platform: [ubuntu-latest]
@@ -33,7 +31,7 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - uses: actions/checkout@v3

@@ -3,11 +3,11 @@
   <p align="center">Test code blocks in your READMEs.</p>
 </p>
 
-[![PyPi Version](https://img.shields.io/pypi/v/pytest-codeblocks.svg?style=flat-square)](https://pypi.org/project/pytest-codeblocks/)
+[![PyPi Version](https://img.shields.io/pypi/v/pytest-codeblocks.svg?style=flat-square)](https://pypi.org/project/pytest_codeblocks/)
 [![Anaconda Cloud](https://anaconda.org/conda-forge/pytest-codeblocks/badges/version.svg?=style=flat-square)](https://anaconda.org/conda-forge/pytest-codeblocks/)
-[![PyPI pyversions](https://img.shields.io/pypi/pyversions/pytest-codeblocks.svg?style=flat-square)](https://pypi.org/project/pytest-codeblocks/)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/pytest-codeblocks.svg?style=flat-square)](https://pypi.org/project/pytest_codeblocks/)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/pytest-codeblocks.svg?style=flat-square&logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/pytest-codeblocks)
-[![Downloads](https://pepy.tech/badge/pytest-codeblocks/month?style=flat-square)](https://pepy.tech/project/pytest-codeblocks)
+[![Downloads](https://static.pepy.tech/badge/pytest-codeblocks/month?style=flat-square)](https://www.pepy.tech/projects/pytest-codeblocks)
 
 <!--[![PyPi downloads](https://img.shields.io/pypi/dm/pytest-codeblocks.svg?style=flat-square)](https://pypistats.org/packages/pytest-codeblocks)-->
 

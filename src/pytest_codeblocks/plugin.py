@@ -108,8 +108,8 @@ class TestBlock(pytest.Item):
             str1 = output
 
             if self.obj.expected_output_ignore_whitespace:
-                str0 = re.sub(r"^\s+", "", str0, flags=re.MULTILINE)
-                str1 = re.sub(r"^\s+", "", str1, flags=re.MULTILINE)
+                str0 = re.sub(r"\s+", "", str0)
+                str1 = re.sub(r"\s+", "", str1)
 
             if str0 != str1:
                 raise RuntimeError(

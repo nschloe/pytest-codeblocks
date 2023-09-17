@@ -47,8 +47,7 @@ print(1 * 3)
 dolor sit amet
 <!--pytest-codeblocks:expected-output-ignore-whitespace-->
 ```
- 4
-     -2
+ 4 -2
 
   3
 ```
@@ -56,3 +55,24 @@ dolor sit amet
     testdir.makefile(".md", string)
     result = testdir.runpytest("--codeblocks")
     result.assert_outcomes(passed=1)
+
+
+def test_expected_output_ignore_whitespace_fail(testdir):
+    string = """
+Lorem ipsum
+```python
+print(1 + 3)
+print(1 - 3)
+print(1 * 3)
+```
+dolor sit amet
+<!--pytest-codeblocks:expected-output-ignore-whitespace-->
+```
+ 4 -2
+
+  5
+```
+"""
+    testdir.makefile(".md", string)
+    result = testdir.runpytest("--codeblocks")
+    result.assert_outcomes(failed=1)

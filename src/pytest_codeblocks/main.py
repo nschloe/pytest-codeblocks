@@ -73,9 +73,11 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
 
             elif keyword == "cont":
                 if len(out) == 0:
-                    raise RuntimeError(
-                        "Found <!--pytest-codeblocks-cont--> but no previous code block."
+                    msg = (
+                        "Found <!--pytest-codeblocks-cont--> "
+                        "but no previous code block."
                     )
+                    raise RuntimeError(msg)
                 continued_block = out[-1]
 
             elif keyword == "skip":

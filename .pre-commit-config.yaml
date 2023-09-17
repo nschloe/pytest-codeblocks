@@ -1,21 +1,16 @@
 repos:
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.10.1
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.290
     hooks:
-      - id: isort
+      - id: ruff
 
   - repo: https://github.com/psf/black
-    rev: 22.3.0
+    rev: 23.9.1
     hooks:
       - id: black
         language_version: python3
 
-  - repo: https://github.com/PyCQA/flake8
-    rev: 4.0.1
-    hooks:
-      - id: flake8
-
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v2.6.2
+    rev: v3.0.3
     hooks:
       - id: prettier

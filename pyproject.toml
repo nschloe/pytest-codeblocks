@@ -2,9 +2,6 @@
 requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
-[tool.isort]
-profile = "black"
-
 [project]
 name = "pytest_codeblocks"
 authors = [{name = "Nico Schlömer", email = "nico.schloemer@gmail.com"}]

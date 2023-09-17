@@ -13,10 +13,9 @@ clean:
 	@rm -rf src/*.egg-info/ build/ dist/ .tox/
 
 format:
-	isort .
-	black .
+	ruff src/ tests/ --fix
+	black src/ tests/
 	blacken-docs README.md
 
 lint:
-	black --check .
-	flake8 .
+	pre-commit run --all

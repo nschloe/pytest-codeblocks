@@ -13,7 +13,9 @@ from .main import extract_from_file, stdout_io
 def pytest_addoption(parser):
     group = parser.getgroup("general")
     group.addoption(
-        "--codeblocks", action="store_true", help="enable testing of codeblocks"
+        "--codeblocks",
+        action="store_true",
+        help="enable testing of code blocks",
     )
 
 
@@ -46,7 +48,7 @@ class MarkdownFile(pytest.File):
                 # pytest.mark.skipif(sys.version_info < (3, 10), reason="...")
                 #
                 # which needs sys. Import it here.
-                import sys
+                import sys  # noqa: F401
 
                 out.add_marker(eval(mark))
 

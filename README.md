@@ -3,15 +3,15 @@
   <p align="center">Test code blocks in your READMEs.</p>
 </p>
 
-[![PyPi Version](https://img.shields.io/pypi/v/pytest-codeblocks.svg?style=flat-square)](https://pypi.org/project/pytest-codeblocks/)
+[![PyPi Version](https://img.shields.io/pypi/v/pytest-codeblocks.svg?style=flat-square)](https://pypi.org/project/pytest_codeblocks/)
 [![Anaconda Cloud](https://anaconda.org/conda-forge/pytest-codeblocks/badges/version.svg?=style=flat-square)](https://anaconda.org/conda-forge/pytest-codeblocks/)
-[![PyPI pyversions](https://img.shields.io/pypi/pyversions/pytest-codeblocks.svg?style=flat-square)](https://pypi.org/project/pytest-codeblocks/)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/pytest-codeblocks.svg?style=flat-square)](https://pypi.org/project/pytest_codeblocks/)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/pytest-codeblocks.svg?style=flat-square&logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/pytest-codeblocks)
-[![Downloads](https://pepy.tech/badge/pytest-codeblocks/month?style=flat-square)](https://pepy.tech/project/pytest-codeblocks)
+[![Downloads](https://static.pepy.tech/badge/pytest-codeblocks/month?style=flat-square)](https://www.pepy.tech/projects/pytest-codeblocks)
 
 <!--[![PyPi downloads](https://img.shields.io/pypi/dm/pytest-codeblocks.svg?style=flat-square)](https://pypistats.org/packages/pytest-codeblocks)-->
 
-[![gh-actions](https://img.shields.io/github/workflow/status/nschloe/pytest-codeblocks/ci?style=flat-square)](https://github.com/nschloe/pytest-codeblocks/actions?query=workflow%3Aci)
+[![gh-actions](https://img.shields.io/github/actions/workflow/status/nschloe/pytest-codeblocks/tests?style=flat-square)](https://github.com/nschloe/pytest-codeblocks/actions?query=workflow%3Atests)
 [![codecov](https://img.shields.io/codecov/c/github/nschloe/pytest-codeblocks.svg?style=flat-square)](https://app.codecov.io/gh/nschloe/pytest-codeblocks)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
 
@@ -155,6 +155,9 @@ gives
 4
 ```
 ````
+
+Use `expected-output-ignore-whitespace` if you'd like whitespace differences to
+be ignored.
 
 (Conditionally) Skipping the output verfication works by prepending the first
 block with `skip`/`skipif` (see [above](#skipping-code-blocks)).

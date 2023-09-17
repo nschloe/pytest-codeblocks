@@ -4,6 +4,7 @@
 #
 import subprocess
 from pathlib import Path
+import re
 
 import pytest
 
@@ -103,7 +104,14 @@ class TestBlock(pytest.Item):
             output = ret.stdout.decode()
 
         if output is not None and self.obj.expected_output is not None:
-            if self.obj.expected_output != output:
+            str0 = self.obj.expected_output
+            str1 = output
+
+            if self.obj.expected_output_ignore_whitespace:
+                str0 = re.sub(r"^\s+", "", str0, flags=re.MULTILINE)
+                str1 = re.sub(r"^\s+", "", str1, flags=re.MULTILINE)
+
+            if str0 != str1:
                 raise RuntimeError(
                     f"{self.name}, line {self.obj.lineno}:\n```\n"
                     + f"Expected output\n```\n{self.obj.expected_output}```\n"

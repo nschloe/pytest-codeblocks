@@ -18,6 +18,7 @@ class CodeBlock:
     lineno: int
     syntax: str | None = None
     expected_output: str | None = None
+    expected_output_ignore_whitespace: bool = False
     importorskip: str | None = None
     marks: list[str] = field(default_factory=lambda: [])
 
@@ -34,6 +35,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
     marks = []
     continued_block = None
     expected_output_block = None
+    expected_output_ignore_whitespace = False
     importorskip = None
     k = 1
 
@@ -58,18 +60,21 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
         if m is not None:
             keyword = m.group(1).strip("- ")
             # handle special tags
-            if keyword == "expected-output":
+            if keyword in {"expected-output", "expected-output-ignore-whitespace"}:
                 if len(out) == 0:
                     raise RuntimeError(
-                        "Found <!--pytest-codeblocks-expected-output--> "
+                        f"Found <!--pytest-codeblocks-{keyword}--> "
                         + "but no previous code block."
                     )
                 if out[-1].expected_output is not None:
                     raise RuntimeError(
-                        "Found <!--pytest-codeblocks-expected-output--> "
+                        f"Found <!--pytest-codeblocks-{keyword}--> "
                         + "but block already has expected_output."
                     )
                 expected_output_block = out[-1]
+                if keyword == "expected-output-ignore-whitespace":
+                    # \s: regex matches all whitespace characters
+                    expected_output_ignore_whitespace = True
 
             elif keyword == "cont":
                 if len(out) == 0:
@@ -115,7 +120,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                 marks.append("pytest.mark.xfail")
 
             else:
-                raise RuntimeError(f'Unknown pytest-codeblocks keyword "{keyword}."')
+                raise RuntimeError(f'Unknown pytest-codeblocks keyword "{keyword}"')
 
             continue
 
@@ -162,6 +167,9 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
 
             elif expected_output_block:
                 expected_output_block.expected_output = code
+                expected_output_block.expected_output_ignore_whitespace = (
+                    expected_output_ignore_whitespace
+                )
                 expected_output_block = None
 
             else:

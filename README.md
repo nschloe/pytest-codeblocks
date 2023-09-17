@@ -156,5 +156,8 @@ gives
 ```
 ````
 
+Use `expected-output-ignore-whitespace` if you'd like whitespace differences to
+be ignored.
+
 (Conditionally) Skipping the output verfication works by prepending the first
 block with `skip`/`skipif` (see [above](#skipping-code-blocks)).

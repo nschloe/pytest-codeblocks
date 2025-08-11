@@ -12,7 +12,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: pre-commit/action@v3.0.0
 
   build:
@@ -34,7 +34,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Test with tox
         run: |
           pip install tox

@@ -3,7 +3,7 @@ import pathlib
 import pytest_codeblocks
 
 
-def test_basic(testdir):
+def test_basic(pytester):
     string1 = """
     Lorem ipsum
     ```python
@@ -11,12 +11,12 @@ def test_basic(testdir):
     ```
     dolor sit amet
     """
-    testdir.makefile(".md", string1)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string1)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(passed=1)
 
 
-def test_skip(testdir):
+def test_skip(pytester):
     string1 = """
     Lorem ipsum
     <!--pytest.mark.skip-->
@@ -33,8 +33,8 @@ def test_skip(testdir):
     1 + 2 + 3
     ```
     """
-    testdir.makefile(".md", string1)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string1)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(skipped=2)
 
 

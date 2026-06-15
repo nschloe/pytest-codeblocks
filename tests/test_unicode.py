@@ -1,4 +1,4 @@
-def test_unicode(testdir):
+def test_unicode(pytester):
     # Unicode identifyers are in fact legal Python code
     string = """
     ```python
@@ -7,6 +7,6 @@ def test_unicode(testdir):
     α = 1
     ```
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(passed=1)

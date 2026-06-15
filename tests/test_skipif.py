@@ -1,4 +1,4 @@
-def test_skip(testdir):
+def test_skip(pytester):
     string = """
     Lorem ipsum
 
@@ -8,12 +8,12 @@ def test_skip(testdir):
     print(1 + 3)
     ```
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(skipped=1)
 
 
-def test_skip_expected_output(testdir):
+def test_skip_expected_output(pytester):
     string = """
     Lorem ipsum
 
@@ -30,12 +30,12 @@ def test_skip_expected_output(testdir):
     ```
 
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(skipped=1)
 
 
-def test_skipif(testdir):
+def test_skipif(pytester):
     string = """
     Lorem ipsum
 
@@ -45,12 +45,12 @@ def test_skipif(testdir):
     print(1 + 3)
     ```
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(skipped=1)
 
 
-def test_skipif2(testdir):
+def test_skipif2(pytester):
     string = """
     Lorem ipsum
 
@@ -60,12 +60,12 @@ def test_skipif2(testdir):
     print(1 + 3)
     ```
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(passed=1)
 
 
-def test_skipif_expected_output(testdir):
+def test_skipif_expected_output(pytester):
     string = """
     Lorem ipsum
 
@@ -82,12 +82,12 @@ def test_skipif_expected_output(testdir):
     ```
 
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(skipped=1)
 
 
-def test_skipif_expected_output2(testdir):
+def test_skipif_expected_output2(pytester):
     string = """
     Lorem ipsum
 
@@ -104,12 +104,12 @@ def test_skipif_expected_output2(testdir):
     ```
 
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(passed=1)
 
 
-def test_importorskip(testdir):
+def test_importorskip(pytester):
     string = """
     Lorem ipsum
 
@@ -119,12 +119,12 @@ def test_importorskip(testdir):
     print(1 + 3)
     ```
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(skipped=1)
 
 
-def test_importorskip2(testdir):
+def test_importorskip2(pytester):
     string = """
     Lorem ipsum
 
@@ -134,6 +134,6 @@ def test_importorskip2(testdir):
     print(1 + 3)
     ```
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(passed=1)

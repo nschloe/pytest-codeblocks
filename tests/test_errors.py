@@ -5,13 +5,13 @@ import pytest
 import pytest_codeblocks
 
 
-def test_unclosed(testdir):
+def test_unclosed(pytester):
     string = """
     ```python
     1 + 2 + 3
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(errors=1)
 
 

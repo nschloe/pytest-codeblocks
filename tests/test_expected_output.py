@@ -1,4 +1,4 @@
-def test_expected_output(testdir):
+def test_expected_output(pytester):
     string = """
     Lorem ipsum
     ```python
@@ -14,12 +14,12 @@ def test_expected_output(testdir):
     3
     ```
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(passed=1)
 
 
-def test_expected_output_fail(testdir):
+def test_expected_output_fail(pytester):
     string = """
     Lorem ipsum
     ```python
@@ -31,12 +31,12 @@ def test_expected_output_fail(testdir):
     5
     ```
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(failed=1)
 
 
-def test_expected_output_ignore_whitespace(testdir):
+def test_expected_output_ignore_whitespace(pytester):
     string = """
 Lorem ipsum
 ```python
@@ -52,12 +52,12 @@ dolor sit amet
   3
 ```
 """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(passed=1)
 
 
-def test_expected_output_ignore_whitespace_fail(testdir):
+def test_expected_output_ignore_whitespace_fail(pytester):
     string = """
 Lorem ipsum
 ```python
@@ -73,6 +73,6 @@ dolor sit amet
   5
 ```
 """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(failed=1)

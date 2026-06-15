@@ -19,3 +19,6 @@ format:
 
 lint:
 	prek run --all-files
+
+test:
+  uv run pytest

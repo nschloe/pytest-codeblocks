@@ -3,7 +3,6 @@
 # https://docs.pytest.org/en/stable/example/nonpython.html
 #
 import subprocess
-from pathlib import Path
 import re
 
 import pytest
@@ -20,11 +19,10 @@ def pytest_addoption(parser):
     )
 
 
-def pytest_collect_file(path, parent):
+def pytest_collect_file(file_path, parent):
     config = parent.config
-    path = Path(path)
-    if config.option.codeblocks and path.suffix == ".md":
-        return MarkdownFile.from_parent(parent, path=path)
+    if config.option.codeblocks and file_path.suffix == ".md":
+        return MarkdownFile.from_parent(parent, path=file_path)
 
 
 class MarkdownFile(pytest.File):

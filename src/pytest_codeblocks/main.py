@@ -171,6 +171,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                     expected_output_ignore_whitespace
                 )
                 expected_output_block = None
+                expected_output_ignore_whitespace = False
 
             else:
                 out.append(

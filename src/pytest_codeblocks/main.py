@@ -195,5 +195,7 @@ def stdout_io(stdout=None):
     if stdout is None:
         stdout = StringIO()
     sys.stdout = stdout
-    yield stdout
-    sys.stdout = old
+    try:
+        yield stdout
+    finally:
+        sys.stdout = old

@@ -1,4 +1,4 @@
-version := `python3 -c "from src.pytest_codeblocks.__about__ import __version__; print(__version__)"`
+version := `python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])"`
 
 default:
 	@echo "\"just publish\"?"
@@ -13,9 +13,9 @@ clean:
 	@rm -rf src/*.egg-info/ build/ dist/ .tox/
 
 format:
-	ruff src/ tests/ --fix
-	black src/ tests/
+	ruff format .
+	ruff check --fix .
 	blacken-docs README.md
 
 lint:
-	pre-commit run --all
+	prek run --all-files

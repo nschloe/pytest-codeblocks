@@ -32,8 +32,6 @@ dev = ["pytest"]
 
 [project.urls]
 Homepage = "https://github.com/nschloe/pytest-codeblocks"
-Code = "https://github.com/nschloe/pytest-codeblocks"
-Issues = "https://github.com/nschloe/pytest-codeblocks/issues"
 Funding = "https://github.com/sponsors/nschloe"
 
 [project.entry-points.pytest11]

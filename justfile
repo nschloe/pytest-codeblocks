@@ -3,10 +3,11 @@ version := `python -c "import tomllib; print(tomllib.load(open('pyproject.toml',
 default:
 	@echo "\"just publish\"?"
 
-publish:
+publish: release
+
+release:
 	@if [ "$(git rev-parse --abbrev-ref HEAD)" != "main" ]; then exit 1; fi
-	gh release create "v{{version}}"
-	flit publish
+	gh release create {{version}}
 
 clean:
 	@find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf

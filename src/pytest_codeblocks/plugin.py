@@ -47,7 +47,6 @@ class TestBlock(pytest.Item):
         self.obj = obj
 
     def runtest(self):
-        assert self.obj is not None
         output = None
 
         if self.obj.importorskip is not None:

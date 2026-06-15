@@ -1,7 +1,3 @@
-#
-# Take a look at the example
-# https://docs.pytest.org/en/stable/example/nonpython.html
-#
 import subprocess
 import re
 import sys
@@ -57,7 +53,7 @@ class TestBlock(pytest.Item):
         if self.obj.importorskip is not None:
             try:
                 __import__(self.obj.importorskip)
-            except (ImportError, ModuleNotFoundError):
+            except ImportError:
                 pytest.skip()
 
         if self.obj.syntax == "python":
@@ -74,20 +70,17 @@ class TestBlock(pytest.Item):
                     )
             output = s.getvalue()
         else:
-            assert self.obj.syntax in ["sh", "bash"]
             executable = {
                 "sh": None,
                 "bash": "/bin/bash",
                 "zsh": "/bin/zsh",
             }[self.obj.syntax]
 
-            # TODO for python 3.7+, stdout=subprocess.PIPE can be replaced
-            #      by capture_output=True
             ret = subprocess.run(
                 self.obj.code,
                 shell=True,
                 check=True,
-                stdout=subprocess.PIPE,
+                capture_output=True,
                 executable=executable,
             )
             output = ret.stdout.decode()

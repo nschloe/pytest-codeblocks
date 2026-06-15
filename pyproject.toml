@@ -4,38 +4,27 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pytest_codeblocks"
-authors = [{name = "Nico Schlömer", email = "nico.schloemer@gmail.com"}]
+version = "0.18.0"
+authors = [{ name = "Nico Schlömer", email = "nico.schloemer@gmail.com" }]
 description = "Test code blocks in your READMEs"
 readme = "README.md"
-license = {file = "LICENSE.txt"}
+license = { file = "LICENSE.txt" }
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Framework :: Pytest",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
-  "Programming Language :: Python",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
 ]
-dynamic = ["version"]
-requires-python = ">=3.7"
-dependencies = [
-   "pytest >= 7.0.0"
-]
+requires-python = ">=3.10"
+dependencies = ["pytest >= 7.0.0"]
 
-[tool.setuptools.dynamic]
-version = {attr = "pytest_codeblocks.__about__.__version__"}
+[dependency-groups]
+dev = ["pytest"]
 
 [project.urls]
 Homepage = "https://github.com/nschloe/pytest-codeblocks"
-Code = "https://github.com/nschloe/pytest-codeblocks"
-Issues = "https://github.com/nschloe/pytest-codeblocks/issues"
 Funding = "https://github.com/sponsors/nschloe"
 
 [project.entry-points.pytest11]

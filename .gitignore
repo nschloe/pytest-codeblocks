@@ -7,3 +7,4 @@ dist/
 *.png
 .pytest_cache/
 .tox/
+uv.lock

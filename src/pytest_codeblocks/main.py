@@ -1,12 +1,8 @@
-from __future__ import annotations
-
 import contextlib
 import re
 import sys
 import warnings
 
-# namedtuple with default arguments
-# <https://stackoverflow.com/a/18348004/353337>
 from dataclasses import dataclass, field
 from io import StringIO
 from pathlib import Path
@@ -20,7 +16,7 @@ class CodeBlock:
     expected_output: str | None = None
     expected_output_ignore_whitespace: bool = False
     importorskip: str | None = None
-    marks: list[str] = field(default_factory=lambda: [])
+    marks: list[str] = field(default_factory=list)
 
 
 def extract_from_file(
@@ -73,7 +69,6 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                     )
                 expected_output_block = out[-1]
                 if keyword == "expected-output-ignore-whitespace":
-                    # \s: regex matches all whitespace characters
                     expected_output_ignore_whitespace = True
 
             elif keyword == "cont":
@@ -171,6 +166,7 @@ def extract_from_buffer(f, max_num_lines: int = 10000) -> list[CodeBlock]:
                     expected_output_ignore_whitespace
                 )
                 expected_output_block = None
+                expected_output_ignore_whitespace = False
 
             else:
                 out.append(
@@ -195,5 +191,7 @@ def stdout_io(stdout=None):
     if stdout is None:
         stdout = StringIO()
     sys.stdout = stdout
-    yield stdout
-    sys.stdout = old
+    try:
+        yield stdout
+    finally:
+        sys.stdout = old

@@ -10,7 +10,7 @@ import pytest
         "<!--- pytest-codeblocks:cont --->",
     ],
 )
-def test_cont(testdir, comment):
+def test_cont(pytester, comment):
     string = """
     Lorem ipsum
     ```python
@@ -22,6 +22,6 @@ def test_cont(testdir, comment):
     a + 1
     ```
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(passed=1)

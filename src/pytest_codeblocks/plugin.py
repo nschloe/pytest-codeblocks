@@ -1,10 +1,6 @@
-#
-# Take a look at the example
-# https://docs.pytest.org/en/stable/example/nonpython.html
-#
 import subprocess
-from pathlib import Path
 import re
+import sys
 
 import pytest
 
@@ -20,17 +16,13 @@ def pytest_addoption(parser):
     )
 
 
-def pytest_collect_file(path, parent):
+def pytest_collect_file(file_path, parent):
     config = parent.config
-    path = Path(path)
-    if config.option.codeblocks and path.suffix == ".md":
-        return MarkdownFile.from_parent(parent, path=path)
+    if config.option.codeblocks and file_path.suffix == ".md":
+        return MarkdownFile.from_parent(parent, path=file_path)
 
 
 class MarkdownFile(pytest.File):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
     def collect(self):
         for block in extract_from_file(self.path):
             if block.syntax not in ["python", "sh", "bash"]:
@@ -44,14 +36,7 @@ class MarkdownFile(pytest.File):
             out.obj = block
 
             for mark in block.marks:
-                # A common thing is
-                #
-                # pytest.mark.skipif(sys.version_info < (3, 10), reason="...")
-                #
-                # which needs sys. Import it here.
-                import sys  # noqa: F401
-
-                out.add_marker(eval(mark))
+                out.add_marker(eval(mark, {"sys": sys, "pytest": pytest}))
 
             yield out
 
@@ -62,13 +47,12 @@ class TestBlock(pytest.Item):
         self.obj = obj
 
     def runtest(self):
-        assert self.obj is not None
         output = None
 
         if self.obj.importorskip is not None:
             try:
                 __import__(self.obj.importorskip)
-            except (ImportError, ModuleNotFoundError):
+            except ImportError:
                 pytest.skip()
 
         if self.obj.syntax == "python":
@@ -85,20 +69,17 @@ class TestBlock(pytest.Item):
                     )
             output = s.getvalue()
         else:
-            assert self.obj.syntax in ["sh", "bash"]
             executable = {
                 "sh": None,
                 "bash": "/bin/bash",
                 "zsh": "/bin/zsh",
             }[self.obj.syntax]
 
-            # TODO for python 3.7+, stdout=subprocess.PIPE can be replaced
-            #      by capture_output=True
             ret = subprocess.run(
                 self.obj.code,
                 shell=True,
                 check=True,
-                stdout=subprocess.PIPE,
+                capture_output=True,
                 executable=executable,
             )
             output = ret.stdout.decode()
@@ -119,12 +100,7 @@ class TestBlock(pytest.Item):
                 )
 
     def repr_failure(self, excinfo):
-        """Called when self.runtest() raises an exception."""
-        # if isinstance(excinfo.value, CodeblockException):
         return excinfo.value.args[0]
-        # if excinfo.errisinstance(RuntimeError):
-        #     return excinfo.value.args[0].stdout
-        # return super().repr_failure(excinfo)
 
     def reportinfo(self):
         return (self.path, -1, "code block check")

@@ -1,4 +1,4 @@
-def test_cont(testdir):
+def test_cont(pytester):
     string = """
     Lorem ipsum
     ```python
@@ -10,12 +10,12 @@ def test_cont(testdir):
     a + 1
     ```
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(passed=1)
 
 
-def test_hidden_cont(testdir):
+def test_hidden_cont(pytester):
     string = """
     Lorem ipsum
     <!--
@@ -29,18 +29,18 @@ def test_hidden_cont(testdir):
     a + 1
     ```
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(passed=1)
 
 
-def test_nocont(testdir):
+def test_nocont(pytester):
     string = """
     <!--pytest-codeblocks:cont-->
     ```python
     1 + 2 + 3
     ```
     """
-    testdir.makefile(".md", string)
-    result = testdir.runpytest("--codeblocks")
+    pytester.makefile(".md", string)
+    result = pytester.runpytest("--codeblocks")
     result.assert_outcomes(errors=1)

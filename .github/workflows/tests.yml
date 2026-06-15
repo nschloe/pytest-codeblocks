@@ -12,32 +12,26 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pre-commit/action@v3.0.0
+      - uses: actions/checkout@v6
+      - uses: j178/prek-action@v2
 
   build:
     needs: [lint]
 
     strategy:
       matrix:
-        platform: [ubuntu-latest]
-        python-version: ["3.7", "3.11"]
-        include:
-          - platform: macos-latest
-            python-version: "3.11"
-          - platform: windows-latest
-            python-version: "3.11"
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.10", "3.15"]
 
     runs-on: ${{ matrix.platform }}
 
     steps:
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v6
+
+      - uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python-version }}
-      - uses: actions/checkout@v4
-      - name: Test with tox
+
+      - name: Test
         run: |
-          pip install tox
-          tox -- --cov pytest_codeblocks --cov-report xml --cov-report term
-      - uses: codecov/codecov-action@v4-beta
-        if: ${{ matrix.python-version == '3.11' && matrix.os == 'ubuntu-latest' }}
+          uv run pytest

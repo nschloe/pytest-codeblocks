@@ -4,6 +4,7 @@
 #
 import subprocess
 import re
+import sys
 
 import pytest
 
@@ -26,9 +27,6 @@ def pytest_collect_file(file_path, parent):
 
 
 class MarkdownFile(pytest.File):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
     def collect(self):
         for block in extract_from_file(self.path):
             if block.syntax not in ["python", "sh", "bash"]:
@@ -42,14 +40,7 @@ class MarkdownFile(pytest.File):
             out.obj = block
 
             for mark in block.marks:
-                # A common thing is
-                #
-                # pytest.mark.skipif(sys.version_info < (3, 10), reason="...")
-                #
-                # which needs sys. Import it here.
-                import sys  # noqa: F401
-
-                out.add_marker(eval(mark))
+                out.add_marker(eval(mark, {"sys": sys, "pytest": pytest}))
 
             yield out
 
@@ -117,12 +108,7 @@ class TestBlock(pytest.Item):
                 )
 
     def repr_failure(self, excinfo):
-        """Called when self.runtest() raises an exception."""
-        # if isinstance(excinfo.value, CodeblockException):
         return excinfo.value.args[0]
-        # if excinfo.errisinstance(RuntimeError):
-        #     return excinfo.value.args[0].stdout
-        # return super().repr_failure(excinfo)
 
     def reportinfo(self):
         return (self.path, -1, "code block check")
